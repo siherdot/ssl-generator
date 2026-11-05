@@ -3,7 +3,10 @@ FROM node:26-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci || npm install
+# --include=dev wajib: Tailwind/PostCSS/TypeScript adalah devDependencies, dan
+# Coolify menyuntikkan NODE_ENV=production saat build sehingga `npm ci` biasa
+# akan melewatkannya dan `next build` gagal di app/globals.css.
+RUN npm ci --include=dev || npm install --include=dev
 
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
