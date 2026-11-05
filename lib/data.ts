@@ -456,8 +456,10 @@ export async function simpanSurvei(data: SurveiBaru, ip: string) {
 
 /** Ringkasan survei untuk halaman admin/dashboard (jumlah + rata-rata). */
 export async function getRingkasanSurvei() {
+  // AVG() menghasilkan numeric, yang dikirim node-postgres sebagai string.
+  // Cast ke float8 supaya sampai ke UI sebagai angka.
   return one<{ jumlah: number; rata: number }>(
-    "SELECT COUNT(*) AS jumlah, COALESCE(AVG(nilai), 0) AS rata FROM survei"
+    "SELECT COUNT(*) AS jumlah, COALESCE(AVG(nilai), 0)::float8 AS rata FROM survei"
   );
 }
 

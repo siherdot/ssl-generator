@@ -1,30 +1,57 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import Shell from "@/components/admin/shell";
+import FormKonten from "@/components/admin/form-konten";
+import TombolHapus from "@/components/admin/tombol-hapus";
+import { aksiHapusKonten } from "@/app/admin/actions";
+import { wajibAkses } from "@/lib/admin/auth";
+import { ambilBaris, opsiPilihan } from "@/lib/admin/crud";
+import { cariResource } from "@/lib/admin/resources";
 
-/**
- * Form "ubah konten" belum dibuat pada versi aplikasi ini.
- * Berkas aslinya kosong sehingga build Next.js gagal; halaman ini
- * menggantikannya agar build tetap jalan dan tautan tidak 404.
- */
-export default async function UbahKonten({
-  params,
-}: {
-  params: Promise<{ resource: string; id: string }>;
-}) {
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+export const dynamic = "force-dynamic";
+
+type Params = Promise<{ resource: string; id: string }>;
+
+export default async function UbahKonten({ params }: { params: Params }) {
+  await wajibAkses("konten");
+
   const { resource, id } = await params;
+  const res = cariResource(resource);
+  if (!res) notFound();
+
+  const kunci = decodeURIComponent(id);
+  const baris = await ambilBaris(res, kunci);
+  if (!baris) notFound();
+
+  const opsi = {
+    poli: await opsiPilihan("poli"),
+    dokter: await opsiPilihan("dokter"),
+  };
+
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h1 className="text-lg font-semibold text-ink">Form ubah belum tersedia</h1>
-      <p className="mt-2 text-sm text-muted">
-        Halaman untuk mengubah <strong>{resource}</strong> dengan id{" "}
-        <code className="rounded bg-line/40 px-1">{id}</code> belum dibuat pada versi
-        aplikasi yang sedang dijalankan.
-      </p>
-      <Link
-        href={`/admin/konten/${resource}`}
-        className="mt-4 inline-block rounded-lg border border-line px-4 py-2 text-sm text-muted"
-      >
-        Kembali ke daftar
+    <Shell>
+      <Link href={`/admin/konten/${res.kunci}`} className="text-sm text-muted hover:text-brand-800">
+        ← {res.label}
       </Link>
-    </div>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-xl font-bold text-brand-900">
+          Ubah {res.labelSatu.toLowerCase()}
+          <span className="ml-2 rounded bg-line/40 px-2 py-0.5 align-middle font-mono text-[11px] font-normal text-muted">
+            {kunci}
+          </span>
+        </h1>
+        <form action={aksiHapusKonten}>
+          <input type="hidden" name="__resource" value={res.kunci} />
+          <input type="hidden" name="__id" value={kunci} />
+          <TombolHapus label={`Hapus ${res.labelSatu.toLowerCase()}`} />
+        </form>
+      </div>
+
+      <div className="mt-5 rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
+        <FormKonten resource={res} nilaiAwal={baris} opsi={opsi} />
+      </div>
+    </Shell>
   );
 }

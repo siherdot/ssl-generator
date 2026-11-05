@@ -1,29 +1,43 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import Shell from "@/components/admin/shell";
+import FormKonten from "@/components/admin/form-konten";
+import { wajibAkses } from "@/lib/admin/auth";
+import { opsiPilihan } from "@/lib/admin/crud";
+import { cariResource } from "@/lib/admin/resources";
 
-/**
- * Form "tambah konten" belum dibuat pada versi aplikasi ini.
- * Berkas aslinya kosong sehingga build Next.js gagal; halaman ini
- * menggantikannya agar build tetap jalan dan tautan tidak 404.
- */
-export default async function TambahKonten({
-  params,
-}: {
-  params: Promise<{ resource: string }>;
-}) {
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+export const dynamic = "force-dynamic";
+
+type Params = Promise<{ resource: string }>;
+
+export default async function TambahKonten({ params }: { params: Params }) {
+  await wajibAkses("konten");
+
   const { resource } = await params;
+  const res = cariResource(resource);
+  if (!res) notFound();
+
+  // Konten tunggal (profil RS) tidak punya "tambah"; formnya ada di halaman daftar.
+  if (res.tunggal) redirect(`/admin/konten/${res.kunci}`);
+
+  const opsi = {
+    poli: await opsiPilihan("poli"),
+    dokter: await opsiPilihan("dokter"),
+  };
+
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h1 className="text-lg font-semibold text-ink">Form tambah belum tersedia</h1>
-      <p className="mt-2 text-sm text-muted">
-        Halaman untuk menambah data <strong>{resource}</strong> belum dibuat pada versi
-        aplikasi yang sedang dijalankan. Data lama tetap bisa dilihat dari daftar konten.
-      </p>
-      <Link
-        href={`/admin/konten/${resource}`}
-        className="mt-4 inline-block rounded-lg border border-line px-4 py-2 text-sm text-muted"
-      >
-        Kembali ke daftar
+    <Shell>
+      <Link href={`/admin/konten/${res.kunci}`} className="text-sm text-muted hover:text-brand-800">
+        ← {res.label}
       </Link>
-    </div>
+      <h1 className="mt-2 text-xl font-bold text-brand-900">{res.labelSatu} baru</h1>
+      {res.keterangan && <p className="mt-1 text-sm text-muted">{res.keterangan}</p>}
+
+      <div className="mt-5 rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
+        <FormKonten resource={res} nilaiAwal={{}} opsi={opsi} />
+      </div>
+    </Shell>
   );
 }

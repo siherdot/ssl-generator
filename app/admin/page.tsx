@@ -38,7 +38,8 @@ export default async function DasborPage() {
 
   const [pendaftaran, masuk] = await Promise.all([
     one<{ n: number; baru: number }>(
-      "SELECT COUNT(*) AS n, SUM(status = 'baru') AS baru FROM pendaftaran"
+      // PostgreSQL tidak menjumlahkan boolean seperti MySQL; hitung dengan FILTER.
+      "SELECT COUNT(*) AS n, COUNT(*) FILTER (WHERE status = 'baru') AS baru FROM pendaftaran"
     ),
     rows<{ kode: string; nama: string; tanggal: string; poli: string; status: string }>(
       `SELECT p.kode, p.nama_pasien AS nama, p.tanggal_kunjungan AS tanggal,
