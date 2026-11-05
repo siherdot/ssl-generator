@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design token RSU Mahkota Bidadari
+   Palet diambil dari situs lama (assets/css/style.css) + sampel
+   warna layar beranda lama: HIJAU, bukan navy.
+
+   brand-900 #0a6b12  -> teks judul, hover paling gelap
+   brand-800 #0b8f1b  -> tombol utama, header
+   brand-700 #16a82b  -> hover tombol
+   brand     #69c445  -> aksen (pill menu aktif seperti "HOME")
+   lime      #bae535  -> garis aksen di bawah judul (situs lama)
+   mint      #c3e6c6  -> permukaan kartu hijau muda
+   sun       #ffc107  -> sorotan / tombol sekunder
+   ============================================================ */
+@theme {
+  --color-brand: #69c445;
+  --color-brand-600: #22b437;
+  --color-brand-700: #16a82b;
+  --color-brand-800: #0b8f1b;
+  --color-brand-900: #0a6b12;
+  --color-lime: #bae535;
+  --color-mint: #c3e6c6;
+  --color-leaf: #05a919;
+  --color-sun: #ffc107;
+  --color-ink: #1f2933;
+  --color-muted: #566474;
+  --color-line: #dfe6dd;
+  --color-mist: #f4f8f2;
+
+  --radius-card: 14px;
+  --shadow-card: 0 8px 24px rgba(10, 107, 18, 0.08);
+  --shadow-card-hover: 0 16px 40px rgba(10, 107, 18, 0.16);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* utilitas kecil yang dipakai berulang */
+.container-page {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 1280px) {
+  .container-page {
+    max-width: 1320px;
+    padding-inline: 1.5rem;
+  }
+}
+@media (min-width: 1536px) {
+  .container-page {
+    max-width: 1480px;
+    padding-inline: 2rem;
+  }
+}
+@media (min-width: 1800px) {
+  .container-page {
+    max-width: 1680px;
+  }
+}
+
+.section-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-brand-900);
+}
+
+/* garis aksen lime di bawah judul, meniru situs lama */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: var(--color-lime);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* fokus keyboard tetap terlihat */
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--color-brand-700);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* sembunyikan scrollbar rel carousel (tetap bisa digeser) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* kartu di dalam carousel: lebar tetap supaya rapi saat digeser.
+   Mobile: tepat 1 kartu penuh (tidak ada potongan kartu sebelah). */
+.carousel-item {
+  flex: 0 0 auto;
+  width: 100%;
+  scroll-snap-align: start;
+}
+@media (min-width: 640px) {
+  .carousel-item { width: 47%; }
+}
+@media (min-width: 1024px) {
+  .carousel-item { width: 31.5%; }
+}

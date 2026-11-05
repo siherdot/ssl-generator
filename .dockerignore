@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+npm-debug.log
+Dockerfile
+.dockerignore
+README.md
+# kredensial tidak boleh ikut ke dalam image; diisi lewat env Coolify
+.env
+.env.*
+!.env.example

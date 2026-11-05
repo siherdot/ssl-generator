@@ -1,0 +1,47 @@
+name: rsumb-next
+
+# Untuk menjalankan lokal. Di server, aplikasi ini dikelola Coolify
+# (lihat Dockerfile), jadi berkas ini bukan jalur deploy produksi.
+#
+# Rahasia TIDAK ditulis di sini. Isi di `.env` (tidak masuk repo):
+#   DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME,
+#   SESSION_SECRET, SIMRS_API_TOKEN, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rsumb-next:pg
+    container_name: rsumb-next
+    restart: unless-stopped
+    # uid/gid pemilik file di host (siherdot) supaya upload admin bisa menulis
+    user: "1000:1000"
+    environment:
+      TZ: Asia/Jakarta
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:?DB_USER belum diisi di .env}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD belum diisi di .env}
+      DB_NAME: ${DB_NAME:-rsumb}
+      # kunci tanda tangan cookie sesi admin
+      SESSION_SECRET: ${SESSION_SECRET:-}
+      # notifikasi pendaftaran/pesan baru (opsional)
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      # token untuk bridging SIMRS -> /api/simrs/kasur (opsional)
+      SIMRS_API_TOKEN: ${SIMRS_API_TOKEN:-}
+    ports:
+      - "127.0.0.1:3082:3000"
+    volumes:
+      # aset situs (dipakai situs lama juga). rw karena admin bisa unggah gambar baru.
+      - ../app/assets/images:/app/public/images/arsip
+    networks:
+      - rsub-net
+
+networks:
+  rsub-net:
+    name: rsumb_default
+    external: true
