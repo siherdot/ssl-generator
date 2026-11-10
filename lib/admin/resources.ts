@@ -43,6 +43,8 @@ export type Resource = {
   kolomDaftar: { nama: string; label: string; tipe?: "gambar" | "tanggal" | "aktif" }[];
   cari: string[];
   fields: Field[];
+  /** jenis konten yang bisa ditarik dari SIMRS lewat tombol di dashboard */
+  sinkron?: "jadwal" | "kasur";
   keterangan?: string;
   grup: "konten" | "pengaturan" | "pesan";
 };
@@ -79,6 +81,7 @@ export const resources: Resource[] = [
     idOtomatis: { prefix: "DR", panjang: 2 },
     urut: "nama_dokter",
     grup: "konten",
+    sinkron: "jadwal",
     kolomDaftar: [
       { nama: "images", label: "Foto", tipe: "gambar" },
       { nama: "nama_dokter", label: "Nama" },
@@ -101,8 +104,9 @@ export const resources: Resource[] = [
     idOtomatis: { prefix: "JD", panjang: 2 },
     urut: "id_jadwal DESC",
     grup: "konten",
+    sinkron: "jadwal",
     keterangan:
-      "Baris yang berasal dari SIMRS disinkronkan otomatis setiap hari (lihat tools/sync-simrs.mjs). Mengubah atau menghapus baris SIMRS di sini akan tertimpa pada sinkronisasi berikutnya.",
+      "Baris yang berasal dari SIMRS hanya berubah lewat tombol “Sinkron dari SIMRS” di halaman ini (tidak ada sinkron otomatis). Mengubah atau menghapus baris SIMRS secara manual akan tertimpa saat sinkron berikutnya.",
     kolomDaftar: [
       { nama: "id_dokter", label: "Dokter" },
       { nama: "hari", label: "Hari" },
@@ -127,6 +131,7 @@ export const resources: Resource[] = [
     idOtomatis: { prefix: "P", panjang: 2 },
     urut: "nama_poli",
     grup: "konten",
+    sinkron: "jadwal",
     kolomDaftar: [
       { nama: "images", label: "Gambar", tipe: "gambar" },
       { nama: "nama_poli", label: "Nama" },
@@ -337,8 +342,9 @@ export const resources: Resource[] = [
     pk: "id",
     urut: "urutan, nama_unit",
     grup: "konten",
+    sinkron: "kasur",
     keterangan:
-      "Angka agregat per unit (bukan data pasien). Bisa diisi manual di sini, atau dikirim otomatis oleh SIMRS ke POST /api/simrs/kasur.",
+      "Angka agregat per unit (bukan data pasien). Tersinkron otomatis dari SIMRS setiap jam; tombol “Sinkron dari SIMRS” untuk menarik sekarang juga.",
     kolomDaftar: [
       { nama: "nama_unit", label: "Unit" },
       { nama: "kelas", label: "Kelas" },

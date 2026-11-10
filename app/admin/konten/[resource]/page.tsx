@@ -6,6 +6,7 @@ import Shell from "@/components/admin/shell";
 import { wajibAkses } from "@/lib/admin/auth";
 import FormKonten from "@/components/admin/form-konten";
 import TombolHapus from "@/components/admin/tombol-hapus";
+import TombolSinkron from "@/components/admin/tombol-sinkron";
 import { aksiHapusKonten } from "@/app/admin/actions";
 import { ambilBaris, daftarBaris, opsiPilihan } from "@/lib/admin/crud";
 import { cariResource } from "@/lib/admin/resources";
@@ -66,12 +67,15 @@ export default async function KontenPage({
           <h1 className="text-xl font-bold text-brand-900">{res.label}</h1>
           <p className="mt-1 text-sm text-muted">{total} data</p>
         </div>
-        <Link
-          href={`/admin/konten/${res.kunci}/baru`}
-          className="rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
-        >
-          + Tambah {res.labelSatu}
-        </Link>
+        <div className="flex flex-wrap items-start gap-2">
+          {res.sinkron && <TombolSinkron jenis={res.sinkron} />}
+          <Link
+            href={`/admin/konten/${res.kunci}/baru`}
+            className="rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
+          >
+            + Tambah {res.labelSatu}
+          </Link>
+        </div>
       </div>
 
       {sp.simpan && (
