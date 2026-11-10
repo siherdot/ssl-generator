@@ -1,18 +1,40 @@
 import "server-only";
 import { request as httpsRequest } from "node:https";
 import { request as httpRequest } from "node:http";
+import { one } from "@/lib/db";
 
 /**
  * Klien API Eksternal SIMRS untuk dipakai di server (bukan browser).
  * SIMRS memakai sertifikat self-signed di IP LAN, jadi verifikasi TLS
  * dimatikan khusus panggilan ini.
  */
-const SUMBER = (process.env.SIMRS_API_URL ?? "").replace(/\/$/, "");
-const KUNCI = process.env.SIMRS_API_KEY ?? "";
+type Setelan = { api_url: string; api_key: string };
+
+/** URL & API key diambil dari dashboard admin; env hanya cadangan. */
+async function setelan(): Promise<Setelan> {
+  const cadangan = {
+    api_url: (process.env.SIMRS_API_URL ?? "").replace(/\/$/, ""),
+    api_key: process.env.SIMRS_API_KEY ?? "",
+  };
+
+  try {
+    const baris = await one<Setelan>("SELECT api_url, api_key FROM pengaturan_simrs WHERE id = 1");
+    const url = (baris?.api_url ?? "").trim();
+    const kunci = (baris?.api_key ?? "").trim();
+    if (url && kunci) return { api_url: url.replace(/\/$/, ""), api_key: kunci };
+  } catch {
+    /* tabel belum dimigrasi — pakai env */
+  }
+
+  return cadangan;
+}
 
 export async function simrsAmbil<T = unknown>(path: string): Promise<T> {
+  const { api_url: SUMBER, api_key: KUNCI } = await setelan();
   if (!SUMBER || !KUNCI) {
-    throw new Error("SIMRS_API_URL / SIMRS_API_KEY belum diisi di environment.");
+    throw new Error(
+      "URL API dan API key SIMRS belum diisi (Dashboard → Pengaturan → Koneksi SIMRS)."
+    );
   }
 
   const url = new URL(SUMBER + path);

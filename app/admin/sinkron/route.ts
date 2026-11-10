@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { adminSekarang } from "@/lib/admin/auth";
 import { simrsAmbil } from "@/lib/simrs/klien";
+import { unitDariBedDisplay } from "@/lib/simrs/bed";
 
 /**
  * Tombol "Sinkron dari SIMRS" di dashboard admin.
@@ -8,33 +9,10 @@ import { simrsAmbil } from "@/lib/simrs/klien";
  * POST /admin/sinkron?jenis=jadwal|kasur
  *
  * Mengambil data dari SIMRS lalu meneruskannya ke endpoint ingest yang sama
- * dengan yang dipakai cron (POST /api/simrs/jadwal dan /api/simrs/kasur),
- * jadi aturan pencocokan poli/dokter hanya ada di satu tempat.
+ * dengan yang dipakai penjadwal otomatis (POST /api/simrs/jadwal dan
+ * /api/simrs/kasur), jadi aturan pencocokan poli/dokter hanya ada di satu tempat.
  */
 export const dynamic = "force-dynamic";
-
-/** kelas SIMRS -> pilihan kelas di dashboard */
-const KELAS: Record<string, string> = {
-  "NICU & INCUBATOR": "NICU",
-  VIP: "VIP",
-  SATU: "I",
-  DUA: "II",
-  TIGA: "III",
-  HCU: "HCU",
-  BAYI: "Bayi",
-  ICU: "ICU",
-  "RUANG ISOLASI": "Isolasi",
-  "ICU ISOLASI": "Isolasi",
-};
-
-type UnitMasuk = {
-  nama_unit: string;
-  kelas: string;
-  total: number;
-  terisi: number;
-  keterangan: string;
-  urutan: number;
-};
 
 export async function POST(request: Request) {
   if (!(await adminSekarang())) {
@@ -84,19 +62,8 @@ export async function POST(request: Request) {
 
     if (jenis === "kasur") {
       const data = await simrsAmbil<{ per_ruang?: Record<string, unknown>[] }>("/bed-display");
-      const ruang = Array.isArray(data.per_ruang) ? data.per_ruang : [];
-      if (ruang.length === 0) throw new Error("SIMRS mengirim data tempat tidur kosong.");
-      const unit: UnitMasuk[] = ruang.map((r, i) => {
-        const kelas = String(r.kelas ?? "");
-        return {
-          nama_unit: String(r.namaruang ?? ""),
-          kelas: KELAS[kelas.toUpperCase()] ?? kelas.slice(0, 40),
-          total: Number(r.kapasitas ?? 0),
-          terisi: Number(r.terisi ?? 0),
-          keterangan: String(r.bangsal ?? ""),
-          urutan: i + 1,
-        };
-      });
+      const unit = unitDariBedDisplay(data);
+      if (unit.length === 0) throw new Error("SIMRS mengirim data tempat tidur kosong.");
       await teruskan("/api/simrs/kasur", { unit });
       return NextResponse.json({
         ok: true,

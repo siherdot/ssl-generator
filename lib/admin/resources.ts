@@ -381,6 +381,38 @@ export const resources: Resource[] = [
     ],
   },
   {
+    kunci: "simrs",
+    label: "Koneksi SIMRS",
+    labelSatu: "Koneksi SIMRS",
+    tabel: "pengaturan_simrs",
+    pk: "id",
+    tunggal: "1",
+    urut: "id",
+    grup: "pengaturan",
+    keterangan:
+      "Dipakai tombol “Sinkron dari SIMRS” dan sinkron tempat tidur otomatis tiap jam. Kosongkan hanya bila ingin kembali memakai isi environment.",
+    kolomDaftar: [{ nama: "api_url", label: "URL API" }],
+    cari: ["api_url"],
+    fields: [
+      {
+        nama: "api_url",
+        label: "URL API SIMRS",
+        tipe: "text",
+        wajib: true,
+        lebar: "penuh",
+        bantuan: "Contoh: https://192.168.10.253:81/api/external/v1 — tanpa garis miring di akhir.",
+      },
+      {
+        nama: "api_key",
+        label: "API Key SIMRS",
+        tipe: "text",
+        wajib: true,
+        lebar: "penuh",
+        bantuan: "Dikirim sebagai header X-API-Key ke API Eksternal SIMRS.",
+      },
+    ],
+  },
+  {
     kunci: "profil",
     label: "Profil Rumah Sakit",
     labelSatu: "Profil",

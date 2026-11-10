@@ -40,7 +40,11 @@ export default async function Shell({ children }: { children: React.ReactNode })
     : [];
 
   const pengaturan = [
-    ...(bisaKonten ? [{ href: "/admin/konten/profil", label: "Profil rumah sakit" }] : []),
+    ...(bisaKonten
+      ? resources
+          .filter((r) => r.grup === "pengaturan" && r.tunggal)
+          .map((r) => ({ href: `/admin/konten/${r.kunci}`, label: r.label }))
+      : []),
     { href: "/admin/akun", label: "Akun & password" },
     ...(bisaPengguna ? [{ href: "/admin/pengguna", label: "Pengguna & hak akses" }] : []),
   ];
