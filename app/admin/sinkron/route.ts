@@ -76,9 +76,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: false, pesan: "Jenis sinkronisasi tidak dikenal." }, { status: 400 });
   } catch (e) {
+    // 500 (bukan 502) supaya pesan asli tidak ditelan halaman error Cloudflare
     return NextResponse.json(
       { ok: false, pesan: e instanceof Error ? e.message : "Sinkronisasi gagal." },
-      { status: 502 }
+      { status: 500 }
     );
   }
 }
