@@ -40,8 +40,33 @@ export default async function KetersediaanPage() {
   }, null);
   const infoWaktu = terakhir ? waktuRelatif(terakhir) : null;
 
+  // Rekap per kelas, urutan mengikuti papan display SIMRS.
+  const URUTAN_KELAS = ["VIP", "I", "II", "III", "NICU", "PICU", "ICU", "HCU", "Isolasi"];
+  const labelKelas = (kelas: string) =>
+    /^[IVX]+$/i.test(kelas) ? `Kelas ${kelas.toUpperCase()}` : kelas;
+
+  const rekap = new Map<string, { kapasitas: number; terisi: number }>();
+  for (const k of kasur) {
+    const kelas = (k.kelas || "Lainnya").trim() || "Lainnya";
+    const isi = rekap.get(kelas) ?? { kapasitas: 0, terisi: 0 };
+    isi.kapasitas += Number(k.total || 0);
+    isi.terisi += Number(k.terisi || 0);
+    rekap.set(kelas, isi);
+  }
+
+  const perKelas = [...rekap.entries()]
+    .map(([kelas, isi]) => ({ kelas, ...isi, kosong: Math.max(0, isi.kapasitas - isi.terisi) }))
+    .sort((a, b) => {
+      const ia = URUTAN_KELAS.indexOf(a.kelas);
+      const ib = URUTAN_KELAS.indexOf(b.kelas);
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib) || a.kelas.localeCompare(b.kelas);
+    });
+
+
   return (
     <>
+      {/* halaman papan informasi: muat ulang tiap 5 menit, seperti display SIMRS */}
+      <meta httpEquiv="refresh" content="300" />
       <PageHeader
         eyebrow="Pusat Informasi"
         title="Ketersediaan Tempat Tidur"
@@ -111,59 +136,38 @@ export default async function KetersediaanPage() {
               </p>
             )}
 
-            {/* rincian per unit */}
+            {/* rekap per kelas — susunannya mengikuti papan display SIMRS */}
             <div className="mt-6 overflow-hidden rounded-[var(--radius-card)] border border-line bg-white shadow-[var(--shadow-card)]">
-              <table className="w-full text-sm">
-                <thead className="bg-mist text-left text-[11px] uppercase tracking-wide text-muted">
+              <table className="w-full">
+                <thead className="bg-mist text-[11px] uppercase tracking-wide text-muted">
                   <tr>
-                    <th className="px-4 py-3">Unit / kelas</th>
-                    <th className="px-4 py-3 text-center">Total</th>
+                    <th className="px-4 py-3 text-left">Nama kamar</th>
+                    <th className="px-4 py-3 text-center">Kapasitas</th>
                     <th className="px-4 py-3 text-center">Terisi</th>
                     <th className="px-4 py-3 text-center">Kosong</th>
-                    <th className="px-4 py-3">Okupansi</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {kasur.map((k) => {
-                    const t = Number(k.total || 0);
-                    const i = Number(k.terisi || 0);
-                    const sisa = Math.max(0, t - i);
-                    const p = t > 0 ? Math.round((i / t) * 100) : 0;
-                    const penuh = t > 0 && sisa === 0;
-
-                    return (
-                      <tr key={k.id} className="border-t border-line">
-                        <td className="px-4 py-3">
-                          <span className="block font-medium text-ink">{k.nama_unit}</span>
-                          {(k.kelas || k.keterangan) && (
-                            <span className="block text-[11px] text-muted">
-                              {[k.kelas, k.keterangan].filter(Boolean).join(" · ")}
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-center">{t}</td>
-                        <td className="px-4 py-3 text-center">{i}</td>
-                        <td className="px-4 py-3 text-center">
-                          <span
-                            className={`rounded px-2 py-0.5 text-xs font-semibold ${
-                              penuh ? "bg-red-100 text-red-700" : "bg-brand/20 text-brand-900"
-                            }`}
-                          >
-                            {sisa}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-mist">
-                            <div
-                              className={`h-full ${penuh ? "bg-red-500" : "bg-brand-700"}`}
-                              style={{ width: `${p}%` }}
-                            />
-                          </div>
-                          <span className="mt-1 block text-[11px] text-muted">{p}%</span>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                <tbody className="text-2xl font-bold tabular-nums text-ink">
+                  {perKelas.map((k) => (
+                    <tr key={k.kelas} className="border-t border-line">
+                      <td className="px-4 py-3 text-lg font-semibold">{labelKelas(k.kelas)}</td>
+                      <td className="px-4 py-3 text-center">{k.kapasitas}</td>
+                      <td className="px-4 py-3 text-center">{k.terisi}</td>
+                      <td
+                        className={`px-4 py-3 text-center ${
+                          k.kosong === 0 ? "text-red-600" : "text-brand-800"
+                        }`}
+                      >
+                        {k.kosong}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="border-t-2 border-brand-800 bg-brand/10">
+                    <td className="px-4 py-3 text-lg font-bold text-brand-900">TOTAL</td>
+                    <td className="px-4 py-3 text-center font-bold">{total}</td>
+                    <td className="px-4 py-3 text-center font-bold">{terisi}</td>
+                    <td className="px-4 py-3 text-center font-bold text-brand-900">{kosong}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
