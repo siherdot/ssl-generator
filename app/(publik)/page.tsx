@@ -39,7 +39,7 @@ export default async function HomePage() {
   const stats = [
     { value: String(ringkas?.dokter ?? 0), label: "Dokter & Spesialis" },
     { value: String(ringkas?.poli ?? 0), label: "Poliklinik" },
-    { value: "200+", label: "Tempat Tidur" },
+    { value: String(totalKasur), label: "Tempat Tidur" },
     { value: `${new Date().getFullYear() - site.founded}`, label: "Tahun Melayani" },
   ];
 
