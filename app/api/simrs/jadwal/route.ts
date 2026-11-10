@@ -98,7 +98,6 @@ const KATA_UMUM = new Set([
 function intiNama(nama: string): Set<string> {
   const kata = nama
     .toLowerCase()
-    .replace(/\([^)]*\)/g, " ")
     .replace(/[^a-z ]/g, " ")
     .split(/\s+/)
     .filter((k) => k.length > 2 && !KATA_UMUM.has(k));
@@ -174,7 +173,12 @@ export async function POST(request: Request) {
         "SELECT id_poli, nama_poli FROM poli"
       );
       const inti = intiNama(namaPoli);
-      const serupa = semua.find((p) => namaSerupa(inti, intiNama(p.nama_poli)));
+      // ambil yang paling dekat: "POLI SARAF" harus ke POLIKLINIK SARAF,
+      // bukan ke POLIKLINIK BEDAH SARAF
+      const serupa = semua
+        .map((p) => ({ p, inti: intiNama(p.nama_poli) }))
+        .filter((x) => namaSerupa(inti, x.inti))
+        .sort((a, b) => Math.abs(a.inti.size - inti.size) - Math.abs(b.inti.size - inti.size))[0]?.p;
       if (serupa) {
         id = serupa.id_poli;
       } else {
