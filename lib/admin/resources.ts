@@ -413,6 +413,27 @@ export const resources: Resource[] = [
     ],
   },
   {
+    kunci: "slide",
+    label: "Slide Latar Beranda",
+    labelSatu: "Slide",
+    tabel: "slide_images",
+    pk: "id_slide",
+    idOtomatis: { prefix: "SL", panjang: 2 },
+    urut: "id_slide",
+    grup: "konten",
+    keterangan:
+      "Foto yang diputar otomatis sebagai latar bagian atas beranda (hero). Foto strip sempit sebaiknya dimatikan lewat centang “Tampilkan di situs”.",
+    kolomDaftar: [
+      { nama: "images", label: "Foto", tipe: "gambar" },
+      { nama: "aktif", label: "Tampil", tipe: "aktif" },
+    ],
+    cari: ["images"],
+    fields: [
+      { nama: "images", label: "Foto", tipe: "image", wajib: true, lebar: "penuh", bantuan: "Disarankan foto lanskap (minimal 1600px lebar)." },
+      { nama: "aktif", label: "Tampilkan di situs", tipe: "checkbox", bawaan: 1 },
+    ],
+  },
+  {
     kunci: "profil",
     label: "Profil Rumah Sakit",
     labelSatu: "Profil",

@@ -470,6 +470,13 @@ export function getPoliRingkas() {
   );
 }
 
+/** Foto latar hero: slide_images yang aktif, diputar berurutan di beranda. */
+export function getSlideLatar() {
+  return rows<{ images: string }>(
+    "SELECT images FROM slide_images WHERE aktif = 1 ORDER BY id_slide"
+  );
+}
+
 /* ------------------------------------------------------------------
    Fase G: ketersediaan tempat tidur (agregat, tanpa data pasien)
    ------------------------------------------------------------------ */

@@ -14,10 +14,12 @@ import {
   getPromoAktif,
   getTestimoni,
   getKasur,
+  getSlideLatar,
   hitungRingkas,
   gambar,
   tanggalRapi,
 } from "@/lib/data";
+import { urlGambar } from "@/lib/gambar";
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.
@@ -30,7 +32,12 @@ export default async function HomePage() {
     getDokterList(),
     getNewsList(8),
   ]);
-  const [promo, testimoni, kasur] = await Promise.all([getPromoAktif(6), getTestimoni(6), getKasur()]);
+  const [promo, testimoni, kasur, slide] = await Promise.all([
+    getPromoAktif(6),
+    getTestimoni(6),
+    getKasur(),
+    getSlideLatar(),
+  ]);
 
   const totalKasur = kasur.reduce((n, k) => n + Number(k.total || 0), 0);
   const terisiKasur = kasur.reduce((n, k) => n + Number(k.terisi || 0), 0);
@@ -59,7 +66,7 @@ export default async function HomePage() {
   return (
     <>
       <JsonLdHospital />
-      <Hero />
+      <Hero fotoLatar={slide.map((s) => urlGambar(s.images))} />
       <QuickActions />
 
       {/* tentang singkat */}

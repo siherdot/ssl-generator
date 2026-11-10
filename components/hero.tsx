@@ -1,26 +1,32 @@
 import Link from "next/link";
+import SlideLatar from "@/components/slide-latar";
 import { site } from "@/lib/site";
 
-export default function Hero() {
+export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
-      {/* ornamen lembut, bukan foto acuan */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-70"
-        style={{
-          background:
-            "radial-gradient(900px 400px at 85% -10%, rgba(186,229,53,0.30), transparent 60%), radial-gradient(700px 320px at 10% 110%, rgba(5,169,25,0.35), transparent 60%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(135deg, #ffffff 0 1px, transparent 1px 14px)",
-        }}
-      />
+      {fotoLatar.length > 0 && <SlideLatar foto={fotoLatar} />}
+      {fotoLatar.length === 0 && (
+        <>
+          {/* ornamen lembut, bukan foto acuan */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-70"
+            style={{
+              background:
+                "radial-gradient(900px 400px at 85% -10%, rgba(186,229,53,0.30), transparent 60%), radial-gradient(700px 320px at 10% 110%, rgba(5,169,25,0.35), transparent 60%)",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-[0.07]"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(135deg, #ffffff 0 1px, transparent 1px 14px)",
+            }}
+          />
+        </>
+      )}
 
       <div className="container-page relative py-14 lg:py-20">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-white/85">
