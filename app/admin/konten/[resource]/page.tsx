@@ -123,6 +123,13 @@ export default async function KontenPage({
                   {res.kolomDaftar.map((k) => {
                     const nilai = baris[k.nama];
                     const teks = nilai === null || nilai === undefined ? "" : String(nilai);
+                    // kolom kunci asing: tampilkan namanya, bukan kodenya
+                    const label =
+                      k.nama === "id_dokter"
+                        ? opsi.dokter.find((o) => o.nilai === teks)?.label
+                        : k.nama === "id_poli"
+                          ? opsi.poli.find((o) => o.nilai === teks)?.label
+                          : undefined;
                     return (
                       <td key={k.nama} className="px-4 py-3 align-middle">
                         {k.tipe === "gambar" ? (
@@ -149,7 +156,7 @@ export default async function KontenPage({
                             {teks === "1" ? "ya" : "tidak"}
                           </span>
                         ) : (
-                          <span className="line-clamp-2 max-w-[420px]">{teks}</span>
+                          <span className="line-clamp-2 max-w-[420px]">{label ?? teks}</span>
                         )}
                       </td>
                     );

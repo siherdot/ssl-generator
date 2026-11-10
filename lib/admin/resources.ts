@@ -101,6 +101,8 @@ export const resources: Resource[] = [
     idOtomatis: { prefix: "JD", panjang: 2 },
     urut: "id_jadwal DESC",
     grup: "konten",
+    keterangan:
+      "Baris yang berasal dari SIMRS disinkronkan otomatis setiap hari (lihat tools/sync-simrs.mjs). Mengubah atau menghapus baris SIMRS di sini akan tertimpa pada sinkronisasi berikutnya.",
     kolomDaftar: [
       { nama: "id_dokter", label: "Dokter" },
       { nama: "hari", label: "Hari" },
@@ -359,6 +361,8 @@ export const resources: Resource[] = [
           { nilai: "III", label: "Kelas III" },
           { nilai: "ICU", label: "ICU" },
           { nilai: "NICU", label: "NICU" },
+          { nilai: "HCU", label: "HCU" },
+          { nilai: "Isolasi", label: "Ruang isolasi" },
           { nilai: "Bayi", label: "Bayi" },
           { nilai: "Lainnya", label: "Lainnya" },
         ],
