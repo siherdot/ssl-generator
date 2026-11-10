@@ -43,6 +43,9 @@ const HARI: Record<string, string> = {
   MINGGU: "Minggu",
 };
 
+/** Poli untuk kode SIMRS yang tidak menyertakan nama poli. */
+const POLI_CADANGAN = "POLI UMUM";
+
 function teks(v: unknown, maks = 255): string {
   return String(v ?? "").trim().slice(0, maks);
 }
@@ -73,6 +76,41 @@ async function idJadwalBaru(): Promise<string> {
     "SELECT MAX(NULLIF(regexp_replace(id_jadwal, '\\D', '', 'g'), '')::int) AS n FROM jadwal_dokter"
   );
   return `JD${String(Number(h?.n ?? 0) + 1).padStart(4, "0")}`;
+}
+
+/**
+ * Nama poli SIMRS ("POLI JANTUNG") dan nama poli situs ("POLIKLINIK JANTUNG")
+ * berbeda kata sambungnya. Bandingkan inti namanya saja supaya tidak lahir
+ * poli kembar di situs.
+ */
+const KATA_UMUM = new Set([
+  "poli",
+  "poliklinik",
+  "klinik",
+  "instalasi",
+  "unit",
+  "medik",
+  "spesialis",
+  "dan",
+  "lainnya",
+]);
+
+function intiNama(nama: string): Set<string> {
+  const kata = nama
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/[^a-z ]/g, " ")
+    .split(/\s+/)
+    .filter((k) => k.length > 2 && !KATA_UMUM.has(k));
+  return new Set(kata);
+}
+
+/** Cocok bila seluruh kata nama yang lebih pendek ada di nama yang lain. */
+function namaSerupa(a: Set<string>, b: Set<string>): boolean {
+  if (a.size === 0 || b.size === 0) return false;
+  const [kecil, besar] = a.size <= b.size ? [a, b] : [b, a];
+  for (const k of kecil) if (!besar.has(k)) return false;
+  return true;
 }
 
 export async function POST(request: Request) {
@@ -109,6 +147,53 @@ export async function POST(request: Request) {
   let jadwalBaru = 0;
   let jadwalDiperbarui = 0;
 
+  /** Poli utama dokter = poli bernama pertama di kiriman (bukan poli cadangan). */
+  const poliUtama = new Map<string, { kode: string; nama: string }>();
+  for (const b of daftar) {
+    const kd = teks(b.kodokter, 40);
+    const nama = teks(b.poli, 120);
+    if (kd && nama && !poliUtama.has(kd)) poliUtama.set(kd, { kode: teks(b.kodepos, 40), nama });
+  }
+
+  /** Cari/buat poli situs untuk satu kode + nama poli SIMRS. */
+  async function poliSitus(kodePoli: string, namaPoli: string): Promise<string> {
+    const tersimpan = petaPoli.get(kodePoli);
+    if (tersimpan) return tersimpan;
+
+    let id: string;
+    const ada = await one<{ id_poli: string }>(
+      "SELECT id_poli FROM poli WHERE kode_simrs = ?",
+      [kodePoli]
+    );
+    if (ada) {
+      id = ada.id_poli;
+    } else {
+      // Belum pernah dipetakan: cari poli situs bernama serupa dulu, supaya
+      // "POLI JANTUNG" menumpang di "POLIKLINIK JANTUNG" dan tak jadi poli kembar.
+      const semua = await rows<{ id_poli: string; nama_poli: string }>(
+        "SELECT id_poli, nama_poli FROM poli"
+      );
+      const inti = intiNama(namaPoli);
+      const serupa = semua.find((p) => namaSerupa(inti, intiNama(p.nama_poli)));
+      if (serupa) {
+        id = serupa.id_poli;
+      } else {
+        let baru = kodePoli || "P-SIMRS";
+        if (await one("SELECT 1 FROM poli WHERE id_poli = ?", [baru])) baru = `${baru}-S`.slice(0, 40);
+        await pool.execute(
+          `INSERT INTO poli (id_poli, nama_poli, ket, images, kode_simrs)
+           VALUES (?, ?, '', '', ?)
+           ON CONFLICT (id_poli) DO UPDATE SET nama_poli = EXCLUDED.nama_poli`,
+          [baru, namaPoli, kodePoli]
+        );
+        poliBaru += 1;
+        id = baru;
+      }
+    }
+    petaPoli.set(kodePoli, id);
+    return id;
+  }
+
   for (const b of daftar) {
     const kodeDokter = teks(b.kodokter, 40);
     const namaDokter = teks(b.nadokter, 100);
@@ -122,30 +207,7 @@ export async function POST(request: Request) {
       continue;
     }
 
-    // ---- poli ----
-    let idPoli = petaPoli.get(kodePoli);
-    if (!idPoli) {
-      const ada = await one<{ id_poli: string }>(
-        "SELECT id_poli FROM poli WHERE kode_simrs = ?",
-        [kodePoli]
-      );
-      if (ada) {
-        idPoli = ada.id_poli;
-      } else {
-        let id = kodePoli;
-        if (await one("SELECT 1 FROM poli WHERE id_poli = ?", [id])) id = `${kodePoli}-S`.slice(0, 40);
-        const namaPoli = teks(b.poli, 120) || `POLI ${kodePoli}`;
-        await pool.execute(
-          `INSERT INTO poli (id_poli, nama_poli, ket, images, kode_simrs)
-           VALUES (?, ?, '', '', ?)
-           ON CONFLICT (id_poli) DO UPDATE SET nama_poli = EXCLUDED.nama_poli`,
-          [id, namaPoli, kodePoli]
-        );
-        poliBaru += 1;
-        idPoli = id;
-      }
-      petaPoli.set(kodePoli, idPoli);
-    }
+    const idPoli = await poliSitus(kodePoli, teks(b.poli, 120) || POLI_CADANGAN);
 
     // ---- dokter ----
     let idDokter = petaDokter.get(kodeDokter);
@@ -159,10 +221,12 @@ export async function POST(request: Request) {
       } else {
         let id = kodeDokter;
         if (await one("SELECT 1 FROM dokter WHERE id_dokter = ?", [id])) id = `${kodeDokter}-S`.slice(0, 100);
+        const utama = poliUtama.get(kodeDokter);
+        const idPoliDokter = utama ? await poliSitus(utama.kode, utama.nama) : idPoli;
         await pool.execute(
           `INSERT INTO dokter (id_dokter, nama_dokter, ket, images, id_poli, kode_simrs)
            VALUES (?, ?, '', '', ?, ?)`,
-          [id, namaDokter, idPoli, kodeDokter]
+          [id, namaDokter, idPoliDokter, kodeDokter]
         );
         dokterBaru += 1;
         idDokter = id;
