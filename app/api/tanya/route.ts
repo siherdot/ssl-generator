@@ -9,25 +9,34 @@ import { NextResponse } from "next/server";
  * Coolify tanpa deploy ulang). Format kiriman mengikuti Chat Trigger n8n:
  * { action: "sendMessage", sessionId, chatInput }.
  */
-const BATAS_PER_MENIT = 12;
+// 10 pertanyaan per 5 menit untuk tiap pengunjung (IP) dan tiap sesi obrolan.
+const BATAS_PERTANYAAN = 10;
+const JEDA_MS = 5 * 60_000;
 const jatah = new Map<string, { n: number; sampai: number }>();
 
-function bolehJalan(ip: string) {
+/** true bila masih boleh bertanya; simpan sisa jeda (detik) bila sudah penuh. */
+function cekJatah(kunci: string): { boleh: boolean; sisa: number } {
   const kini = Date.now();
-  const catat = jatah.get(ip);
+  const catat = jatah.get(kunci);
   if (!catat || catat.sampai < kini) {
-    jatah.set(ip, { n: 1, sampai: kini + 60_000 });
-    return true;
+    jatah.set(kunci, { n: 1, sampai: kini + JEDA_MS });
+    return { boleh: true, sisa: 0 };
   }
-  if (catat.n >= BATAS_PER_MENIT) return false;
+  if (catat.n >= BATAS_PERTANYAAN) {
+    return { boleh: false, sisa: Math.ceil((catat.sampai - kini) / 1000) };
+  }
   catat.n += 1;
-  return true;
+  return { boleh: true, sisa: 0 };
 }
 
 export async function POST(req: Request) {
-  const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "lokal";
-  if (!bolehJalan(ip)) {
-    return NextResponse.json({ jawaban: "Terlalu banyak pertanyaan. Tunggu satu menit lagi, ya." }, { status: 429 });
+  const ip = (req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "lokal";
+  const ipJatah = cekJatah("ip:" + ip);
+  if (!ipJatah.boleh) {
+    return NextResponse.json(
+      { jawaban: `Batas ${BATAS_PERTANYAAN} pertanyaan tercapai. Silakan jeda ${Math.ceil(ipJatah.sisa / 60)} menit lagi, atau hubungi 0812 6937 8222.` },
+      { status: 429 }
+    );
   }
 
   const alamat = process.env.N8N_CHAT_WEBHOOK;
@@ -43,6 +52,14 @@ export async function POST(req: Request) {
   const sesi = typeof isi?.sesi === "string" && isi.sesi.length <= 64 ? isi.sesi : "tamu";
   if (!pesan || pesan.length > 1000) {
     return NextResponse.json({ jawaban: "Pertanyaan kosong atau terlalu panjang (maksimal 1000 huruf)." }, { status: 400 });
+  }
+
+  const sesiJatah = cekJatah("sesi:" + sesi);
+  if (!sesiJatah.boleh) {
+    return NextResponse.json(
+      { jawaban: `Sesi ini sudah mencapai ${BATAS_PERTANYAAN} pertanyaan. Silakan jeda ${Math.ceil(sesiJatah.sisa / 60)} menit, atau mulai obrolan baru.` },
+      { status: 429 }
+    );
   }
 
   try {

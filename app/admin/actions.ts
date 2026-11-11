@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getPool } from "@/lib/db";
 import {
@@ -40,18 +41,49 @@ function catatGagal(kunci: string) {
   percobaan.set(kunci, data);
 }
 
+/* Batas per alamat IP: menahan percobaan yang mengganti-ganti username. */
+const BATAS_IP = 15;
+const percobaanIp = new Map<string, { n: number; sampai: number }>();
+
+async function alamatIp(): Promise<string> {
+  const h = await headers();
+  const ip =
+    (h.get("cf-connecting-ip") || h.get("x-forwarded-for") || "").split(",")[0].trim() || "lokal";
+  return ip;
+}
+
+function ipDiblokir(ip: string): boolean {
+  const data = percobaanIp.get(ip);
+  if (!data) return false;
+  if (Date.now() > data.sampai) {
+    percobaanIp.delete(ip);
+    return false;
+  }
+  return data.n >= BATAS_IP;
+}
+
+function catatGagalIp(ip: string) {
+  const data = percobaanIp.get(ip) ?? { n: 0, sampai: 0 };
+  data.n += 1;
+  data.sampai = Date.now() + 10 * 60 * 1000;
+  percobaanIp.set(ip, data);
+}
+
 export async function aksiMasuk(_sebelum: HasilAksi, fd: FormData): Promise<HasilAksi> {
   const username = String(fd.get("username") ?? "").trim();
   const password = String(fd.get("password") ?? "");
 
   if (!username || !password) return { error: "Username dan password wajib diisi." };
-  if (!bolehCobaLagi(username)) {
+
+  const ip = await alamatIp();
+  if (ipDiblokir(ip) || !bolehCobaLagi(username)) {
     return { error: "Terlalu banyak percobaan gagal. Coba lagi 10 menit kemudian." };
   }
 
   const salah = await masuk(username, password);
   if (salah) {
     catatGagal(username);
+    catatGagalIp(ip);
     return { error: salah };
   }
 
