@@ -164,27 +164,6 @@ export const resources: Resource[] = [
     ],
   },
   {
-    kunci: "rawat-inap",
-    label: "Unit Rawat Inap",
-    labelSatu: "Unit rawat inap",
-    tabel: "hospital",
-    pk: "hospital_id",
-    idOtomatis: { prefix: "hospital-", panjang: 0 },
-    urut: "title",
-    grup: "konten",
-    kolomDaftar: [
-      { nama: "images", label: "Gambar", tipe: "gambar" },
-      { nama: "title", label: "Judul" },
-    ],
-    cari: ["title", "content"],
-    fields: [
-      { nama: "title", label: "Nama unit / kelas", tipe: "text", wajib: true, lebar: "penuh" },
-      { nama: "images", label: "Gambar", tipe: "image" },
-      { nama: "link_hospital", label: "Tautan tambahan", tipe: "text", bantuan: "Opsional, contoh: https://…" },
-      { nama: "content", label: "Keterangan", tipe: "html", lebar: "penuh" },
-    ],
-  },
-  {
     kunci: "promo",
     label: "Promo",
     labelSatu: "Promo",
@@ -336,8 +315,8 @@ export const resources: Resource[] = [
   },
   {
     kunci: "ketersediaan-kamar",
-    label: "Ketersediaan Kamar",
-    labelSatu: "Data kamar",
+    label: "Unit Rawat Inap",
+    labelSatu: "Unit rawat inap",
     tabel: "kasur",
     pk: "id",
     urut: "urutan, nama_unit",
