@@ -16,6 +16,7 @@ export default function PublikLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <main id="konten">{children}</main>
       <Footer />
+      <ChatAi />
     </>
   );
 }
