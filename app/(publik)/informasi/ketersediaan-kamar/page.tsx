@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
-import { getKasur } from "@/lib/data";
+import { getKasur, waktuDb } from "@/lib/data";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,11 +13,12 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 function waktuRelatif(iso: string): { teks: string; basi: boolean } {
-  const d = new Date(iso.replace(" ", "T"));
-  if (Number.isNaN(d.getTime())) return { teks: "tidak diketahui", basi: true };
+  const d = waktuDb(iso);
+  if (!d) return { teks: "tidak diketahui", basi: true };
 
   const menit = Math.floor((Date.now() - d.getTime()) / 60000);
-  const basi = menit > 360; // lebih dari 6 jam dianggap perlu konfirmasi
+  // sinkron berjalan tiap jam; lewat 2,5 jam berarti ada yang salah
+  const basi = menit > 150;
 
   if (menit < 1) return { teks: "baru saja", basi };
   if (menit < 60) return { teks: `${menit} menit lalu`, basi };

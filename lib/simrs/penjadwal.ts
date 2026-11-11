@@ -2,12 +2,29 @@ import "server-only";
 import { simrsAmbil } from "./klien";
 import { unitDariBedDisplay } from "./bed";
 import { kirimTelegram } from "@/lib/notif";
+import { getKasurDiperbarui, waktuDb } from "@/lib/data";
 
 /**
  * Sinkronisasi ketersediaan tempat tidur dari dalam container: sekali saat
  * server hidup, lalu tiap jam. Menggantikan cron di host.
  */
+/** Sinkron minimal sekali per jam; timer memeriksa tiap 10 menit supaya tidak meleset. */
 const JEDA_MS = 60 * 60 * 1000;
+const PERIKSA_MS = 10 * 60 * 1000;
+const TOLERANSI_MS = 5 * 60 * 1000;
+
+/** true bila data di database sudah lebih tua dari satu jam (mis. container baru start). */
+async function perluSinkron(): Promise<boolean> {
+  try {
+    const terakhir = await getKasurDiperbarui();
+    const waktu = waktuDb(terakhir?.diperbarui ?? null);
+    if (!waktu) return true;
+    return Date.now() - waktu.getTime() > JEDA_MS - TOLERANSI_MS;
+  } catch (e) {
+    console.warn("[simrs] gagal cek waktu data terakhir:", (e as Error).message);
+    return true;
+  }
+}
 /** Kirim peringatan setelah sekian kali gagal berturut-turut (biar tidak spam saat jaringan kedip). */
 const BATAS_GAGAL = 2;
 
@@ -71,8 +88,10 @@ export function mulaiSinkronTempatTidur() {
   if (g.__simrsTimerTidur) return;
 
   void sinkronSekali();
-  const timer = setInterval(() => void sinkronSekali(), JEDA_MS);
+  const timer = setInterval(async () => {
+    if (await perluSinkron()) void sinkronSekali();
+  }, PERIKSA_MS);
   timer.unref?.();
   g.__simrsTimerTidur = timer;
-  console.log("[simrs] penjadwal tempat tidur aktif — tiap 60 menit.");
+  console.log("[simrs] penjadwal tempat tidur aktif — sinkron bila data lebih tua dari 1 jam (cek tiap 10 menit).");
 }

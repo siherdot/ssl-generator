@@ -97,12 +97,25 @@ export function jamRapi(jam: string | null | undefined): string {
   return `${h}.${m}`;
 }
 
+/**
+ * Kolom timestamp di database disimpan sebagai UTC tanpa zona ("2026-11-11 11:41:34").
+ * Kalau diparsing apa adanya, `new Date()` menganggapnya jam lokal container (WIB)
+ * sehingga tampil 7 jam lebih tua. Helper ini membacanya sebagai UTC.
+ */
+export function waktuDb(nilai: string | null | undefined): Date | null {
+  if (!nilai) return null;
+  const teks = String(nilai).trim();
+  if (!teks || teks.startsWith("0000-00-00")) return null;
+  const adaZona = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(teks);
+  const d = new Date(adaZona ? teks : `${teks.replace(" ", "T")}Z`);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
 /** '0000-00-00 00:00:00' dianggap tidak ada tanggal */
 export function tanggalRapi(value: string | null | undefined): string | null {
-  if (!value || value.startsWith("0000-00-00")) return null;
-  const d = new Date(value.replace(" ", "T"));
-  if (Number.isNaN(d.getTime())) return null;
-  return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  const d = waktuDb(value);
+  if (!d) return null;
+  return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Jakarta" });
 }
 
 export function gambar(nama: string | null | undefined, fallback = "/images/arsip/logo2.png"): string {
