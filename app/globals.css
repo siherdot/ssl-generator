@@ -129,22 +129,22 @@ body {
    supaya motif tidak tampak raksasa.
    ------------------------------------------------------------------ */
 .pola-latar {
-  background-image: url("/images/pattern/pola-acak.webp");
+  background-image: url("/images/pattern/pola-acak2.webp");
   background-repeat: repeat;
   background-size: 1100px auto;
   background-position: 0 0;
 }
 .pola-pojok {
-  background-image: url("/images/pattern/pola-besar.png"), url("/images/pattern/pola-besar.png");
+  background-image: url("/images/pattern/pola-besar2.png"), url("/images/pattern/pola-besar2.png");
   background-repeat: no-repeat, no-repeat;
   background-position: left -190px bottom -230px, right -80px top 120px;
-  background-size: 520px auto, 300px auto;
+  background-size: 440px auto, 300px auto;
 }
 
 @media (max-width: 640px) {
   .pola-latar { background-size: 460px auto; }
   .pola-pojok {
     background-position: left -90px bottom -110px, right -40px top 90px;
-    background-size: 210px auto, 150px auto;
+    background-size: 170px auto, 150px auto;
   }
 }
