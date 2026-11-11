@@ -16,13 +16,13 @@ export default function PublikLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <main id="konten">{children}</main>
       <Footer />
-      {/* pola identitas RS: motif diulang rapat + dua ornamen pojok */}
+      {/* pola identitas RS: sebaran acak (ubin 1200px) + ornamen pojok */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-20 bg-repeat"
         style={{
-          backgroundImage: 'url("/images/pattern/pola-ubin.png")',
-          backgroundSize: "210px auto",
+          backgroundImage: 'url("/images/pattern/pola-acak.webp")',
+          backgroundSize: "1200px auto",
           backgroundPosition: "0 0",
         }}
       />
