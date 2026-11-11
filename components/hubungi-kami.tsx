@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import PetaEmbed from "@/components/peta-embed";
 import { site } from "@/lib/site";
 
 type IkonNama = "survei" | "pengaduan" | "lapor" | "wbs";
@@ -62,7 +62,6 @@ function Ikon({ nama }: { nama: IkonNama }) {
 }
 
 export default function HubungiKami() {
-  const { lat, lon } = site.koordinat;
 
   return (
     <section className="border-t border-line bg-mint/40 py-12" aria-labelledby="hubungi-kami">
@@ -80,26 +79,7 @@ export default function HubungiKami() {
 
         <div className="mt-7 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:gap-8">
           {/* kiri: peta lokasi */}
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Buka lokasi ${site.name} di Google Maps`}
-            className="group relative block overflow-hidden rounded-[var(--radius-card)] border border-line bg-white shadow-[var(--shadow-card)]"
-          >
-            <Image
-              src="/images/peta-rsu.jpg"
-              alt={`Peta lokasi ${site.name}`}
-              width={768}
-              height={512}
-              sizes="(max-width: 1024px) 100vw, 620px"
-              loading="eager"
-              className="h-[300px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] lg:h-[420px]"
-            />
-            <span className="absolute bottom-3 right-3 rounded bg-white/95 px-3 py-1.5 text-[11px] font-semibold text-brand-900 shadow">
-              Buka di Google Maps ↗
-            </span>
-          </a>
+          <PetaEmbed judul={`Peta lokasi ${site.name}`} tinggi="h-[300px] lg:h-[420px]" />
 
           {/* kanan: daftar survei & pengaduan */}
           <div className="flex h-full flex-col justify-center rounded-[var(--radius-card)] border border-line bg-white p-6 shadow-[var(--shadow-card)] lg:p-8">

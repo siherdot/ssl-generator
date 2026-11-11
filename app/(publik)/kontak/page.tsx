@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import SurveiForm from "@/components/survei-form";
-import Image from "next/image";
+import PetaEmbed from "@/components/peta-embed";
 import { getCompany, getPoliRingkas } from "@/lib/data";
 import { site } from "@/lib/site";
 
@@ -29,7 +29,6 @@ export default async function KontakPage() {
     "Farmasi",
     "Pendaftaran",
   ];
-  const { lat, lon } = site.koordinat;
 
   return (
     <>
@@ -46,22 +45,7 @@ export default async function KontakPage() {
         </div>
 
         <aside className="space-y-4">
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group block overflow-hidden rounded-[var(--radius-card)] border border-line shadow-[var(--shadow-card)]"
-            aria-label={`Buka lokasi ${site.name} di Google Maps`}
-          >
-            <Image
-              src="/images/peta-rsu.jpg"
-              alt={`Peta lokasi ${site.name}`}
-              width={768}
-              height={512}
-              sizes="(max-width: 1024px) 100vw, 360px"
-              className="h-[200px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-            />
-          </a>
+          <PetaEmbed judul={`Peta lokasi ${site.name}`} tinggi="h-[200px]" />
 
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Alamat</h2>
