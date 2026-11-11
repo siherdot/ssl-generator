@@ -16,9 +16,9 @@ export default function PublikLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <main id="konten">{children}</main>
       <Footer />
-      {/* pola identitas RS: sebaran acak + ornamen pojok (ukuran diatur di globals.css) */}
-      <div aria-hidden="true" className="pola-latar pointer-events-none fixed inset-0 z-20" />
-      <div aria-hidden="true" className="pola-pojok pointer-events-none fixed inset-0 z-20" />
+      {/* pola identitas RS: di belakang seluruh konten, jadi foto/kartu menutupinya */}
+      <div aria-hidden="true" className="pola-latar pointer-events-none fixed inset-0 -z-10" />
+      <div aria-hidden="true" className="pola-pojok pointer-events-none fixed inset-0 -z-10" />
       <ChatAi />
     </>
   );
