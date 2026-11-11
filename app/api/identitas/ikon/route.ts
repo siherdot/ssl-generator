@@ -7,11 +7,11 @@ import { getIdentitas } from "@/lib/data";
  */
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
+export async function GET() {
   const { favicon } = await getIdentitas();
-  const tujuan = new URL(favicon, req.url);
-  return NextResponse.redirect(tujuan, {
+  // redirect relatif: alamat internal container (0.0.0.0:3000) tidak boleh bocor ke browser
+  return new Response(null, {
     status: 307,
-    headers: { "Cache-Control": "public, max-age=3600" },
+    headers: { Location: favicon, "Cache-Control": "public, max-age=3600" },
   });
 }
