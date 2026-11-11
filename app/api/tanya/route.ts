@@ -65,7 +65,11 @@ export async function POST(req: Request) {
   try {
     const r = await fetch(alamat, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        // Kunci rahasia: webhook n8n menolak permintaan tanpa header ini.
+        ...(process.env.N8N_CHAT_KEY ? { "x-rsumb-key": process.env.N8N_CHAT_KEY } : {}),
+      },
       body: JSON.stringify({ action: "sendMessage", sessionId: sesi, chatInput: pesan }),
       signal: AbortSignal.timeout(45_000),
     });
