@@ -16,6 +16,17 @@ export default function PublikLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <main id="konten">{children}</main>
       <Footer />
+      {/* pola identitas RS: dua ornamen samar seperti kop surat */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-20 bg-no-repeat"
+        style={{
+          backgroundImage:
+            'url("/images/pattern/mandala-hijau.png"), url("/images/pattern/mandala-hijau.png")',
+          backgroundPosition: "left -170px bottom -210px, right -70px top 110px",
+          backgroundSize: "740px auto, 310px auto",
+        }}
+      />
       <ChatAi />
     </>
   );
