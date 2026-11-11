@@ -30,7 +30,7 @@ export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
 
       <div
         className={`container-page relative py-14 lg:py-20 ${
-          fotoLatar.length > 0 ? "[text-shadow:0_1px_16px_rgba(6,44,12,0.55)]" : ""
+          fotoLatar.length > 0 ? "[text-shadow:0_2px_18px_rgba(3,20,6,0.75)]" : ""
         }`}
       >
         <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-white/85">

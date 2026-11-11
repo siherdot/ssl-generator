@@ -34,15 +34,8 @@ export default function SlideLatar({ foto }: { foto: string[] }) {
           }`}
         />
       ))}
-      {/* lapisan gradasi: putih di atas, hijau di bawah */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/30 to-brand-900/90" />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-60"
-        style={{
-          background:
-            "radial-gradient(900px 400px at 85% -10%, rgba(186,229,53,0.25), transparent 60%), radial-gradient(700px 320px at 10% 110%, rgba(5,169,25,0.30), transparent 60%)",
-        }}
-      />
+      {/* lapisan gelap rata (tanpa gradasi): cukup untuk membuat teks putih terbaca */}
+      <div className="absolute inset-0 bg-[#062c0c]/45" />
     </div>
   );
 }
