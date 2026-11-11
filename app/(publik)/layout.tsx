@@ -1,6 +1,7 @@
 import Topbar from "@/components/topbar";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ChatAi from "@/components/chat-ai";
 
 export default function PublikLayout({ children }: { children: React.ReactNode }) {
   return (
