@@ -138,13 +138,13 @@ body {
   background-image: url("/images/pattern/pola-besar.png"), url("/images/pattern/pola-besar.png");
   background-repeat: no-repeat, no-repeat;
   background-position: left -190px bottom -230px, right -80px top 120px;
-  background-size: 760px auto, 300px auto;
+  background-size: 520px auto, 300px auto;
 }
 
 @media (max-width: 640px) {
   .pola-latar { background-size: 460px auto; }
   .pola-pojok {
     background-position: left -90px bottom -110px, right -40px top 90px;
-    background-size: 300px auto, 150px auto;
+    background-size: 210px auto, 150px auto;
   }
 }
