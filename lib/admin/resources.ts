@@ -426,6 +426,18 @@ export const resources: Resource[] = [
     cari: ["hospital_name"],
     fields: [
       { nama: "hospital_name", label: "Nama rumah sakit", tipe: "text", wajib: true, lebar: "penuh" },
+      {
+        nama: "logo_hospital",
+        label: "Logo rumah sakit",
+        tipe: "image",
+        bantuan: "Dipakai di kepala halaman (navbar) dan data Google. Sebaiknya PNG latar transparan, minimal 400×400 px.",
+      },
+      {
+        nama: "favicon_hospital",
+        label: "Ikon tab browser (favicon)",
+        tipe: "image",
+        bantuan: "Ikon kecil di tab browser. Sebaiknya PNG persegi 64×64 atau 256×256 px.",
+      },
       { nama: "company_name", label: "Nama badan", tipe: "text" },
       { nama: "slogan", label: "Slogan", tipe: "text", lebar: "penuh" },
       { nama: "phone", label: "Telepon", tipe: "text" },

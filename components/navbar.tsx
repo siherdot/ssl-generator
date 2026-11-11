@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navigation, site } from "@/lib/site";
 
-export default function Navbar() {
+export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: string }) {
   const [open, setOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
   const pathname = usePathname();
@@ -32,7 +32,7 @@ export default function Navbar() {
         {/* identitas */}
         <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label={`${site.name} — beranda`}>
           <Image
-            src="/images/logo-rsub.png"
+            src={logo}
             alt={`Logo ${site.name}`}
             width={44}
             height={48}

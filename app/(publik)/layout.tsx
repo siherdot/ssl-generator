@@ -2,8 +2,10 @@ import Topbar from "@/components/topbar";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ChatAi from "@/components/chat-ai";
+import { getIdentitas } from "@/lib/data";
 
-export default function PublikLayout({ children }: { children: React.ReactNode }) {
+export default async function PublikLayout({ children }: { children: React.ReactNode }) {
+  const identitas = await getIdentitas();
   return (
     <>
       <a
@@ -13,7 +15,7 @@ export default function PublikLayout({ children }: { children: React.ReactNode }
         Langsung ke konten
       </a>
       <Topbar />
-      <Navbar />
+      <Navbar logo={identitas.logo} />
       <main id="konten">{children}</main>
       <Footer />
       {/* pola identitas RS: di belakang seluruh konten, jadi foto/kartu menutupinya */}

@@ -6,9 +6,24 @@ export function JsonLdHospital() {
     "@context": "https://schema.org",
     "@type": "Hospital",
     name: site.name,
-    url: "https://rsub.rsumb.site",
-    logo: "https://rsub.rsumb.site/images/logo-rsub.png",
-    image: "https://rsub.rsumb.site/images/logo-rsub.png",
+    url: "https://rsumb.rsumb.site",
+    "@id": "https://rsumb.rsumb.site/#rumahsakit",
+    logo: "https://rsumb.rsumb.site/images/logo-rsub.png",
+    image: "https://rsumb.rsumb.site/images/og-rsumb.jpg",
+    hasMap: "https://www.google.com/maps/search/?api=1&query=RSU+Mahkota+Bidadari+Langkat",
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: site.koordinat.lat,
+      longitude: site.koordinat.lon,
+    },
+    areaServed: { "@type": "AdministrativeArea", name: "Kabupaten Langkat" },
+    isAcceptingNewPatients: true,
+    availableService: [
+      { "@type": "MedicalProcedure", name: "Instalasi Gawat Darurat 24 jam" },
+      { "@type": "MedicalProcedure", name: "Rawat jalan spesialis" },
+      { "@type": "MedicalProcedure", name: "Rawat inap" },
+      { "@type": "MedicalProcedure", name: "Radiologi dan laboratorium" },
+    ],
     description:
       "Rumah sakit umum di Kabupaten Langkat dengan layanan UGD 24 jam, rawat jalan spesialis, rawat inap, dan penunjang medis.",
     telephone: site.phone,
@@ -83,7 +98,7 @@ export function JsonLdDokter({
     worksFor: {
       "@type": "Hospital",
       name: "RSU Mahkota Bidadari",
-      url: "https://rsub.rsumb.site",
+      url: "https://rsumb.rsumb.site",
     },
   };
 

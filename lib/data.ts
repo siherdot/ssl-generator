@@ -17,6 +17,7 @@ export type Company = {
   slogan: string;
   hospital_name: string;
   logo_hospital: string;
+  favicon_hospital: string;
   company_description: string;
   link_youtube_profile: string;
   visi: string;
@@ -114,6 +115,28 @@ export function gambar(nama: string | null | undefined, fallback = "/images/arsi
 
 export function getCompany() {
   return one<Company>("SELECT * FROM company WHERE company_id = ? LIMIT 1", ["company-1"]);
+}
+
+/** Logo & ikon tab: dari dashboard bila diisi, kalau kosong pakai berkas bawaan. */
+function berkasIdentitas(nilai: string | null | undefined, bawaan: string): string {
+  const bersih = (nilai ?? "").trim();
+  if (bersih === "") return bawaan;
+  if (bersih.startsWith("/") || bersih.startsWith("http")) return bersih;
+  return urlGambar(bersih, bawaan);
+}
+
+export async function getIdentitas() {
+  let company: Company | null = null;
+  try {
+    company = await getCompany();
+  } catch (e) {
+    console.warn("[data] gagal baca identitas situs:", (e as Error).message);
+  }
+  return {
+    nama: company?.hospital_name?.trim() || "RSU Mahkota Bidadari",
+    logo: berkasIdentitas(company?.logo_hospital, "/images/logo-rsub.png"),
+    favicon: berkasIdentitas(company?.favicon_hospital, "/images/arsip/logo2.png"),
+  };
 }
 
 export function getPoliList() {

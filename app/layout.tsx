@@ -31,7 +31,16 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — Rumah Sakit Umum di Kabupaten Langkat`,
     description: site.slogan,
-    images: ["/images/arsip/logo2.png"],
+    images: [
+      { url: "/images/og-rsumb.jpg", width: 1200, height: 630, alt: `${site.name} — rumah sakit di Kabupaten Langkat` },
+    ],
+  },
+  twitter: { card: "summary_large_image" },
+  icons: {
+    // route dinamis: ikon mengikuti unggahan di dashboard (logo & ikon tab)
+    icon: [{ url: "/api/identitas/ikon", type: "image/png" }],
+    shortcut: "/api/identitas/ikon",
+    apple: "/api/identitas/ikon",
   },
   robots: { index: true, follow: true },
 };

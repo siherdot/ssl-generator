@@ -1,12 +1,17 @@
 import "server-only";
 import { simrsAmbil } from "./klien";
 import { unitDariBedDisplay } from "./bed";
+import { kirimTelegram } from "@/lib/notif";
 
 /**
  * Sinkronisasi ketersediaan tempat tidur dari dalam container: sekali saat
  * server hidup, lalu tiap jam. Menggantikan cron di host.
  */
 const JEDA_MS = 60 * 60 * 1000;
+/** Kirim peringatan setelah sekian kali gagal berturut-turut (biar tidak spam saat jaringan kedip). */
+const BATAS_GAGAL = 2;
+
+const g = globalThis as { __simrsGagal?: number; __simrsSudahLapor?: boolean };
 
 async function sinkronSekali() {
   const token = process.env.SIMRS_API_TOKEN;
@@ -37,8 +42,21 @@ async function sinkronSekali() {
         `${unit.reduce((n, u) => n + u.total, 0)} bed ` +
         `(${unit.reduce((n, u) => n + u.terisi, 0)} terisi).`
     );
+    g.__simrsGagal = 0;
+    g.__simrsSudahLapor = false;
   } catch (e) {
-    console.warn("[simrs] sinkron tempat tidur gagal:", e instanceof Error ? e.message : e);
+    const pesan = e instanceof Error ? e.message : String(e);
+    console.warn("[simrs] sinkron tempat tidur gagal:", pesan);
+
+    g.__simrsGagal = (g.__simrsGagal ?? 0) + 1;
+    if (g.__simrsGagal >= BATAS_GAGAL && !g.__simrsSudahLapor) {
+      g.__simrsSudahLapor = true;
+      void kirimTelegram(
+        `⚠️ Sinkron tempat tidur SIMRS gagal ${g.__simrsGagal}× berturut-turut.\n` +
+          `Pesan: ${pesan}\n` +
+          `Angka kamar di situs bisa jadi tidak terbaru. Periksa Dashboard → Pengaturan → Koneksi SIMRS.`
+      );
+    }
   }
 }
 
