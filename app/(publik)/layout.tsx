@@ -16,26 +16,9 @@ export default function PublikLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <main id="konten">{children}</main>
       <Footer />
-      {/* pola identitas RS: sebaran acak (ubin 1200px) + ornamen pojok */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-20 bg-repeat"
-        style={{
-          backgroundImage: 'url("/images/pattern/pola-acak.webp")',
-          backgroundSize: "1200px auto",
-          backgroundPosition: "0 0",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-20 bg-no-repeat"
-        style={{
-          backgroundImage:
-            'url("/images/pattern/pola-besar.png"), url("/images/pattern/pola-besar.png")',
-          backgroundPosition: "left -190px bottom -230px, right -80px top 120px",
-          backgroundSize: "760px auto, 300px auto",
-        }}
-      />
+      {/* pola identitas RS: sebaran acak + ornamen pojok (ukuran diatur di globals.css) */}
+      <div aria-hidden="true" className="pola-latar pointer-events-none fixed inset-0 z-20" />
+      <div aria-hidden="true" className="pola-pojok pointer-events-none fixed inset-0 z-20" />
       <ChatAi />
     </>
   );

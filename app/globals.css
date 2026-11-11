@@ -122,3 +122,29 @@ body {
 @media (min-width: 1024px) {
   .carousel-item { width: 31.5%; }
 }
+
+/* ------------------------------------------------------------------
+   Pola latar identitas RS (motif mandala)
+   Ukuran motif mengikuti lebar layar: di ponsel ubinnya diperkecil
+   supaya motif tidak tampak raksasa.
+   ------------------------------------------------------------------ */
+.pola-latar {
+  background-image: url("/images/pattern/pola-acak.webp");
+  background-repeat: repeat;
+  background-size: 1100px auto;
+  background-position: 0 0;
+}
+.pola-pojok {
+  background-image: url("/images/pattern/pola-besar.png"), url("/images/pattern/pola-besar.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: left -190px bottom -230px, right -80px top 120px;
+  background-size: 760px auto, 300px auto;
+}
+
+@media (max-width: 640px) {
+  .pola-latar { background-size: 460px auto; }
+  .pola-pojok {
+    background-position: left -90px bottom -110px, right -40px top 90px;
+    background-size: 300px auto, 150px auto;
+  }
+}
