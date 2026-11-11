@@ -34,8 +34,8 @@ export default function SlideLatar({ foto }: { foto: string[] }) {
           }`}
         />
       ))}
-      {/* lapisan hijau: sama seperti warna lama, hanya lebih tembus pandang */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-900/85 via-brand-800/75 to-brand-700/65" />
+      {/* lapisan gradasi: putih di atas, hijau di bawah */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/30 to-brand-900/90" />
       <div
         className="pointer-events-none absolute inset-0 opacity-60"
         style={{
