@@ -97,14 +97,14 @@ export default async function HomePage() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{t(lang, "home.layanan.judul")}</h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {[
-                "UGD 24 Jam",
-                "Rawat Jalan Spesialis",
-                "Rawat Inap",
-                "Laboratorium",
-                "Radiologi",
-                "Unit Dialisis",
-                "Rehabilitasi Medik",
-                "Farmasi",
+                lang === "en" ? "24-Hour Emergency" : "UGD 24 Jam",
+                lang === "en" ? "Specialist Outpatient Care" : "Rawat Jalan Spesialis",
+                lang === "en" ? "Inpatient Care" : "Rawat Inap",
+                lang === "en" ? "Laboratory" : "Laboratorium",
+                lang === "en" ? "Radiology" : "Radiologi",
+                lang === "en" ? "Dialysis Unit" : "Unit Dialisis",
+                lang === "en" ? "Medical Rehabilitation" : "Rehabilitasi Medik",
+                lang === "en" ? "Pharmacy" : "Farmasi",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-ink">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 shrink-0 text-brand-700" aria-hidden="true">

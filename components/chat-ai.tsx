@@ -1,5 +1,7 @@
 "use client";
 
+import { KUKI_BAHASA } from "@/lib/i18n";
+
 import { useEffect, useRef, useState } from "react";
 
 type Pesan = { dari: "tamu" | "ai"; teks: string };
@@ -21,6 +23,11 @@ function idSesi() {
 
 /** Tombol mengambang kanan bawah + panel tanya jawab ke n8n. */
 export default function ChatAi() {
+  const [inggris, setInggris] = useState(false);
+
+  useEffect(() => {
+    setInggris(document.cookie.includes(`${KUKI_BAHASA}=en`));
+  }, []);
   const [buka, setBuka] = useState(false);
   const [isi, setIsi] = useState<Pesan[]>([SAPAAN]);
   const [tanya, setTanya] = useState("");
@@ -137,7 +144,7 @@ export default function ChatAi() {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-3.5-.6L3 21l1.7-4.3A8.2 8.2 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4Z" />
         </svg>
-        <span className="hidden sm:inline">Tanya AI</span>
+        <span className="hidden sm:inline">{inggris ? "Ask AI" : "Tanya AI"}</span>
       </button>
     </>
   );

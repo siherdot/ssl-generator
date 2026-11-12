@@ -1,6 +1,9 @@
 import { site } from "@/lib/site";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { t } from "@/lib/i18n";
 
-export default function Topbar() {
+export default async function Topbar() {
+  const lang = await bacaBahasa();
   return (
     <div className="bg-gradient-to-r from-brand-900 to-brand-700 text-white">
       <div className="flex w-full flex-col gap-1 px-4 py-2 text-xs sm:flex-row sm:items-center sm:justify-between sm:text-[13px] lg:px-8 2xl:px-12">
