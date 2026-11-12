@@ -473,34 +473,6 @@ export type Inbox = {
 
 export const inboxes: Inbox[] = [
   {
-    kunci: "pendaftaran",
-    label: "Pendaftaran Online",
-    tabel: "pendaftaran",
-    pk: "id",
-    urut: "id DESC",
-    kolom: [
-      { nama: "kode", label: "Kode" },
-      { nama: "nama_pasien", label: "Pasien" },
-      { nama: "id_poli", label: "Poli" },
-      { nama: "tanggal_kunjungan", label: "Kunjungan" },
-      { nama: "status", label: "Status" },
-    ],
-    detail: [
-      { nama: "kode", label: "Kode" },
-      { nama: "nama_pasien", label: "Nama pasien" },
-      { nama: "telepon", label: "Telepon" },
-      { nama: "tanggal_lahir", label: "Tanggal lahir" },
-      { nama: "id_poli", label: "Poliklinik" },
-      { nama: "id_dokter", label: "Dokter" },
-      { nama: "tanggal_kunjungan", label: "Tanggal kunjungan" },
-      { nama: "penjamin", label: "Penjamin" },
-      { nama: "no_penjamin", label: "Nomor penjamin" },
-      { nama: "keluhan", label: "Keluhan" },
-      { nama: "dibuat", label: "Dikirim" },
-      { nama: "ip", label: "IP" },
-    ],
-  },
-  {
     kunci: "lamaran",
     label: "Lamaran Kerja",
     tabel: "lamaran",

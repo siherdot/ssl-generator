@@ -364,46 +364,6 @@ export function getTestimoni(limit = 6) {
   );
 }
 
-export type PendaftaranBaru = {
-  nama_pasien: string;
-  telepon: string;
-  tanggal_lahir?: string;
-  id_poli: string;
-  id_dokter?: string;
-  tanggal_kunjungan: string;
-  penjamin: string;
-  no_penjamin?: string;
-  keluhan?: string;
-};
-
-/** Simpan pendaftaran, kembalikan kode unik untuk ditunjukkan ke pasien. */
-export async function simpanPendaftaran(data: PendaftaranBaru, ip: string) {
-  const acak = Math.random().toString(36).slice(2, 6).toUpperCase();
-  const kode = `RSUB-${data.tanggal_kunjungan.replace(/-/g, "").slice(2)}-${acak}`;
-
-  await getPool().execute(
-    `INSERT INTO pendaftaran
-       (kode, nama_pasien, telepon, tanggal_lahir, id_poli, id_dokter,
-        tanggal_kunjungan, penjamin, no_penjamin, keluhan, ip)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      kode,
-      data.nama_pasien,
-      data.telepon,
-      data.tanggal_lahir || null,
-      data.id_poli,
-      data.id_dokter || "",
-      data.tanggal_kunjungan,
-      data.penjamin,
-      data.no_penjamin || "",
-      data.keluhan || "",
-      ip,
-    ]
-  );
-
-  return kode;
-}
-
 /* ------------------------------------------------------------------
    Fase D: karier, lamaran, pesan kontak
    ------------------------------------------------------------------ */

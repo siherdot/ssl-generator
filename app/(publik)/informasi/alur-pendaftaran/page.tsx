@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const langkah = [
   {
     judul: "Datang ke rumah sakit",
-    isi: "Untuk kondisi darurat, langsung menuju IGD yang buka 24 jam. Untuk berobat terjadwal, datang ke bagian pendaftaran rawat jalan.",
+    isi: "Untuk kondisi darurat, langsung menuju IGD yang buka 24 jam. Untuk berobat terjadwal, peserta JKN mendaftar lebih dulu lewat aplikasi Mobile JKN, lalu datang ke bagian pendaftaran rawat jalan.",
   },
   {
     judul: "Daftar di loket",
@@ -82,13 +82,13 @@ export default function AlurPage() {
           <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
             <h2 className="text-sm font-semibold text-brand-900">Daftar dari rumah</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted">
-              Isi formulir pendaftaran online agar tidak perlu mengisi ulang di loket.
+              Daftar lewat aplikasi Mobile JKN agar nomor antrean langsung terbit.
             </p>
             <Link
               href="/daftar-online"
               className="mt-3 block rounded-lg bg-brand-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-brand-800"
             >
-              Pendaftaran online
+              Daftar via Mobile JKN
             </Link>
           </div>
 

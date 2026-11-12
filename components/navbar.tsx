@@ -145,7 +145,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
           href="/daftar-online"
           className="hidden shrink-0 whitespace-nowrap rounded-md bg-brand-700 px-3.5 py-2.5 text-[12.5px] font-semibold text-white transition-colors hover:bg-brand-800 lg:inline-flex"
         >
-          Pendaftaran Online
+          Daftar via JKN
         </Link>
 
         {/* tombol menu mobile */}
@@ -254,7 +254,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                 onClick={() => setOpen(false)}
                 className="block rounded-lg bg-brand-700 px-4 py-3 text-center text-sm font-semibold text-white"
               >
-                Pendaftaran Online
+                Daftar via JKN
               </Link>
             </li>
           </ul>

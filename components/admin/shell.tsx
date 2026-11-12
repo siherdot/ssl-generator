@@ -18,14 +18,12 @@ export default async function Shell({ children }: { children: React.ReactNode })
     return Number(r?.n ?? 0);
   };
 
-  const [pendaftaran, lamaran, survei] = await Promise.all([
-    badge("pendaftaran"),
+  const [lamaran, survei] = await Promise.all([
     badge("lamaran"),
     badge("survei").catch(() => 0),
   ]);
 
   const pesan = [
-    { href: "/admin/pesan/pendaftaran", label: "Pendaftaran", badge: pendaftaran },
     { href: "/admin/pesan/lamaran", label: "Lamaran kerja", badge: lamaran },
     { href: "/admin/pesan/survei", label: "Survei kepuasan", badge: survei },
   ];

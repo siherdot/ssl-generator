@@ -81,8 +81,8 @@ export const navigation: NavItem[] = [
 
 export const quickActions = [
   {
-    title: "Buat Janji",
-    description: "Daftar rawat jalan tanpa antre",
+    title: "Daftar Mobile JKN",
+    description: "Pendaftaran BPJS lewat aplikasi JKN",
     href: "/daftar-online",
     icon: "calendar",
   },

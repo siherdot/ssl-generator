@@ -69,7 +69,7 @@ export default function DoctorCard({ dokter }: { dokter: Dokter }) {
             Lihat Profil
           </Link>
           <Link
-            href={`/daftar-online?dokter=${encodeURIComponent(dokter.id_dokter)}`}
+            href="/daftar-online"
             className="rounded-lg bg-brand-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-800"
           >
             Daftar

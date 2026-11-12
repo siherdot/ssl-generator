@@ -78,7 +78,7 @@ export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
             href="/daftar-online"
             className="rounded-lg bg-sun px-5 py-2.5 font-semibold text-brand-900 transition-opacity hover:opacity-90"
           >
-            Buat Janji
+            Daftar via JKN
           </Link>
           <a
             href={`tel:${site.igd.replace(/[^0-9+]/g, "")}`}

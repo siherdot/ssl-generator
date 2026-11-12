@@ -73,7 +73,7 @@ export default async function RawatInapPage() {
                 href="/daftar-online"
                 className="rounded-lg border border-brand-900/20 px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-mist"
               >
-                Pendaftaran online
+                Daftar via Mobile JKN
               </Link>
             </div>
           </div>

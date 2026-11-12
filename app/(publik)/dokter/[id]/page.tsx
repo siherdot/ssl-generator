@@ -60,10 +60,10 @@ export default async function DokterDetail({ params }: { params: Params }) {
               />
             </div>
             <Link
-              href={`/daftar-online?dokter=${encodeURIComponent(dokter.id_dokter)}`}
+              href="/daftar-online"
               className="mt-4 block rounded-lg bg-brand-700 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-brand-800"
             >
-              Buat Janji dengan Dokter Ini
+              Daftar via Mobile JKN
             </Link>
           </div>
 

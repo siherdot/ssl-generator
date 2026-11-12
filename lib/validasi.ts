@@ -48,24 +48,3 @@ export const tanggalOpsional = z
     message: "Tanggal tidak valid",
   });
 
-/** Validasi data pendaftaran online. */
-export const pendaftaranSchema = z.object({
-  nama_pasien: z
-    .string()
-    .trim()
-    .min(3, "Nama pasien minimal 3 karakter")
-    .max(150, "Nama pasien terlalu panjang"),
-  telepon: teleponWajib,
-  tanggal_lahir: tanggalOpsional,
-  id_poli: z.string().trim().min(1, "Pilih poliklinik"),
-  id_dokter: z.string().trim().optional().default(""),
-  tanggal_kunjungan: z
-    .string()
-    .trim()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Tanggal kunjungan tidak valid"),
-  penjamin: z.string().trim().min(1, "Pilih penjamin"),
-  no_penjamin: z.string().trim().max(60).optional().default(""),
-  keluhan: z.string().trim().max(1000).optional().default(""),
-});
-
-export type PendaftaranInput = z.infer<typeof pendaftaranSchema>;
