@@ -11,6 +11,12 @@ export const EN: Record<string, string> = {
   "Kelas rawat inap apa saja yang tersedia?": "Which inpatient room classes are available?",
   "Kelas III, II, I, dan VIP, serta perawatan intensif ICU, NICU & Baby. Ketersediaan kamar berubah setiap hari — konfirmasi ke pendaftaran.": "Classes III, II, I, and VIP, plus ICU, NICU & Baby intensive care. Room availability changes daily — please confirm with our registration desk.",
 
+  "Pelayanan rawat inap RSU Putri Bidadari dengan pilihan kelas perawatan, didampingi dokter dan perawat selama menjalani perawatan.": "Inpatient care with a choice of room classes, attended by doctors and nurses throughout your stay.",
+  "Gambaran umum langkah berobat di RSU Putri Bidadari. Petugas di loket akan membantu bila ada perbedaan prosedur.": "An overview of the steps for treatment at RSU Putri Bidadari. Our staff at the counter will assist if procedures differ.",
+  "Pendaftaran rawat jalan di RSU Putri Bidadari dilakukan melalui aplikasi Mobile JKN milik BPJS Kesehatan. Situs ini tidak lagi menerima formulir pendaftaran sendiri.": "Outpatient registration at RSU Putri Bidadari is handled through BPJS Kesehatan's Mobile JKN app. This site no longer accepts its own registration form.",
+  "Di beranda aplikasi pilih Pendaftaran Pelayanan (Antrean Online), lalu cari RSU Putri Bidadari — Kabupaten Langkat.": "On the app home screen choose Pendaftaran Pelayanan (online queue), then search for RSU Putri Bidadari — Langkat Regency.",
+  "Profil RSU Putri Bidadari": "RSU Putri Bidadari Profile",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",

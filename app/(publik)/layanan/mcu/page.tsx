@@ -36,12 +36,12 @@ export default async function McuPage() {
         <div>
           <h2 className="text-lg font-semibold text-brand-900">Alur pemeriksaan</h2>
           <ol className="mt-3 space-y-3">
-            {alur.map((t, i) => (
-              <li key={t} className="flex gap-3 rounded-lg border border-line bg-white p-3 text-sm text-ink">
+            {alur.map((a, i) => (
+              <li key={tx(lang, a)} className="flex gap-3 rounded-lg border border-line bg-white p-3 text-sm text-ink">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-700 text-xs font-bold text-white">
                   {i + 1}
                 </span>
-                {t}
+                {tx(lang, a)}
               </li>
             ))}
           </ol>
