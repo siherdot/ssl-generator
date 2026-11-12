@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
-import { tx } from "@/lib/teks-en";
+import { dua, tx } from "@/lib/teks-en";
 import { getPoliList, gambar } from "@/lib/data";
 import Image from "next/image";
 
@@ -53,14 +53,14 @@ export default async function PoliklinikPage() {
                   <div className="absolute inset-0 bg-brand-900/10" aria-hidden />
                   <Image
                     src={gambar(p.images)}
-                    alt={p.nama_poli}
+                    alt={dua(lang, p.nama_poli, p.nama_poli_en)}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="z-10 object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-4">
-                  <span className="text-sm font-semibold leading-snug text-brand-900">{p.nama_poli}</span>
+                  <span className="text-sm font-semibold leading-snug text-brand-900">{dua(lang, p.nama_poli, p.nama_poli_en)}</span>
                   <span className="mt-1 block text-xs text-muted">
                     {Number(p.jumlah_dokter ?? 0)} dokter · lihat jadwal
                   </span>

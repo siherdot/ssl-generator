@@ -228,3 +228,8 @@ export const EN: Record<string, string> = {
 export function tx(lang: "id" | "en", teks: string): string {
   return lang === "en" ? (EN[teks] ?? teks) : teks;
 }
+
+/** Pilih teks: versi Inggris bila tersedia dan tidak kosong, selain itu Indonesia. */
+export function dua(lang: "id" | "en", id: string | null | undefined, en: string | null | undefined): string {
+  return (lang === "en" && (en ?? "").trim() !== "" ? en : id) ?? "";
+}

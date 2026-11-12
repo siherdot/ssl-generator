@@ -22,9 +22,14 @@ export type Company = {
   link_youtube_profile: string;
   visi: string;
   misi: string;
+  company_description_en?: string;
+  visi_en?: string;
+  misi_en?: string;
 };
 
 export type Poli = {
+  ket_en?: string;
+  nama_poli_en?: string;
   id_poli: string;
   nama_poli: string;
   ket: string;
@@ -55,6 +60,8 @@ export type Jadwal = {
 };
 
 export type Facility = {
+  facility_name_en?: string;
+  facility_description_en?: string;
   id_facility: string;
   facility_name: string;
   facility_description: string;
@@ -70,6 +77,8 @@ export type HospitalUnit = {
 };
 
 export type News = {
+  title_en?: string;
+  content_en?: string;
   news_id: string;
   title: string;
   content: string;
@@ -255,7 +264,7 @@ export function getHospitalList() {
 export function getNewsList(limit?: number) {
   // PostgreSQL tidak mengenal literal '0000-00-00 00:00:00'; tanggal nol
   // disimpan sebagai NULL, jadi urutannya memakai IS NULL.
-  const sql = `SELECT news_id, title, content, create_date, news_images
+  const sql = `SELECT news_id, title, title_en, content, content_en, create_date, news_images
                  FROM news
                 ORDER BY (create_date IS NULL), create_date DESC, news_id DESC
                 ${limit ? "LIMIT ?" : ""}`;

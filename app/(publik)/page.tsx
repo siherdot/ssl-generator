@@ -22,7 +22,7 @@ import {
 import { urlGambar } from "@/lib/gambar";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { t } from "@/lib/i18n";
-import { tx } from "@/lib/teks-en";
+import { dua, tx } from "@/lib/teks-en";
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.
@@ -171,7 +171,7 @@ export default async function HomePage() {
                 <InfoCard
                   title={p.nama_poli}
                   description={`${Number(p.jumlah_dokter ?? 0)} ${t(lang, "home.poli.dokter")} · ${
-                    p.ket ? p.ket.replace(/<[^>]+>/g, "").trim() : t(lang, "home.poli.rawatJalan")
+                    dua(lang, p.ket ? p.ket.replace(/<[^>]+>/g, "").trim() : t(lang, "home.poli.rawatJalan"), p.ket_en)
                   }`}
                   image={gambar(p.images)}
                   href={`/dokter?poli=${encodeURIComponent(p.id_poli)}`}

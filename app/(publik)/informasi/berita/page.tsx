@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
-import { tx } from "@/lib/teks-en";
+import { dua, tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getNewsList, gambar, tanggalRapi } from "@/lib/data";
 
@@ -98,9 +98,9 @@ export default async function BeritaPage({
                 {lain.map((n) => (
                   <InfoCard
                     key={n.news_id}
-                    title={tx(lang, n.title)}
+                    title={dua(lang, n.title, n.title_en)}
                     description={`${tanggalRapi(n.create_date) ?? ""} ${
-                      n.content?.replace(/<[^>]+>/g, " ").slice(0, 140) ?? ""
+                      dua(lang, n.content?.replace(/<[^>]+>/g, " "), n.content_en?.replace(/<[^>]+>/g, " "))?.slice(0, 140) ?? ""
                     }`.trim()}
                     image={gambar(n.news_images)}
                     href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
-import { tx } from "@/lib/teks-en";
+import { dua, tx } from "@/lib/teks-en";
 import { getCompany, bersihkanHtml } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default async function TentangPage() {
           <article>
             <h2 className="text-lg font-semibold text-brand-900">Sekilas Rumah Sakit</h2>
             <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted lg:text-base">
-              {company?.company_description?.trim()}
+              {dua(lang, company?.company_description?.trim(), company?.company_description_en?.trim())}
             </p>
 
             <h2 id="visi-misi" className="mt-10 scroll-mt-24 text-lg font-semibold text-brand-900">
@@ -44,14 +44,14 @@ export default async function TentangPage() {
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-800">Visi</h3>
                 <div
                   className="mt-2 text-sm leading-relaxed text-ink [&_p]:mb-2"
-                  dangerouslySetInnerHTML={{ __html: bersihkanHtml(company?.visi ?? "") }}
+                  dangerouslySetInnerHTML={{ __html: bersihkanHtml(dua(lang, company?.visi, company?.visi_en)) }}
                 />
               </div>
               <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-800">Misi</h3>
                 <div
                   className="mt-2 text-sm leading-relaxed text-ink [&_br]:hidden [&_p]:mb-2"
-                  dangerouslySetInnerHTML={{ __html: bersihkanHtml(company?.misi ?? "") }}
+                  dangerouslySetInnerHTML={{ __html: bersihkanHtml(dua(lang, company?.misi, company?.misi_en)) }}
                 />
               </div>
             </div>

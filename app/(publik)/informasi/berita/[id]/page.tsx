@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
+import { dua } from "@/lib/teks-en";
 import { bersihkanHtml, gambar, getNews, tanggalRapi } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -28,13 +29,13 @@ export default async function DetailBerita({ params }: { params: Params }) {
   if (!berita) notFound();
 
   const tanggal = tanggalRapi(berita.create_date);
-  const isi = bersihkanHtml(berita.content ?? "");
+  const isi = bersihkanHtml(dua(lang, berita.content, berita.content_en));
 
   return (
     <>
       <PageHeader
         eyebrow="Pusat Informasi"
-        title={berita.title}
+        title={dua(lang, berita.title, berita.title_en)}
         description={tanggal ? (lang === "en" ? `Published ${tanggal}` : `Dipublikasikan ${tanggal}`) : undefined}
         crumbs={[
           { label: "Pusat Informasi", href: "/informasi" },
@@ -49,7 +50,7 @@ export default async function DetailBerita({ params }: { params: Params }) {
             <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-[var(--radius-card)] border border-line bg-mist">
               <Image
                 src={gambar(berita.news_images)}
-                alt={berita.title}
+                alt={dua(lang, berita.title, berita.title_en)}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
                 className="object-cover"
