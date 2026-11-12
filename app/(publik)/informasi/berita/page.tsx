@@ -98,7 +98,7 @@ export default async function BeritaPage({
                 {lain.map((n) => (
                   <InfoCard
                     key={n.news_id}
-                    title={n.title}
+                    title={tx(lang, n.title)}
                     description={`${tanggalRapi(n.create_date) ?? ""} ${
                       n.content?.replace(/<[^>]+>/g, " ").slice(0, 140) ?? ""
                     }`.trim()}

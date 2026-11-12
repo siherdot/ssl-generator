@@ -22,6 +22,7 @@ import {
 import { urlGambar } from "@/lib/gambar";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { t } from "@/lib/i18n";
+import { tx } from "@/lib/teks-en";
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.
@@ -146,10 +147,10 @@ export default async function HomePage() {
       <section className="container-page py-12" aria-label="Ringkasan layanan">
         <ul className="grid grid-cols-2 gap-4 rounded-[var(--radius-card)] border border-line bg-mist p-6 lg:grid-cols-4">
           {stats.map((s) => (
-            <li key={s.label} className="text-center">
+            <li key={tx(lang, s.label)} className="text-center">
               <p className="text-3xl font-bold text-brand-900 lg:text-4xl">{s.value}</p>
               <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted lg:text-sm">
-                {s.label}
+                {tx(lang, s.label)}
               </p>
             </li>
           ))}
@@ -216,7 +217,7 @@ export default async function HomePage() {
             {berita.map((n) => (
               <div key={n.news_id} className="carousel-item">
                 <InfoCard
-                  title={n.title}
+                  title={tx(lang, n.title)}
                   description={tanggalRapi(n.create_date) ?? undefined}
                   image={gambar(n.news_images)}
                   href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}
@@ -243,7 +244,7 @@ export default async function HomePage() {
                 {promo.map((p) => (
                   <div key={p.id} className="carousel-item">
                     <InfoCard
-                      title={p.judul}
+                      title={tx(lang, p.judul)}
                       description={p.deskripsi?.replace(/<[^>]+>/g, "").slice(0, 160)}
                       image={gambar(p.gambar)}
                       href={p.link || undefined}
@@ -269,7 +270,7 @@ export default async function HomePage() {
               {testimoni.map((t) => (
                 <div key={t.id} className="carousel-item">
                   <figure className="flex h-full flex-col rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-                    <blockquote className="text-sm italic leading-relaxed text-ink">“{t.isi}”</blockquote>
+                    <blockquote className="text-sm italic leading-relaxed text-ink">“{tx(lang, t.isi)}”</blockquote>
                     <figcaption className="mt-auto pt-4">
                       <p className="text-xs font-semibold uppercase tracking-wide text-brand-900">{t.nama}</p>
                       <p className="text-[11px] text-muted">

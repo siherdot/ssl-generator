@@ -93,7 +93,7 @@ export default async function InformasiPage() {
                 <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-brand-800">
                   {g.nama}
                 </h2>
-                <p className="text-xs text-muted">{g.ket}</p>
+                <p className="text-xs text-muted">{tx(lang, g.ket)}</p>
               </div>
 
               <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
@@ -104,8 +104,8 @@ export default async function InformasiPage() {
                       className="card-hover flex h-full flex-col justify-between rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]"
                     >
                       <span>
-                        <span className="block text-sm font-semibold text-brand-900">{k.title}</span>
-                        <span className="mt-1 block text-xs leading-relaxed text-muted">{k.desc}</span>
+                        <span className="block text-sm font-semibold text-brand-900">{tx(lang, k.title)}</span>
+                        <span className="mt-1 block text-xs leading-relaxed text-muted">{tx(lang, k.desc)}</span>
                       </span>
                       <span className="mt-4 text-xs font-semibold text-brand-800">Buka →</span>
                     </Link>
@@ -124,7 +124,7 @@ export default async function InformasiPage() {
                 href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}
                 className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-mist"
               >
-                <span className="text-sm font-medium text-ink">{n.title}</span>
+                <span className="text-sm font-medium text-ink">{tx(lang, n.title)}</span>
                 <span className="shrink-0 text-xs text-muted">{tanggalRapi(n.create_date) ?? ""}</span>
               </Link>
             </li>

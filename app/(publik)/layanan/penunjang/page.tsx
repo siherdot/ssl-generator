@@ -47,8 +47,8 @@ export default async function PenunjangPage() {
           const item = k.kunci.map(cari).filter((f): f is NonNullable<typeof f> => Boolean(f));
           if (item.length === 0) return null;
           return (
-            <div key={k.judul}>
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{k.judul}</h2>
+            <div key={tx(lang, k.judul)}>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{tx(lang, k.judul)}</h2>
               <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {item.map((f) => (
                   <InfoCard

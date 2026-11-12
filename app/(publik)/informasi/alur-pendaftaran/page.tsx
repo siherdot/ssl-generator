@@ -54,14 +54,14 @@ export default async function AlurPage() {
       <section className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_320px]">
         <ol className="space-y-3">
           {langkah.map((l, i) => (
-            <li key={l.judul} className="rounded-[var(--radius-card)] border border-line bg-white p-4 shadow-[var(--shadow-card)]">
+            <li key={tx(lang, l.judul)} className="rounded-[var(--radius-card)] border border-line bg-white p-4 shadow-[var(--shadow-card)]">
               <div className="flex gap-3">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-700 text-xs font-bold text-white">
                   {i + 1}
                 </span>
                 <div>
-                  <h2 className="text-sm font-semibold text-brand-900">{l.judul}</h2>
-                  <p className="mt-1 text-sm leading-relaxed text-muted">{l.isi}</p>
+                  <h2 className="text-sm font-semibold text-brand-900">{tx(lang, l.judul)}</h2>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{tx(lang, l.isi)}</p>
                 </div>
               </div>
             </li>
@@ -71,9 +71,7 @@ export default async function AlurPage() {
         <aside className="space-y-4">
           <div className="rounded-[var(--radius-card)] border border-red-200 bg-red-50 p-5">
             <h2 className="text-sm font-semibold text-red-700">{tx(lang, "Kondisi darurat")}</h2>
-            <p className="mt-1 text-xs leading-relaxed text-red-700/80">
-              Jangan menunggu jadwal. Datang langsung ke IGD atau hubungi nomor IGD.
-            </p>
+            <p className="mt-1 text-xs leading-relaxed text-red-700/80">{tx(lang, "Jangan menunggu jadwal. Datang langsung ke IGD atau hubungi nomor IGD.")}</p>
             <a
               href="tel:(061)8830003"
               className="mt-3 block rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-red-700"
@@ -84,9 +82,7 @@ export default async function AlurPage() {
 
           <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
             <h2 className="text-sm font-semibold text-brand-900">{tx(lang, "Daftar dari rumah")}</h2>
-            <p className="mt-1 text-xs leading-relaxed text-muted">
-              Daftar lewat aplikasi Mobile JKN agar nomor antrean langsung terbit.
-            </p>
+            <p className="mt-1 text-xs leading-relaxed text-muted">{tx(lang, "Daftar lewat aplikasi Mobile JKN agar nomor antrean langsung terbit.")}</p>
             <Link
               href="/daftar-online"
               className="mt-3 block rounded-lg bg-brand-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-brand-800"

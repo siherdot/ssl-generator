@@ -125,10 +125,7 @@ export default async function AsuransiPage() {
                   penjamin — konfirmasi ke call center penjamin sebelum datang.
                 </li>
               </ol>
-              <p className="mt-3 text-xs">
-                Daftar dapat berubah sewaktu-waktu. Bila penjamin Anda tidak tercantum,
-                hubungi pendaftaran di (061) 8830003.
-              </p>
+              <p className="mt-3 text-xs">{tx(lang, "Daftar dapat berubah sewaktu-waktu. Bila penjamin Anda tidak tercantum, hubungi pendaftaran di (061) 8830003.")}</p>
             </div>
           </div>
         )}

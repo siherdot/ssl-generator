@@ -51,28 +51,20 @@ export default async function DaftarOnlinePage() {
           <div className="space-y-4">
             <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Unduh Mobile JKN")}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                Hampir seluruh pasien kami adalah peserta JKN-KIS, sehingga pendaftaran berobat diarahkan ke
-                aplikasi resmi BPJS Kesehatan agar nomor antrean langsung terbit dan tidak perlu mengisi ulang
-                di loket.
-              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{tx(lang, "Hampir seluruh pasien kami adalah peserta JKN-KIS, sehingga pendaftaran berobat diarahkan ke aplikasi resmi BPJS Kesehatan agar nomor antrean langsung terbit dan tidak perlu mengisi ulang di loket.")}</p>
               <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                 <a
                   href={PLAY}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-800 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-900"
-                >
-                  Unduh di Google Play
-                </a>
+                >{tx(lang, "Unduh di Google Play")}</a>
                 <a
                   href={APPLE}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-5 py-3 text-sm font-semibold text-brand-900 hover:bg-mist"
-                >
-                  Unduh di App Store
-                </a>
+                >{tx(lang, "Unduh di App Store")}</a>
               </div>
             </div>
 
@@ -80,13 +72,13 @@ export default async function DaftarOnlinePage() {
               <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Langkah pendaftaran")}</h2>
               <ol className="mt-3 space-y-3">
                 {langkah.map((l, i) => (
-                  <li key={l.judul} className="flex gap-3">
+                  <li key={tx(lang, l.judul)} className="flex gap-3">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-700 text-[11px] font-bold text-white">
                       {i + 1}
                     </span>
                     <div>
-                      <h3 className="text-sm font-semibold text-brand-900">{l.judul}</h3>
-                      <p className="mt-0.5 text-sm leading-relaxed text-muted">{l.isi}</p>
+                      <h3 className="text-sm font-semibold text-brand-900">{tx(lang, l.judul)}</h3>
+                      <p className="mt-0.5 text-sm leading-relaxed text-muted">{tx(lang, l.isi)}</p>
                     </div>
                   </li>
                 ))}
@@ -106,9 +98,7 @@ export default async function DaftarOnlinePage() {
           <aside className="space-y-4">
             <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Butuh bantuan?")}</h2>
-              <p className="mt-2 text-xs leading-relaxed text-muted">
-                Petugas pendaftaran membantu pada jam kerja. Untuk kondisi darurat, langsung ke IGD 24 jam.
-              </p>
+              <p className="mt-2 text-xs leading-relaxed text-muted">{tx(lang, "Petugas pendaftaran membantu pada jam kerja. Untuk kondisi darurat, langsung ke IGD 24 jam.")}</p>
               <a
                 href="tel:(061)8830003"
                 className="mt-3 block rounded-lg bg-brand-800 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-900"
@@ -120,16 +110,12 @@ export default async function DaftarOnlinePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 block rounded-lg border border-line px-4 py-2.5 text-center text-sm font-semibold text-brand-900 hover:bg-white"
-              >
-                WhatsApp pendaftaran
-              </a>
+              >{tx(lang, "WhatsApp pendaftaran")}</a>
             </div>
 
             <div className="rounded-[var(--radius-card)] border border-red-200 bg-red-50 p-5">
               <h2 className="text-sm font-semibold text-red-700">{tx(lang, "IGD 24 jam")}</h2>
-              <p className="mt-1 text-xs leading-relaxed text-red-700/80">
-                Kondisi darurat tidak perlu memakai antrean online — datang langsung atau telepon.
-              </p>
+              <p className="mt-1 text-xs leading-relaxed text-red-700/80">{tx(lang, "Kondisi darurat tidak perlu memakai antrean online — datang langsung atau telepon.")}</p>
               <a
                 href="tel:085359267962"
                 className="mt-3 block rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-red-700"

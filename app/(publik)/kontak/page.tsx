@@ -100,9 +100,7 @@ export default async function KontakPage() {
 
           <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
             <h2 className="text-sm font-semibold text-brand-900">Ingin berobat?</h2>
-            <p className="mt-1 text-xs leading-relaxed text-muted">
-              Pendaftaran rawat jalan lewat aplikasi Mobile JKN BPJS Kesehatan.
-            </p>
+            <p className="mt-1 text-xs leading-relaxed text-muted">{tx(lang, "Pendaftaran rawat jalan lewat aplikasi Mobile JKN BPJS Kesehatan.")}</p>
             <Link
               href="/daftar-online"
               className="mt-3 block rounded-lg bg-brand-700 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-800"
