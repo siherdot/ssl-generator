@@ -72,7 +72,7 @@ export default async function AsuransiPage() {
                 <div key={kat}>
                   <div className="flex items-baseline justify-between gap-3 border-b border-line pb-2">
                     <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">
-                      {kat}
+                      {lang === "en" ? (kat === "Asuransi" ? "Insurance" : kat === "Korporat" ? "Corporate" : kat === "TPA" ? "TPA" : kat) : kat}
                     </h2>
                     <span className="text-xs text-muted">{isi.length} {lang === "en" ? "insurers" : "penjamin"}</span>
                   </div>

@@ -114,7 +114,7 @@ export default async function BeritaPage({
 
             <div className="flex flex-col items-center gap-2 pt-2">
               <p className="text-xs text-muted">
-                Menampilkan {lain.length + 1} dari {berita.length} berita
+                {lang === "en" ? `Showing ${lain.length + 1} of ${berita.length} news items` : `Menampilkan ${lain.length + 1} dari ${berita.length} berita`}
               </p>
               {adaLagi ? (
                 <Link

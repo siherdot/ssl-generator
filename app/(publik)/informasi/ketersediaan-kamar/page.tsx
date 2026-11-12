@@ -45,8 +45,11 @@ export default async function KetersediaanPage() {
 
   // Rekap per kelas, urutan mengikuti papan display SIMRS.
   const URUTAN_KELAS = ["VIP", "I", "II", "III", "NICU", "PICU", "ICU", "HCU", "Isolasi"];
+  const terjemahWaktu = (t: string) =>
+    t === "baru saja" ? "just now" : t.replace(/^([0-9]+) jam lalu$/, "$1 hours ago").replace(/^([0-9]+) menit lalu$/, "$1 minutes ago").replace(/^([0-9]+) hari lalu$/, "$1 days ago");
+
   const labelKelas = (kelas: string) =>
-    /^[IVX]+$/i.test(kelas) ? `Kelas ${kelas.toUpperCase()}` : kelas;
+    /^[IVX]+$/i.test(kelas) ? `${lang === "en" ? "Class" : "Kelas"} ${kelas.toUpperCase()}` : kelas;
 
   const rekap = new Map<string, { kapasitas: number; terisi: number }>();
   for (const k of kasur) {
@@ -134,7 +137,7 @@ export default async function KetersediaanPage() {
                     : "bg-mist text-muted"
                 }`}
               >
-                {lang === "en" ? `Updated ${infoWaktu.teks}.` : `Data diperbarui ${infoWaktu.teks}.`}
+                {lang === "en" ? `Updated ${terjemahWaktu(infoWaktu.teks)}.` : `Data diperbarui ${infoWaktu.teks}.`}
                 {infoWaktu.basi && (lang === "en" ? " Figures may have changed — please confirm with our registration desk." : " Angka mungkin sudah berubah — konfirmasi ke pendaftaran.")}
               </p>
             )}
@@ -144,7 +147,7 @@ export default async function KetersediaanPage() {
               <table className="w-full">
                 <thead className="bg-mist text-[11px] uppercase tracking-wide text-muted">
                   <tr>
-                    <th className="px-4 py-3 text-left">Nama kamar</th>
+                    <th className="px-4 py-3 text-left">{lang === "en" ? "Room name" : "Nama kamar"}</th>
                     <th className="px-4 py-3 text-center">Kapasitas</th>
                     <th className="px-4 py-3 text-center">{tx(lang, "Terisi")}</th>
                     <th className="px-4 py-3 text-center">{tx(lang, "Kosong")}</th>
