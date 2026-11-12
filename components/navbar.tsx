@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navigation, site } from "@/lib/site";
 import { navLabel, t, type Lang } from "@/lib/i18n";
+import { tx } from "@/lib/teks-en";
 import PemilihBahasa from "@/components/pemilih-bahasa";
 
 export default function Navbar({
@@ -101,7 +102,7 @@ export default function Navbar({
                               {luar && <span className="ml-1 text-[10px] text-muted">↗</span>}
                             </span>
                             {child.description && (
-                              <span className="block text-[11px] text-muted">{t(lang, child.description)}</span>
+                              <span className="block text-[11px] text-muted">{tx(lang, child.description)}</span>
                             )}
                           </>
                         );
