@@ -135,8 +135,8 @@ export default async function KetersediaanPage() {
                     : "bg-mist text-muted"
                 }`}
               >
-                Data diperbarui {infoWaktu.teks}.
-                {infoWaktu.basi && " Angka mungkin sudah berubah — konfirmasi ke pendaftaran."}
+                {lang === "en" ? `Updated ${infoWaktu.teks}.` : `Data diperbarui ${infoWaktu.teks}.`}
+                {infoWaktu.basi && (lang === "en" ? " Figures may have changed — please confirm with our registration desk." : " Angka mungkin sudah berubah — konfirmasi ke pendaftaran.")}
               </p>
             )}
 

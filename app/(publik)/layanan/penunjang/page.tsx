@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
+import { site } from "@/lib/site";
 import { dua, tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getFacilityList, gambar } from "@/lib/data";
@@ -53,7 +54,7 @@ export default async function PenunjangPage() {
                 {item.map((f) => (
                   <InfoCard
                     key={f.id_facility + f.facility_name}
-                    title={f.facility_name}
+                    title={dua(lang, f.facility_name, f.facility_name_en)}
                     description={dua(lang, f.facility_description?.replace(/<[^>]+>/g, "").trim(), f.facility_description_en?.replace(/<[^>]+>/g, "").trim())}
                     image={gambar(f.facility_image)}
                   />
@@ -68,7 +69,7 @@ export default async function PenunjangPage() {
           <Link href="/fasilitas" className="font-semibold text-brand-800 underline">
             {lang === "en" ? "the facilities page" : "halaman fasilitas"}
           </Link>
-          . Ketersediaan alat dan jam operasional unit dapat berubah — konfirmasi ke (061) 8830003.
+          . {lang === "en" ? `Equipment availability and unit operating hours may change — please confirm with ${site.phone}.` : `Ketersediaan alat dan jam operasional unit dapat berubah — konfirmasi ke ${site.phone}.`}
         </p>
       </section>
     </>

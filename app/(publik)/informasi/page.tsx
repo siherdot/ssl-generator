@@ -91,7 +91,7 @@ export default async function InformasiPage() {
             <div key={g.nama}>
               <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-2">
                 <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-brand-800">
-                  {g.nama}
+                  {tx(lang, g.nama)}
                 </h2>
                 <p className="text-xs text-muted">{tx(lang, g.ket)}</p>
               </div>

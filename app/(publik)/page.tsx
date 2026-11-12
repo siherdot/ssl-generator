@@ -217,7 +217,7 @@ export default async function HomePage() {
             {berita.map((n) => (
               <div key={n.news_id} className="carousel-item">
                 <InfoCard
-                  title={tx(lang, n.title)}
+                  title={dua(lang, n.title, n.title_en)}
                   description={tanggalRapi(n.create_date) ?? undefined}
                   image={gambar(n.news_images)}
                   href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}

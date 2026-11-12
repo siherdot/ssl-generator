@@ -46,6 +46,21 @@ export const EN: Record<string, string> = {
   "dengan subjek": "with the subject",
   "Terbaru": "Latest",
 
+  "Alur Pendaftaran": "Registration Flow",
+  "Langkah berobat dari datang sampai pulang.": "Steps from arrival to discharge.",
+  "Jawaban singkat untuk pertanyaan yang sering muncul.": "Short answers to common questions.",
+  "Jadwal Dokter": "Doctor Schedules",
+  "Untuk Profesional": "For Professionals",
+  "Peluang bergabung sebagai tenaga medis atau non-medis.": "Opportunities to join as medical or non-medical staff.",
+  "Untuk Umum": "For the Public",
+  "Kabar rumah sakit, profil, dan kontak.": "Hospital news, profile, and contact details.",
+  "Kabar terbaru rumah sakit.": "The latest hospital news.",
+  "Sejarah, visi, misi, dan struktur layanan.": "History, vision, mission, and service structure.",
+  "Jaringan Bidadari Group di Sumatera Utara dan Aceh.": "The Bidadari Group network in North Sumatra and Aceh.",
+  "Kontak": "Contact",
+  "Alamat, telepon, WhatsApp, dan formulir pesan.": "Address, phone, WhatsApp, and message form.",
+  "Untuk Pasien": "For Patients",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",
