@@ -106,10 +106,10 @@ export default async function DaftarOnlinePage() {
               <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Butuh bantuan?")}</h2>
               <p className="mt-2 text-xs leading-relaxed text-muted">{tx(lang, "Petugas pendaftaran membantu pada jam kerja. Untuk kondisi darurat, langsung ke IGD 24 jam.")}</p>
               <a
-                href="tel:(061)8830003"
+                href={`tel:${site.phone.replace(/[^0-9+]/g, "")}`}
                 className="mt-3 block rounded-lg bg-brand-800 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-900"
               >
-                (061) 8830003
+                {site.phone}
               </a>
               <a
                 href="https://wa.me/6281269378222"

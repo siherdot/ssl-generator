@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Image from "next/image";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
@@ -121,7 +122,7 @@ export default async function AsuransiPage() {
                 <li>{tx(lang, "Bawa kartu asuransi dan identitas saat mendaftar.")}</li>
                 <li>{tx(lang, "Untuk kasus tertentu mungkin diperlukan surat jaminan atau rujukan dari kantor penjamin — konfirmasi ke call center penjamin sebelum datang.")}</li>
               </ol>
-              <p className="mt-3 text-xs">{tx(lang, "Daftar dapat berubah sewaktu-waktu. Bila penjamin Anda tidak tercantum, hubungi pendaftaran di (061) 8830003.")}</p>
+              <p className="mt-3 text-xs">{lang === "en" ? `The list may change at any time. If your insurer is not listed, contact our registration desk at ${site.phone}.` : `Daftar dapat berubah sewaktu-waktu. Bila penjamin Anda tidak tercantum, hubungi pendaftaran di ${site.phone}.`}</p>
             </div>
           </div>
         )}

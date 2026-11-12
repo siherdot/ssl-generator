@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
@@ -72,10 +73,10 @@ export default async function AlurPage() {
             <h2 className="text-sm font-semibold text-red-700">{tx(lang, "Kondisi darurat")}</h2>
             <p className="mt-1 text-xs leading-relaxed text-red-700/80">{tx(lang, "Jangan menunggu jadwal. Datang langsung ke IGD atau hubungi nomor IGD.")}</p>
             <a
-              href="tel:(061)8830003"
+              href={`tel:${site.phone.replace(/[^0-9+]/g, "")}`}
               className="mt-3 block rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-red-700"
             >
-              (061) 8830003
+              {site.phone}
             </a>
           </div>
 

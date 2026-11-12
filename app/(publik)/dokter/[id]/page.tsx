@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { site } from "@/lib/site";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function DokterDetail({ params }: { params: Params }) {
+  const lang = await bacaBahasa();
   const { id } = await params;
   const dokter = await getDokter(decodeURIComponent(id));
   if (!dokter) notFound();
@@ -71,7 +74,7 @@ export default async function DokterDetail({ params }: { params: Params }) {
             <h2 className="text-lg font-semibold text-brand-900">Jadwal Praktik</h2>
             {jadwal.length === 0 ? (
               <p className="mt-2 text-sm text-muted">
-                Jadwal belum tercatat. Silakan hubungi pendaftaran di (061) 8830003.
+                {lang === "en" ? `No schedule recorded yet. Please contact our registration desk at ${site.phone}.` : `Jadwal belum tercatat. Silakan hubungi pendaftaran di ${site.phone}.`}
               </p>
             ) : (
               <div className="mt-3 overflow-hidden rounded-[var(--radius-card)] border border-line">

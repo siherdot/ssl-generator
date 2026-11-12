@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
@@ -50,10 +51,10 @@ export default async function McuPage() {
             <p className="mt-1 text-muted">{tx(lang, "Paket dan tarif MCU belum ditampilkan di situs ini. Silakan hubungi pendaftaran untuk daftar paket terbaru, atau kirim pertanyaan lewat formulir kontak.")}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <a
-                href="tel:(061)8830003"
+                href={`tel:${site.phone.replace(/[^0-9+]/g, "")}`}
                 className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800"
               >
-                (061) 8830003
+                {site.phone}
               </a>
               <Link
                 href="/kontak"
