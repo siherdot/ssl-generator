@@ -50,7 +50,7 @@ export default function Hero({ fotoLatar = [], lang = "id" }: { fotoLatar?: stri
         <form action="/dokter" className="mt-8 max-w-3xl">
           <div className="flex flex-col gap-2 rounded-2xl bg-white p-2 shadow-lg sm:flex-row sm:items-center">
             <label htmlFor="q" className="sr-only">
-              Cari dokter atau layanan
+              {t(lang, "umum.cariDokterAtauLayanan")}
             </label>
             <div className="flex flex-1 items-center gap-2 px-3">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted" aria-hidden="true">

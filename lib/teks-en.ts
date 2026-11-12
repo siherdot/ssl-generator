@@ -1,5 +1,16 @@
 /** Terjemahan teks halaman (ID → EN). Dipakai lewat tx(lang, "teks Indonesia"). */
 export const EN: Record<string, string> = {
+  "Pendaftaran MCU": "MCU registration",
+  "Daftar paket dan harga": "Package list and pricing",
+  "Paket dan tarif MCU belum ditampilkan di situs ini. Silakan hubungi pendaftaran untuk daftar paket terbaru, atau kirim pertanyaan lewat formulir kontak.": "MCU packages and prices are not listed on this site yet. Please contact our registration desk for the latest packages, or send an enquiry through the contact form.",
+  "Angka bersifat informasi umum dan dapat berubah sewaktu-waktu. Ketersediaan kamar untuk pasien baru tetap ditentukan oleh petugas pendaftaran. Untuk kondisi darurat, langsung menuju IGD 24 jam.": "Figures are for general information and may change at any time. Room availability for new patients is confirmed by our registration staff. For emergencies, go directly to the 24-hour emergency department.",
+  "Pastikan polis/kartu peserta masih aktif.": "Make sure your policy or member card is still active.",
+  "Bawa kartu asuransi dan identitas saat mendaftar.": "Bring your insurance card and identity document when registering.",
+  "Untuk kasus tertentu mungkin diperlukan surat jaminan atau rujukan dari kantor penjamin — konfirmasi ke call center penjamin sebelum datang.": "Some cases may require a guarantee letter or referral from your insurer — confirm with your insurer's call centre before arriving.",
+  "Kami tetap menerima lamaran untuk posisi tenaga medis, keperawatan, penunjang medis, dan administrasi. Kirim data Anda lewat formulir di samping — akan kami simpan sebagai bank kandidat.": "We still accept applications for medical, nursing, allied health, and administrative positions. Submit your details using the form beside this text — we keep them in our candidate pool.",
+  "Kelas rawat inap apa saja yang tersedia?": "Which inpatient room classes are available?",
+  "Kelas III, II, I, dan VIP, serta perawatan intensif ICU, NICU & Baby. Ketersediaan kamar berubah setiap hari — konfirmasi ke pendaftaran.": "Classes III, II, I, and VIP, plus ICU, NICU & Baby intensive care. Room availability changes daily — please confirm with our registration desk.",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",
@@ -140,7 +151,6 @@ export const EN: Record<string, string> = {
   "Pertanyaan Umum (FAQ)": "Frequently Asked Questions",
   "Jawaban singkat untuk pertanyaan yang paling sering ditanyakan pasien dan keluarga.":
     "Short answers to the questions patients and families ask most often.",
-  "Kelas rawat inap apa saja yang tersedia?": "Which inpatient room classes are available?",
   "Kirim lewat formulir kontak atau hubungi kami langsung.":
     "Send it through the contact form or reach us directly.",
 

@@ -176,11 +176,7 @@ export default async function KetersediaanPage() {
               </table>
             </div>
 
-            <p className="mt-4 text-xs leading-relaxed text-muted">
-              Angka bersifat informasi umum dan dapat berubah sewaktu-waktu. Ketersediaan kamar
-              untuk pasien baru tetap ditentukan oleh petugas pendaftaran. Untuk kondisi darurat,
-              langsung menuju IGD 24 jam.
-            </p>
+            <p className="mt-4 text-xs leading-relaxed text-muted">{tx(lang, "Angka bersifat informasi umum dan dapat berubah sewaktu-waktu. Ketersediaan kamar untuk pasien baru tetap ditentukan oleh petugas pendaftaran. Untuk kondisi darurat, langsung menuju IGD 24 jam.")}</p>
           </>
         )}
 

@@ -37,11 +37,7 @@ export default async function KarierPage() {
           {lowongan.length === 0 ? (
             <div className="mt-4 rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
               <p className="text-sm font-semibold text-brand-900">{tx(lang, "Belum ada lowongan yang dipublikasikan saat ini")}</p>
-              <p className="mt-1 text-sm leading-relaxed text-muted">
-                Kami tetap menerima lamaran untuk posisi tenaga medis, keperawatan, penunjang medis,
-                dan administrasi. Kirim data Anda lewat formulir di samping — akan kami simpan
-                sebagai bank kandidat.
-              </p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">{tx(lang, "Kami tetap menerima lamaran untuk posisi tenaga medis, keperawatan, penunjang medis, dan administrasi. Kirim data Anda lewat formulir di samping — akan kami simpan sebagai bank kandidat.")}</p>
             </div>
           ) : (
             <ul className="mt-4 space-y-3">

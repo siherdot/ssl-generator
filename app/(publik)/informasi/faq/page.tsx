@@ -68,11 +68,11 @@ export default async function FaqPage() {
         <div className="mx-auto max-w-3xl space-y-3">
           {faq.map((f) => (
             <details
-              key={f.q}
+              key={tx(lang, f.q)}
               className="group rounded-[var(--radius-card)] border border-line bg-white p-4 shadow-[var(--shadow-card)] open:border-brand/60"
             >
               <summary className="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold text-brand-900">
-                {f.q}
+                {tx(lang, f.q)}
                 <svg
                   width="16"
                   height="16"
@@ -86,7 +86,7 @@ export default async function FaqPage() {
                   <path d="m6 9 6 6 6-6" />
                 </svg>
               </summary>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{f.a}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{tx(lang, f.a)}</p>
             </details>
           ))}
         </div>

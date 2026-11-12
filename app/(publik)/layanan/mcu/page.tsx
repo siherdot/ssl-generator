@@ -47,11 +47,8 @@ export default async function McuPage() {
           </ol>
 
           <div className="mt-6 rounded-[var(--radius-card)] border border-dashed border-brand/50 bg-brand/10 p-5 text-sm text-ink">
-            <p className="font-semibold text-brand-900">Daftar paket dan harga</p>
-            <p className="mt-1 text-muted">
-              Paket dan tarif MCU belum ditampilkan di situs ini. Silakan hubungi pendaftaran untuk
-              daftar paket terbaru, atau kirim pertanyaan lewat formulir kontak.
-            </p>
+            <p className="font-semibold text-brand-900">{tx(lang, "Daftar paket dan harga")}</p>
+            <p className="mt-1 text-muted">{tx(lang, "Paket dan tarif MCU belum ditampilkan di situs ini. Silakan hubungi pendaftaran untuk daftar paket terbaru, atau kirim pertanyaan lewat formulir kontak.")}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <a
                 href="tel:(061)8830003"

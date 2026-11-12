@@ -118,12 +118,9 @@ export default async function AsuransiPage() {
             <div className="rounded-[var(--radius-card)] border border-dashed border-line bg-mist p-5 text-sm text-muted">
               <p className="font-semibold text-brand-900">Cara menggunakan asuransi</p>
               <ol className="mt-2 list-decimal space-y-1 pl-5">
-                <li>Pastikan polis/kartu peserta masih aktif.</li>
-                <li>Bawa kartu asuransi dan identitas saat mendaftar.</li>
-                <li>
-                  Untuk kasus tertentu mungkin diperlukan surat jaminan atau rujukan dari kantor
-                  penjamin — konfirmasi ke call center penjamin sebelum datang.
-                </li>
+                <li>{tx(lang, "Pastikan polis/kartu peserta masih aktif.")}</li>
+                <li>{tx(lang, "Bawa kartu asuransi dan identitas saat mendaftar.")}</li>
+                <li>{tx(lang, "Untuk kasus tertentu mungkin diperlukan surat jaminan atau rujukan dari kantor penjamin — konfirmasi ke call center penjamin sebelum datang.")}</li>
               </ol>
               <p className="mt-3 text-xs">{tx(lang, "Daftar dapat berubah sewaktu-waktu. Bila penjamin Anda tidak tercantum, hubungi pendaftaran di (061) 8830003.")}</p>
             </div>
