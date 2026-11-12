@@ -62,7 +62,7 @@ export default async function PoliklinikPage() {
                 <div className="flex flex-1 flex-col p-4">
                   <span className="text-sm font-semibold leading-snug text-brand-900">{dua(lang, p.nama_poli, p.nama_poli_en)}</span>
                   <span className="mt-1 block text-xs text-muted">
-                    {Number(p.jumlah_dokter ?? 0)} dokter · lihat jadwal
+                    {lang === "en" ? `${Number(p.jumlah_dokter ?? 0)} doctors · see schedule` : `${Number(p.jumlah_dokter ?? 0)} dokter · lihat jadwal`}
                   </span>
                   {p.ket && (
                     <span className="mt-2 line-clamp-2 block text-xs leading-relaxed text-muted">
