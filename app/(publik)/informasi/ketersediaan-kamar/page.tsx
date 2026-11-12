@@ -193,7 +193,7 @@ export default async function KetersediaanPage() {
             href="/kontak"
             className="rounded-lg border border-line px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-mist"
           >
-            Hubungi kami
+            {lang === "en" ? "Contact us" : "Hubungi kami"}
           </Link>
         </div>
       </section>
