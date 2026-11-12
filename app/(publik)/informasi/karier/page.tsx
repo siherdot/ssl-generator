@@ -32,7 +32,7 @@ export default async function KarierPage() {
 
       <section className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_360px]">
         <div>
-          <h2 className="section-title text-xl">Lowongan tersedia</h2>
+          <h2 className="section-title text-xl">{tx(lang, "Lowongan tersedia")}</h2>
 
           {lowongan.length === 0 ? (
             <div className="mt-4 rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
@@ -79,11 +79,11 @@ export default async function KarierPage() {
           )}
 
           <div className="mt-8 rounded-[var(--radius-card)] border border-line bg-mist p-5">
-            <h2 className="text-sm font-semibold text-brand-900">Alur melamar</h2>
+            <h2 className="text-sm font-semibold text-brand-900">{tx(lang, "Alur melamar")}</h2>
             <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-muted">
-              <li>Isi formulir lamaran di samping, Anda akan menerima nomor lamaran.</li>
+              <li>{tx(lang, "Isi formulir lamaran di samping, Anda akan menerima nomor lamaran.")}</li>
               <li>
-                Kirim CV dan dokumen pendukung ke{" "}
+                {tx(lang, "Kirim CV dan dokumen pendukung ke")}{" "}
                 <a href={`mailto:${email}`} className="font-semibold text-brand-800 underline">
                   {email}
                 </a>{" "}

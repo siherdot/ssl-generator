@@ -5,6 +5,7 @@ import DoctorCard from "@/components/doctor-card";
 import { getDokterList, getPoliList, HARI_OPTIONS } from "@/lib/data";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { namaHari, t } from "@/lib/i18n";
+import { dua, tx } from "@/lib/teks-en";
 
 export const metadata: Metadata = {
   title: "Cari Dokter & Jadwal Praktik",
@@ -108,7 +109,7 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
               <option value="">{t(lang, "hal.dokter.semuaPoli")}</option>
               {poliList.map((p) => (
                 <option key={p.id_poli} value={p.id_poli}>
-                  {p.nama_poli}
+                  {dua(lang, p.nama_poli, p.nama_poli_en)}
                 </option>
               ))}
             </select>
@@ -195,15 +196,15 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
           )}
           {hari ? (
             <>
-              {" "}· hari <strong className="text-ink">{hari}</strong>
+              {" "}· {lang === "en" ? "on" : "hari"} <strong className="text-ink">{namaHari(lang, hari)}</strong>
               {hari === hariIni && (
                 <span className="ml-1 rounded bg-brand/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-brand-800">
-                  hari ini
+                  {tx(lang, "hari ini")}
                 </span>
               )}
             </>
           ) : (
-            <> {" "}· semua hari</>
+            <> {" "}· {tx(lang, "semua hari")}</>
           )}
           {q && (
             <>
@@ -215,12 +216,12 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
         {dokterList.length === 0 ? (
           <div className="mt-6 rounded-[var(--radius-card)] border border-dashed border-line bg-mist p-8 text-center">
             <p className="text-sm font-semibold text-brand-900">
-              {hari === hariIni ? "Tidak ada dokter praktik hari ini" : "Dokter tidak ditemukan"}
+              {hari === hariIni ? tx(lang, "Tidak ada dokter praktik hari ini") : tx(lang, "Dokter tidak ditemukan")}
             </p>
             <p className="mt-1 text-sm text-muted">
               {hari === hariIni
-                ? "Coba lihat semua hari, atau ubah poliklinik dan kata kunci."
-                : "Coba ubah kata kunci, poliklinik, atau hari praktik."}
+                ? tx(lang, "Coba lihat semua hari, atau ubah poliklinik dan kata kunci.")
+                : tx(lang, "Coba ubah kata kunci, poliklinik, atau hari praktik.")}
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               {hari === hariIni && (
@@ -228,7 +229,7 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
                   href={tautan("semua")}
                   className="rounded-lg bg-brand-800 px-4 py-2 text-sm font-semibold text-white"
                 >
-                  Lihat semua hari
+                  {tx(lang, "Lihat semua hari")}
                 </Link>
               )}
               <Link

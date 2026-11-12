@@ -28,7 +28,7 @@ export default async function PenunjangPage() {
   const kelompok = [
     { judul: "Penunjang medis", kunci: penunjang },
     { judul: "Perawatan intensif & tindakan", kunci: intensif },
-    { judul: "Penunjang umum", kunci: umum },
+    { judul: lang === "en" ? "General support services" : "Penunjang umum", kunci: umum },
   ];
 
   return (

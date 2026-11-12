@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { namaHari, t } from "@/lib/i18n";
+import { dua, tx } from "@/lib/teks-en";
 import { gambar, jamRapi, pecahHari, type Dokter } from "@/lib/data";
 
 export default async function DoctorCard({ dokter }: { dokter: Dokter }) {
@@ -32,7 +33,7 @@ export default async function DoctorCard({ dokter }: { dokter: Dokter }) {
           <h3 className="text-sm font-semibold leading-snug text-brand-900">{dokter.nama_dokter}</h3>
           {dokter.nama_poli ? (
             <p className="mt-1 text-xs font-medium uppercase tracking-wide text-brand-800">
-              {dokter.nama_poli}
+              {dua(lang, dokter.nama_poli, dokter.nama_poli_en)}
             </p>
           ) : (
             <p className="mt-1 text-xs font-medium uppercase tracking-wide text-brand-800">
@@ -47,7 +48,7 @@ export default async function DoctorCard({ dokter }: { dokter: Dokter }) {
           <div className="flex flex-wrap gap-1">
             {hariUnik.map((h) => (
               <span key={h} className="rounded bg-mist px-2 py-0.5 text-[11px] font-medium text-ink">
-                {h}
+                {namaHari(lang, h)}
               </span>
             ))}
           </div>

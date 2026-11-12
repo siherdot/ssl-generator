@@ -46,6 +46,7 @@ export type Dokter = {
   images: string;
   id_poli: string;
   nama_poli?: string;
+  nama_poli_en?: string;
   jadwal?: JadwalRingkas[];
 };
 
@@ -196,7 +197,7 @@ export async function getDokterList(opts: { q?: string; poli?: string; hari?: st
   }
 
   const sql = `
-    SELECT d.id_dokter, d.nama_dokter, d.ket, d.images, d.id_poli, p.nama_poli,
+    SELECT d.id_dokter, d.nama_dokter, d.ket, d.images, d.id_poli, p.nama_poli, p.nama_poli_en,
            j.hari, j.jammulai, j.jamselesai
       FROM dokter d
       LEFT JOIN poli p ON p.id_poli = d.id_poli
@@ -233,7 +234,7 @@ export async function getDokterList(opts: { q?: string; poli?: string; hari?: st
 
 export function getDokter(id: string) {
   return one<Dokter & { nama_poli: string }>(
-    `SELECT d.*, p.nama_poli
+    `SELECT d.*, p.nama_poli, p.nama_poli_en
        FROM dokter d
        LEFT JOIN poli p ON p.id_poli = d.id_poli
       WHERE d.id_dokter = ? LIMIT 1`,

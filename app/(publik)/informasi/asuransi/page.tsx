@@ -75,7 +75,7 @@ export default async function AsuransiPage() {
                     <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">
                       {kat}
                     </h2>
-                    <span className="text-xs text-muted">{isi.length} penjamin</span>
+                    <span className="text-xs text-muted">{isi.length} {lang === "en" ? "insurers" : "penjamin"}</span>
                   </div>
 
                   <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">

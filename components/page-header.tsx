@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { t } from "@/lib/i18n";
 
 type Crumb = { label: string; href?: string };
 
-export default function PageHeader({
+export default async function PageHeader({
   eyebrow,
   title,
   description,
@@ -13,12 +15,13 @@ export default function PageHeader({
   description?: string;
   crumbs?: Crumb[];
 }) {
+  const lang = await bacaBahasa();
   return (
     <section className="border-b border-line bg-mist">
       <div className="container-page py-8 lg:py-10">
         {crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="text-xs text-muted">
-            <Link href="/" className="hover:text-brand-800">Beranda</Link>
+            <Link href="/" className="hover:text-brand-800">{t(lang, "umum.beranda")}</Link>
             {crumbs.map((c) => (
               <span key={c.label}>
                 <span className="mx-2">/</span>

@@ -52,7 +52,7 @@ export default async function RawatInapPage() {
             </p>
             <ul className="mt-4 grid gap-2 text-sm text-ink sm:grid-cols-2">
               <li className="rounded-lg bg-mist px-3 py-2">Masuk melalui IGD atau poliklinik</li>
-              <li className="rounded-lg bg-mist px-3 py-2">Kelas perawatan sesuai kebutuhan medis</li>
+              <li className="rounded-lg bg-mist px-3 py-2">{tx(lang, "Kelas perawatan sesuai kebutuhan medis")}</li>
               <li className="rounded-lg bg-mist px-3 py-2">Penjamin asuransi dan perusahaan rekanan</li>
               <li className="rounded-lg bg-mist px-3 py-2">Dokter dan perawat jaga 24 jam</li>
             </ul>
@@ -83,17 +83,17 @@ export default async function RawatInapPage() {
         ) : (
           <div className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-white shadow-[var(--shadow-card)]">
             <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line px-5 py-4">
-              <h2 className="text-lg font-semibold text-brand-900">Kelas perawatan</h2>
-              {diperbarui && <p className="text-xs text-muted">Diperbarui {diperbarui}</p>}
+              <h2 className="text-lg font-semibold text-brand-900">{tx(lang, "Kelas perawatan")}</h2>
+              {diperbarui && <p className="text-xs text-muted">{tx(lang, "Diperbarui")} {diperbarui}</p>}
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead className="bg-mist text-xs uppercase tracking-wide text-muted">
                   <tr>
                     <th className="px-5 py-3 font-semibold">Unit</th>
-                    <th className="px-5 py-3 font-semibold">Kelas</th>
+                    <th className="px-5 py-3 font-semibold">{tx(lang, "Kelas")}</th>
                     <th className="px-5 py-3 font-semibold">Tempat tidur</th>
-                    <th className="px-5 py-3 font-semibold">Terisi</th>
+                    <th className="px-5 py-3 font-semibold">{tx(lang, "Terisi")}</th>
                     <th className="px-5 py-3 font-semibold">Keterangan</th>
                   </tr>
                 </thead>

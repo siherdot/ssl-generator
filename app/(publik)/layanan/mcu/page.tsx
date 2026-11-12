@@ -34,7 +34,7 @@ export default async function McuPage() {
 
       <section className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_320px]">
         <div>
-          <h2 className="text-lg font-semibold text-brand-900">Alur pemeriksaan</h2>
+          <h2 className="text-lg font-semibold text-brand-900">{tx(lang, "Alur pemeriksaan")}</h2>
           <ol className="mt-3 space-y-3">
             {alur.map((a, i) => (
               <li key={tx(lang, a)} className="flex gap-3 rounded-lg border border-line bg-white p-3 text-sm text-ink">
@@ -68,19 +68,19 @@ export default async function McuPage() {
 
         <aside className="space-y-4">
           <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
-            <h2 className="text-sm font-semibold text-brand-900">Untuk perusahaan</h2>
+            <h2 className="text-sm font-semibold text-brand-900">{tx(lang, "Untuk perusahaan")}</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted">{tx(lang, "Pemeriksaan kesehatan karyawan dapat dijadwalkan kolektif. Sertakan jumlah peserta dan jenis pemeriksaan yang dibutuhkan saat menghubungi kami.")}</p>
           </div>
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
             <h2 className="text-sm font-semibold text-brand-900">Penjamin</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted">
-              Sebagian paket dapat ditanggung asuransi rekanan. Cek daftarnya di halaman penjamin.
+              {tx(lang, "Sebagian paket dapat ditanggung asuransi rekanan. Cek daftarnya di halaman penjamin.")}
             </p>
             <Link
               href="/informasi/asuransi"
               className="mt-3 block rounded-lg bg-brand-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-brand-800"
             >
-              Lihat penjamin
+              {tx(lang, "Lihat penjamin")}
             </Link>
           </div>
         </aside>

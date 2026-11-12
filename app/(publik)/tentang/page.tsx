@@ -24,14 +24,14 @@ export default async function TentangPage() {
       <PageHeader
         eyebrow={tx(lang, "Tentang Kami")}
         title={tx(lang, "Profil RSU Mahkota Bidadari")}
-        description={company?.slogan ?? undefined}
+        description={lang === "en" ? "Your health is our top priority" : company?.slogan ?? undefined}
         crumbs={[{ label: tx(lang, "Tentang Kami") }]}
       />
 
       <section className="container-page py-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
           <article>
-            <h2 className="text-lg font-semibold text-brand-900">Sekilas Rumah Sakit</h2>
+            <h2 className="text-lg font-semibold text-brand-900">{tx(lang, "Sekilas Rumah Sakit")}</h2>
             <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted lg:text-base">
               {dua(lang, company?.company_description?.trim(), company?.company_description_en?.trim())}
             </p>

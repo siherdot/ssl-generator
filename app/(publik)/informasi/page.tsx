@@ -35,7 +35,7 @@ export default async function InformasiPage() {
         {
           href: "/informasi/asuransi",
           title: "Asuransi & Penjamin",
-          desc: `${penjamin.length} rekanan asuransi, TPA, dan korporat.`,
+          desc: `${penjamin.length} ${lang === "en" ? "insurance partners, TPAs, and corporate clients." : "rekanan asuransi, TPA, dan korporat."}`,
         },
         {
           href: "/informasi/faq",
@@ -107,7 +107,7 @@ export default async function InformasiPage() {
                         <span className="block text-sm font-semibold text-brand-900">{tx(lang, k.title)}</span>
                         <span className="mt-1 block text-xs leading-relaxed text-muted">{tx(lang, k.desc)}</span>
                       </span>
-                      <span className="mt-4 text-xs font-semibold text-brand-800">Buka →</span>
+                      <span className="mt-4 text-xs font-semibold text-brand-800">{tx(lang, "Buka →")}</span>
                     </Link>
                   </li>
                 ))}

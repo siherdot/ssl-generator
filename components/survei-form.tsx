@@ -14,9 +14,45 @@ const aspek = [
   { kunci: "r_kebersihan", judul: "Kebersihan & kenyamanan" },
 ] as const;
 
+const EN: Record<string, string> = {
+  "Pendaftaran & administrasi": "Registration & administration",
+  "Pelayanan dokter": "Doctor service",
+  "Pelayanan perawat & petugas": "Nursing & staff service",
+  "Fasilitas rumah sakit": "Hospital facilities",
+  "Kebersihan & kenyamanan": "Cleanliness & comfort",
+  "Terima kasih!": "Thank you!",
+  "Survei Anda sudah kami terima": "We have received your survey",
+  "dengan nilai rata-rata": "with an average score of",
+  ". Masukan ini kami pakai untuk memperbaiki pelayanan.":
+    ". We use this feedback to improve our service.",
+  "Isi survei lagi": "Fill in the survey again",
+  "Survei Kepuasan Pasien": "Patient Satisfaction Survey",
+  "Beri penilaian 1–5 bintang untuk tiap aspek. Cukup 1 menit, tanpa login.":
+    "Rate each aspect from 1 to 5 stars. It takes about a minute, no login needed.",
+  "belum dinilai": "not rated yet",
+  "Unit / poliklinik yang dikunjungi": "Unit / clinic visited",
+  "mis. Poliklinik Penyakit Dalam": "e.g. Internal Medicine Clinic",
+  "Nama (opsional)": "Name (optional)",
+  "Boleh dikosongkan": "You may leave this empty",
+  "Apa yang sudah baik?": "What went well?",
+  "Apa yang perlu kami perbaiki?": "What should we improve?",
+  "Gagal mengirim survei.": "Failed to send the survey.",
+  "Mengirim…": "Sending…",
+  "Kirim survei": "Send survey",
+  "Data hanya dipakai untuk evaluasi mutu pelayanan. Tidak dibagikan ke pihak lain.":
+    "Your data is used only to evaluate service quality and is not shared with third parties.",
+};
+
 type Kunci = (typeof aspek)[number]["kunci"];
 
-export default function SurveiForm({ unitList }: { unitList: string[] }) {
+export default function SurveiForm({
+  unitList,
+  lang = "id",
+}: {
+  unitList: string[];
+  lang?: "id" | "en";
+}) {
+  const T = (teks: string) => (lang === "en" ? EN[teks] ?? teks : teks);
   const [kirim, setKirim] = useState(false);
   const [hasil, setHasil] = useState<{ ok: boolean; pesan?: string; nilai?: number } | null>(null);
   const [nilai, setNilai] = useState<Record<Kunci, number>>({
@@ -32,7 +68,13 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
 
     const kosong = aspek.filter((a) => !nilai[a.kunci]);
     if (kosong.length > 0) {
-      setHasil({ ok: false, pesan: `Masih ada penilaian yang belum diisi: ${kosong[0].judul}.` });
+      setHasil({
+        ok: false,
+        pesan:
+          lang === "en"
+            ? `Some ratings are still empty: ${T(kosong[0].judul)}.`
+            : `Masih ada penilaian yang belum diisi: ${kosong[0].judul}.`,
+      });
       return;
     }
 
@@ -60,7 +102,10 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
         });
       }
     } catch {
-      setHasil({ ok: false, pesan: "Jaringan bermasalah. Coba lagi." });
+      setHasil({
+        ok: false,
+        pesan: lang === "en" ? "Network problem. Please try again." : "Jaringan bermasalah. Coba lagi.",
+      });
     } finally {
       setKirim(false);
     }
@@ -69,23 +114,23 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
   if (hasil?.ok) {
     return (
       <div className="rounded-[var(--radius-card)] border border-brand/50 bg-brand/10 p-6">
-        <h2 className="text-lg font-semibold text-brand-900">Terima kasih!</h2>
+        <h2 className="text-lg font-semibold text-brand-900">{T("Terima kasih!")}</h2>
         <p className="mt-2 text-sm text-muted">
-          Survei Anda sudah kami terima
+          {T("Survei Anda sudah kami terima")}
           {typeof hasil.nilai === "number" && (
             <>
               {" "}
-              dengan nilai rata-rata <strong className="text-brand-900">{hasil.nilai}/5</strong>
+              {T("dengan nilai rata-rata")} <strong className="text-brand-900">{hasil.nilai}/5</strong>
             </>
           )}
-          . Masukan ini kami pakai untuk memperbaiki pelayanan.
+          {T(". Masukan ini kami pakai untuk memperbaiki pelayanan.")}
         </p>
         <button
           type="button"
           onClick={() => setHasil(null)}
           className="mt-4 rounded-lg border border-brand-800 px-4 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-800 hover:text-white"
         >
-          Isi survei lagi
+          {T("Isi survei lagi")}
         </button>
       </div>
     );
@@ -96,16 +141,16 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
       onSubmit={onSubmit}
       className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]"
     >
-      <h2 className="text-lg font-semibold text-brand-900">Survei Kepuasan Pasien</h2>
+      <h2 className="text-lg font-semibold text-brand-900">{T("Survei Kepuasan Pasien")}</h2>
       <p className="mt-1 text-sm text-muted">
-        Beri penilaian 1–5 bintang untuk tiap aspek. Cukup 1 menit, tanpa login.
+        {T("Beri penilaian 1–5 bintang untuk tiap aspek. Cukup 1 menit, tanpa login.")}
       </p>
 
       <div className="mt-5 space-y-4">
         {aspek.map((a) => (
           <fieldset key={a.kunci}>
-            <legend className="text-sm font-medium text-ink">{a.judul}</legend>
-            <div className="mt-1.5 flex gap-1.5" role="radiogroup" aria-label={a.judul}>
+            <legend className="text-sm font-medium text-ink">{T(a.judul)}</legend>
+            <div className="mt-1.5 flex gap-1.5" role="radiogroup" aria-label={T(a.judul)}>
               {[1, 2, 3, 4, 5].map((n) => {
                 const aktif = nilai[a.kunci] >= n;
                 return (
@@ -113,7 +158,9 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
                     type="button"
                     key={n}
                     onClick={() => setNilai((v) => ({ ...v, [a.kunci]: n }))}
-                    aria-label={`${n} bintang untuk ${a.judul}`}
+                    aria-label={
+                      lang === "en" ? `${n} stars for ${T(a.judul)}` : `${n} bintang untuk ${a.judul}`
+                    }
                     aria-pressed={nilai[a.kunci] === n}
                     className={`text-2xl leading-none transition ${
                       aktif ? "text-sun" : "text-line hover:text-sun/70"
@@ -124,7 +171,7 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
                 );
               })}
               <span className="ml-2 self-center text-xs text-muted">
-                {nilai[a.kunci] ? `${nilai[a.kunci]}/5` : "belum dinilai"}
+                {nilai[a.kunci] ? `${nilai[a.kunci]}/5` : T("belum dinilai")}
               </span>
             </div>
           </fieldset>
@@ -134,14 +181,14 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="unit" className={label}>
-            Unit / poliklinik yang dikunjungi <span className="text-red-600">*</span>
+            {T("Unit / poliklinik yang dikunjungi")} <span className="text-red-600">*</span>
           </label>
           <input
             id="unit"
             name="unit"
             list="daftar-unit"
             required
-            placeholder="mis. Poliklinik Penyakit Dalam"
+            placeholder={T("mis. Poliklinik Penyakit Dalam")}
             className={input}
           />
           <datalist id="daftar-unit">
@@ -153,22 +200,22 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
 
         <div>
           <label htmlFor="nama" className={label}>
-            Nama (opsional)
+            {T("Nama (opsional)")}
           </label>
-          <input id="nama" name="nama" placeholder="Boleh dikosongkan" className={input} />
+          <input id="nama" name="nama" placeholder={T("Boleh dikosongkan")} className={input} />
         </div>
       </div>
 
       <div className="mt-4">
         <label htmlFor="komentar" className={label}>
-          Apa yang sudah baik?
+          {T("Apa yang sudah baik?")}
         </label>
         <textarea id="komentar" name="komentar" rows={3} className={input} />
       </div>
 
       <div className="mt-4">
         <label htmlFor="saran" className={label}>
-          Apa yang perlu kami perbaiki?
+          {T("Apa yang perlu kami perbaiki?")}
         </label>
         <textarea id="saran" name="saran" rows={3} className={input} />
       </div>
@@ -185,7 +232,7 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
 
       {hasil && !hasil.ok && (
         <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-          {hasil.pesan ?? "Gagal mengirim survei."}
+          {hasil.pesan ?? T("Gagal mengirim survei.")}
         </p>
       )}
 
@@ -194,11 +241,11 @@ export default function SurveiForm({ unitList }: { unitList: string[] }) {
         disabled={kirim}
         className="mt-5 w-full rounded-lg bg-brand-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:opacity-60 sm:w-auto"
       >
-        {kirim ? "Mengirim…" : "Kirim survei"}
+        {kirim ? T("Mengirim…") : T("Kirim survei")}
       </button>
 
       <p className="mt-3 text-xs text-muted">
-        Data hanya dipakai untuk evaluasi mutu pelayanan. Tidak dibagikan ke pihak lain.
+        {T("Data hanya dipakai untuk evaluasi mutu pelayanan. Tidak dibagikan ke pihak lain.")}
       </p>
     </form>
   );

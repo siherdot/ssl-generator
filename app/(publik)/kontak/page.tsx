@@ -44,7 +44,7 @@ export default async function KontakPage() {
 
       <section className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_360px]">
         <div className="space-y-6">
-          <SurveiForm unitList={unitList} />
+          <SurveiForm lang={lang} unitList={unitList} />
         </div>
 
         <aside className="space-y-4">
