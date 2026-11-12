@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import DoctorCard from "@/components/doctor-card";
@@ -7,11 +8,16 @@ import { bacaBahasa } from "@/lib/i18n-server";
 import { namaHari, t } from "@/lib/i18n";
 import { dua, tx } from "@/lib/teks-en";
 
-export const metadata: Metadata = {
-  title: "Cari Dokter & Jadwal Praktik",
-  description:
-    "Telusuri dokter RSU Mahkota Bidadari berdasarkan nama, poliklinik, dan hari praktik. Jadwal hari ini tampil otomatis.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Cari Dokter & Jadwal Praktik"),
+    description:
+      lang === "en"
+        ? `Browse ${site.name} doctors by name, clinic, and practice day. Today's schedule is shown automatically.`
+        : `Telusuri dokter ${site.name} berdasarkan nama, poliklinik, dan hari praktik. Jadwal hari ini tampil otomatis.`,
+  };
+}
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.

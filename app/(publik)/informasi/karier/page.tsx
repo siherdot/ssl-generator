@@ -5,11 +5,10 @@ import { tx } from "@/lib/teks-en";
 import LamaranForm from "@/components/lamaran-form";
 import { getKarierAktif, getCompany, tanggalRapi, bersihkanHtml } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Karier",
-  description:
-    "Peluang bergabung dengan RSU Mahkota Bidadari sebagai tenaga medis, keperawatan, penunjang, atau non-medis.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Karier") };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -87,7 +86,7 @@ export default async function KarierPage() {
                 <a href={`mailto:${email}`} className="font-semibold text-brand-800 underline">
                   {email}
                 </a>{" "}
-                dengan subjek nomor lamaran.
+                {tx(lang, "dengan subjek nomor lamaran.")}
               </li>
               <li>{tx(lang, "Kandidat yang sesuai akan dihubungi untuk tahap berikutnya.")}</li>
             </ol>

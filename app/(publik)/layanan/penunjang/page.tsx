@@ -7,11 +7,10 @@ import { dua, tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getFacilityList, gambar } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Penunjang Medis",
-  description:
-    "Unit penunjang medis RSU Mahkota Bidadari: laboratorium, radiologi, farmasi, bank darah, cathlab, dialisis, dan perawatan intensif.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Penunjang Medis") };
+}
 
 export const dynamic = "force-dynamic";
 

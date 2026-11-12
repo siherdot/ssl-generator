@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { tx } from "@/lib/teks-en";
 import { getPoliList, getFacilityList } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Fasilitas & Layanan",
-  description:
-    "Layanan RSU Mahkota Bidadari: UGD 24 jam, rawat jalan spesialis, rawat inap, penunjang medis, dan medical check up.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Fasilitas & Layanan"),
+    description:
+      lang === "en"
+        ? `Services at ${site.name}: 24-hour emergency care, specialist outpatient clinics, inpatient care, medical support, and health screening.`
+        : `Layanan ${site.name}: UGD 24 jam, rawat jalan spesialis, rawat inap, penunjang medis, dan medical check up.`,
+  };
+}
 
 export const dynamic = "force-dynamic";
 

@@ -6,11 +6,10 @@ import { tx } from "@/lib/teks-en";
 import { getKasur, getKasurDiperbarui } from "@/lib/data";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Rawat Inap",
-  description:
-    "Informasi unit rawat inap RSU Mahkota Bidadari: kelas perawatan, ruang, dan fasilitas pendukung.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Rawat Inap") };
+}
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`.
@@ -100,7 +99,7 @@ export default async function RawatInapPage() {
                 <tbody>
                   {unit.map((u) => (
                     <tr key={u.id} className="border-t border-line">
-                      <td className="px-5 py-3 font-medium text-brand-900">{u.nama_unit}</td>
+                      <td className="px-5 py-3 font-medium text-brand-900">{lang === "en" ? u.nama_unit.replace(/^RUANG\s+/i, "Room ") : u.nama_unit}</td>
                       <td className="px-5 py-3 text-muted">{u.kelas ?? "—"}</td>
                       <td className="px-5 py-3 text-muted">{u.total}</td>
                       <td className="px-5 py-3 text-muted">{u.terisi}</td>

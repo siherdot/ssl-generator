@@ -7,10 +7,10 @@ import { dua, tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getNewsList, gambar, tanggalRapi } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Berita & Kegiatan",
-  description: "Kabar terbaru, agenda, dan kegiatan RSU Mahkota Bidadari.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Berita & Kegiatan") };
+}
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.

@@ -4,11 +4,10 @@ import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { tx } from "@/lib/teks-en";
 
-export const metadata: Metadata = {
-  title: "Medical Check Up",
-  description:
-    "Medical check up di RSU Mahkota Bidadari untuk individu dan perusahaan. Hubungi pendaftaran untuk paket dan jadwal.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Medical Check Up") };
+}
 
 const alur = [
   "Hubungi pendaftaran untuk memilih paket dan menjadwalkan kedatangan.",
@@ -60,7 +59,7 @@ export default async function McuPage() {
                 href="/kontak"
                 className="rounded-lg border border-brand-900/20 bg-white px-4 py-2 text-sm font-semibold text-brand-900 hover:bg-mist"
               >
-                Formulir kontak
+                {tx(lang, "Formulir kontak")}
               </Link>
             </div>
           </div>

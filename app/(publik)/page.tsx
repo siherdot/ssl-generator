@@ -169,7 +169,7 @@ export default async function HomePage() {
             {poliUnggulan.map((p) => (
               <div key={p.id_poli} className="carousel-item">
                 <InfoCard
-                  title={p.nama_poli}
+                  title={dua(lang, p.nama_poli, p.nama_poli_en)}
                   description={`${Number(p.jumlah_dokter ?? 0)} ${t(lang, "home.poli.dokter")} · ${
                     dua(lang, p.ket ? p.ket.replace(/<[^>]+>/g, "").trim() : t(lang, "home.poli.rawatJalan"), p.ket_en)
                   }`}

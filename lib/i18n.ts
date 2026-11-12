@@ -58,7 +58,8 @@ const id: Isi = {
   "umum.aksiCepat": "Aksi cepat",
   "umum.lewatiKeKonten": "Langsung ke konten",
   "umum.bahasa": "Bahasa",
-  "umum.beranda": "beranda",
+  "umum.beranda": "Beranda",
+  "nav./tentang#visi-misi": "Visi & Misi",
 
   /* hero */
   "hero.sejak": "Sejak",
@@ -215,7 +216,8 @@ const en: Isi = {
   "umum.aksiCepat": "Quick actions",
   "umum.lewatiKeKonten": "Skip to content",
   "umum.bahasa": "Language",
-  "umum.beranda": "home",
+  "umum.beranda": "Home",
+  "nav./tentang#visi-misi": "Vision & Mission",
 
   "hero.sejak": "Since",
   "hero.judul": "Your Health Is Our Highest Priority",

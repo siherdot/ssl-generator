@@ -5,11 +5,10 @@ import { bacaBahasa } from "@/lib/i18n-server";
 import { tx } from "@/lib/teks-en";
 import { getPenjamin, gambar } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Asuransi & Penjamin",
-  description:
-    "Daftar rekanan asuransi dan penjamin yang bekerja sama dengan RSU Mahkota Bidadari.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Asuransi & Penjamin") };
+}
 
 export const dynamic = "force-dynamic";
 

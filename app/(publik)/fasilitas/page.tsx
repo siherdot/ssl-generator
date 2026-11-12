@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { dua, tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getFacilityList, gambar } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Fasilitas Rumah Sakit",
-  description:
-    "Fasilitas RSU Mahkota Bidadari: IGD, rawat inap, bank darah, laboratorium, radiologi, dan fasilitas pendukung.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Fasilitas Rumah Sakit"),
+    description:
+      lang === "en"
+        ? `Facilities at ${site.name}: emergency department, inpatient care, blood bank, laboratory, radiology, and support facilities.`
+        : `Fasilitas ${site.name}: IGD, rawat inap, bank darah, laboratorium, radiologi, dan fasilitas pendukung.`,
+  };
+}
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.

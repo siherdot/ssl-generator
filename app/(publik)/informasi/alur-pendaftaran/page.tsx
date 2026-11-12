@@ -4,11 +4,10 @@ import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { tx } from "@/lib/teks-en";
 
-export const metadata: Metadata = {
-  title: "Alur Pendaftaran Pasien",
-  description:
-    "Langkah pendaftaran pasien di RSU Mahkota Bidadari: rawat jalan, rawat inap, dan kondisi darurat.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Alur Pendaftaran Pasien") };
+}
 
 const langkah = [
   {

@@ -8,11 +8,16 @@ import PetaEmbed from "@/components/peta-embed";
 import { getCompany, getPoliRingkas } from "@/lib/data";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Survei Kepuasan",
-  description:
-    "Survei kepuasan pasien RSU Mahkota Bidadari — nilai pelayanan pendaftaran, dokter, perawat, fasilitas, dan kebersihan.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Survei Kepuasan"),
+    description:
+      lang === "en"
+        ? `Patient satisfaction survey for ${site.name} — rate registration, doctors, nurses, facilities, and cleanliness.`
+        : `Survei kepuasan pasien ${site.name} — nilai pelayanan pendaftaran, dokter, perawat, fasilitas, dan kebersihan.`,
+  };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +56,7 @@ export default async function KontakPage() {
           <PetaEmbed judul={`Peta lokasi ${site.name}`} tinggi="h-[200px]" />
 
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Alamat</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Alamat")}</h2>
             <p className="mt-2 text-sm leading-relaxed text-ink">{alamat}</p>
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapsQuery + ", Kabupaten Langkat")}`}
@@ -59,15 +64,15 @@ export default async function KontakPage() {
               rel="noopener noreferrer"
               className="mt-3 inline-block text-sm font-semibold text-brand-800 underline"
             >
-              Buka di Google Maps
+              {tx(lang, "Buka di Google Maps")}
             </a>
           </div>
 
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Telepon</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Telepon")}</h2>
             <ul className="mt-2 space-y-2 text-sm">
               <li className="flex items-center justify-between gap-2">
-                <span className="text-muted">Telepon</span>
+                <span className="text-muted">{tx(lang, "Telepon")}</span>
                 <a href={`tel:${telepon.replace(/[^0-9+]/g, "")}`} className="font-semibold text-ink">
                   {telepon}
                 </a>

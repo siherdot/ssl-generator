@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { tx } from "@/lib/teks-en";
 
-export const metadata: Metadata = {
-  title: "Pendaftaran via Mobile JKN",
-  description:
-    "Pendaftaran rawat jalan RSU Mahkota Bidadari dilakukan melalui aplikasi Mobile JKN BPJS Kesehatan. Unduh aplikasinya, pilih poliklinik dan dokter, lalu tunjukkan kode booking di loket.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Pendaftaran via Mobile JKN"),
+    description:
+      lang === "en"
+        ? `Outpatient registration at ${site.name} is handled through BPJS Kesehatan's Mobile JKN app. Install it, choose a clinic and doctor, then show your booking code at the counter.`
+        : `Pendaftaran rawat jalan ${site.name} dilakukan melalui aplikasi Mobile JKN BPJS Kesehatan. Unduh aplikasinya, pilih poliklinik dan dokter, lalu tunjukkan kode booking di loket.`,
+  };
+}
 
 const PLAY = "https://play.google.com/store/apps/details?id=app.bpjs.mobile";
 const APPLE = "https://apps.apple.com/id/app/mobile-jkn/id1237601115";

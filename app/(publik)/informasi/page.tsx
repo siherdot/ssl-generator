@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { dua, tx } from "@/lib/teks-en";
 import { getNewsList, getPenjamin, tanggalRapi } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Pusat Informasi",
-  description:
-    "Informasi pasien RSU Mahkota Bidadari: berita, penjamin, alur pendaftaran, karier, dan pertanyaan umum.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Pusat Informasi"),
+    description:
+      lang === "en"
+        ? `Patient information for ${site.name}: news, insurers, registration flow, careers, and FAQs.`
+        : `Informasi pasien ${site.name}: berita, penjamin, alur pendaftaran, karier, dan pertanyaan umum.`,
+  };
+}
 
 export const dynamic = "force-dynamic";
 

@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
 import { dua, tx } from "@/lib/teks-en";
 import { getCompany, bersihkanHtml } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Tentang Kami",
-  description:
-    "Profil, sejarah, visi, dan misi RSU Mahkota Bidadari — rumah sakit umum di Kabupaten Langkat, Sumatera Utara.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Tentang Kami"),
+    description:
+      lang === "en"
+        ? `Profile, history, vision, and mission of ${site.name} — a general hospital in Langkat Regency, North Sumatra.`
+        : `Profil, sejarah, visi, dan misi ${site.name} — rumah sakit umum di Kabupaten Langkat, Sumatera Utara.`,
+  };
+}
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.
@@ -41,14 +47,14 @@ export default async function TentangPage() {
             </h2>
             <div className="mt-3 grid gap-5 md:grid-cols-2">
               <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-800">Visi</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-800">{tx(lang, "Visi")}</h3>
                 <div
                   className="mt-2 text-sm leading-relaxed text-ink [&_p]:mb-2"
                   dangerouslySetInnerHTML={{ __html: bersihkanHtml(dua(lang, company?.visi, company?.visi_en)) }}
                 />
               </div>
               <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-800">Misi</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-800">{tx(lang, "Misi")}</h3>
                 <div
                   className="mt-2 text-sm leading-relaxed text-ink [&_br]:hidden [&_p]:mb-2"
                   dangerouslySetInnerHTML={{ __html: bersihkanHtml(dua(lang, company?.misi, company?.misi_en)) }}
@@ -63,14 +69,14 @@ export default async function TentangPage() {
                 rel="noopener noreferrer"
                 className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-800 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-800"
               >
-                ▶ Video profil rumah sakit
+                {tx(lang, "▶ Video profil rumah sakit")}
               </a>
             )}
           </article>
 
           <aside className="space-y-4">
             <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Kontak</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Kontak")}</h2>
               <dl className="mt-3 space-y-3 text-sm">
                 <div>
                   <dt className="text-xs text-muted">Alamat</dt>

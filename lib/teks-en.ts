@@ -98,6 +98,24 @@ export const EN: Record<string, string> = {
   "Belum menemukan jawaban?": "Still can't find an answer?",
   "Hubungi kami": "Contact us",
 
+  "Visi": "Vision",
+  "Misi": "Mission",
+  "▶ Video profil rumah sakit": "▶ Hospital profile video",
+  "Alamat": "Address",
+  "Telepon": "Phone",
+  "Buka di Google Maps": "Open in Google Maps",
+  "Situs ini": "This site",
+  "Situs resmi": "Official site",
+  "Segera": "Coming soon",
+  "Anda sedang di sini": "You are here",
+  "Buka situs ↗": "Visit site ↗",
+  "Tautan belum tersedia": "Link not available yet",
+  "dengan subjek nomor lamaran.": "using the application number as the subject.",
+  "Formulir kontak": "Contact form",
+  "Penunjang umum": "General support services",
+
+  "Cari Dokter & Jadwal Praktik": "Find a Doctor & Practice Schedule",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",

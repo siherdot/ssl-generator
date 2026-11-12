@@ -6,11 +6,10 @@ import { tx } from "@/lib/teks-en";
 import { getKasur, waktuDb } from "@/lib/data";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Ketersediaan Tempat Tidur",
-  description:
-    "Pantau ketersediaan tempat tidur rawat inap RSU Mahkota Bidadari per kelas: total, terisi, dan kosong.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Ketersediaan Tempat Tidur") };
+}
 
 export const dynamic = "force-dynamic";
 

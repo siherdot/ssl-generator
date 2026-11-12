@@ -6,11 +6,10 @@ import { tx } from "@/lib/teks-en";
 import { getCompany, getPenjamin } from "@/lib/data";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Pertanyaan Umum (FAQ)",
-  description:
-    "Pertanyaan yang sering diajukan pasien: jam IGD, pendaftaran lewat Mobile JKN, jadwal dokter, penjamin, dan rawat inap.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Pertanyaan Umum (FAQ)") };
+}
 
 export const dynamic = "force-dynamic";
 

@@ -6,11 +6,16 @@ import { bacaBahasa } from "@/lib/i18n-server";
 import { tx } from "@/lib/teks-en";
 import { getGrupRs, gambar } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "Rumah Sakit Kami",
-  description:
-    "Jaringan rumah sakit Bidadari Group: RSU Mahkota Bidadari, RSU Bidadari Batubara, RSU Mahkota Bidadari, RSU Putri Bidadari, dan RSU Putri Bidadari Aceh.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return {
+    title: tx(lang, "Rumah Sakit Kami"),
+    description:
+      lang === "en"
+        ? `The Bidadari Group hospital network in North Sumatra and Aceh.`
+        : `Jaringan rumah sakit Bidadari Group di Sumatera Utara dan Aceh.`,
+  };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -76,7 +81,7 @@ export default async function RumahSakitKamiPage() {
                   )}
 
                   <span className="absolute left-3 top-3 z-20 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-brand-900">
-                    {internal ? "Situs ini" : ada ? "Situs resmi" : "Segera"}
+                    {internal ? tx(lang, "Situs ini") : ada ? tx(lang, "Situs resmi") : tx(lang, "Segera")}
                   </span>
                 </div>
 
@@ -84,7 +89,7 @@ export default async function RumahSakitKamiPage() {
                   <span className="text-sm font-semibold leading-snug text-brand-900">{rs.nama}</span>
                   <span className="mt-1 block text-xs text-muted">{rs.kota}</span>
                   <span className="mt-3 text-xs font-semibold text-brand-800">
-                    {internal ? "Anda sedang di sini" : ada ? "Buka situs ↗" : "Tautan belum tersedia"}
+                    {internal ? tx(lang, "Anda sedang di sini") : ada ? tx(lang, "Buka situs ↗") : tx(lang, "Tautan belum tersedia")}
                   </span>
                 </div>
               </>

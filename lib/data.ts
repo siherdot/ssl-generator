@@ -220,6 +220,7 @@ export async function getDokterList(opts: { q?: string; poli?: string; hari?: st
         images: r.images,
         id_poli: r.id_poli,
         nama_poli: r.nama_poli,
+        nama_poli_en: r.nama_poli_en,
         jadwal: [],
       };
       peta.set(r.id_dokter, dokter);

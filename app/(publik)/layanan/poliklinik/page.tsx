@@ -6,11 +6,10 @@ import { dua, tx } from "@/lib/teks-en";
 import { getPoliList, gambar } from "@/lib/data";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "Poliklinik & Spesialisasi",
-  description:
-    "Daftar poliklinik dan spesialisasi yang tersedia di RSU Mahkota Bidadari beserta jumlah dokternya.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  return { title: tx(lang, "Poliklinik & Spesialisasi") };
+}
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.
