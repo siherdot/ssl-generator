@@ -46,7 +46,7 @@ export default async function AlurPage() {
         description={tx(lang, "Gambaran umum langkah berobat di RSU Mahkota Bidadari. Petugas di loket akan membantu bila ada perbedaan prosedur.")}
         crumbs={[
           { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
-          { label: "Alur Pendaftaran" },
+          { label: tx(lang, "Alur Pendaftaran") },
         ]}
       />
 

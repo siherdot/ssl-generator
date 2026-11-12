@@ -71,7 +71,7 @@ export default async function McuPage() {
             <p className="mt-1 text-xs leading-relaxed text-muted">{tx(lang, "Pemeriksaan kesehatan karyawan dapat dijadwalkan kolektif. Sertakan jumlah peserta dan jenis pemeriksaan yang dibutuhkan saat menghubungi kami.")}</p>
           </div>
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-            <h2 className="text-sm font-semibold text-brand-900">Penjamin</h2>
+            <h2 className="text-sm font-semibold text-brand-900">{tx(lang, "Penjamin")}</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted">
               {tx(lang, "Sebagian paket dapat ditanggung asuransi rekanan. Cek daftarnya di halaman penjamin.")}
             </p>

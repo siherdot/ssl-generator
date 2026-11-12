@@ -116,6 +116,16 @@ export const EN: Record<string, string> = {
 
   "Cari Dokter & Jadwal Praktik": "Find a Doctor & Practice Schedule",
 
+  "Fasilitas & unit": "Facilities & units",
+  "24 jam": "24 hours",
+  "IGD setiap hari": "Emergency department, every day",
+  "Tempat tidur": "Beds",
+  "Hubungi pendaftaran": "Contact registration",
+  "Cek ketersediaan kamar": "Check room availability",
+  "Kosong": "Free",
+  "Asuransi": "Insurance",
+  "Pendaftaran lewat aplikasi Mobile JKN BPJS Kesehatan.": "Registration is through the BPJS Kesehatan Mobile JKN app.",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",

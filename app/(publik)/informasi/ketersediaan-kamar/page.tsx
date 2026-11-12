@@ -111,16 +111,16 @@ export default async function KetersediaanPage() {
             {/* ringkasan */}
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-                <p className="text-xs uppercase tracking-wide text-muted">Total tempat tidur</p>
+                <p className="text-xs uppercase tracking-wide text-muted">{tx(lang, "Total tempat tidur")}</p>
                 <p className="mt-1 text-3xl font-bold text-brand-900">{total}</p>
               </div>
               <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-                <p className="text-xs uppercase tracking-wide text-muted">Terisi</p>
+                <p className="text-xs uppercase tracking-wide text-muted">{tx(lang, "Terisi")}</p>
                 <p className="mt-1 text-3xl font-bold text-ink">{terisi}</p>
-                <p className="mt-1 text-xs text-muted">{persen}% dari total</p>
+                <p className="mt-1 text-xs text-muted">{lang === "en" ? `${persen}% of total` : `${persen}% dari total`}</p>
               </div>
               <div className="rounded-[var(--radius-card)] border border-brand/50 bg-brand/10 p-5">
-                <p className="text-xs uppercase tracking-wide text-brand-900">Kosong</p>
+                <p className="text-xs uppercase tracking-wide text-brand-900">{tx(lang, "Kosong")}</p>
                 <p className="mt-1 text-3xl font-bold text-brand-900">{kosong}</p>
                 <p className="mt-1 text-xs text-brand-900/70">siap dipakai</p>
               </div>
@@ -146,8 +146,8 @@ export default async function KetersediaanPage() {
                   <tr>
                     <th className="px-4 py-3 text-left">Nama kamar</th>
                     <th className="px-4 py-3 text-center">Kapasitas</th>
-                    <th className="px-4 py-3 text-center">Terisi</th>
-                    <th className="px-4 py-3 text-center">Kosong</th>
+                    <th className="px-4 py-3 text-center">{tx(lang, "Terisi")}</th>
+                    <th className="px-4 py-3 text-center">{tx(lang, "Kosong")}</th>
                   </tr>
                 </thead>
                 <tbody className="text-2xl font-bold tabular-nums text-ink">

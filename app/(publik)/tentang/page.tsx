@@ -43,7 +43,7 @@ export default async function TentangPage() {
             </p>
 
             <h2 id="visi-misi" className="mt-10 scroll-mt-24 text-lg font-semibold text-brand-900">
-              Visi &amp; Misi
+              {tx(lang, "Visi & Misi")}
             </h2>
             <div className="mt-3 grid gap-5 md:grid-cols-2">
               <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
@@ -79,11 +79,11 @@ export default async function TentangPage() {
               <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Kontak")}</h2>
               <dl className="mt-3 space-y-3 text-sm">
                 <div>
-                  <dt className="text-xs text-muted">Alamat</dt>
+                  <dt className="text-xs text-muted">{tx(lang, "Alamat")}</dt>
                   <dd className="mt-0.5 leading-relaxed">{company?.alamat}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-muted">Telepon</dt>
+                  <dt className="text-xs text-muted">{tx(lang, "Telepon")}</dt>
                   <dd className="mt-0.5">
                     <a href={`tel:${(company?.phone ?? "").replace(/[^0-9+]/g, "")}`} className="font-semibold text-brand-800">
                       {company?.phone}
@@ -110,7 +110,7 @@ export default async function TentangPage() {
             <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
               <h2 className="text-sm font-semibold text-brand-900">Ingin berobat?</h2>
               <p className="mt-1 text-xs leading-relaxed text-muted">
-                Pendaftaran lewat aplikasi Mobile JKN BPJS Kesehatan.
+                {tx(lang, "Pendaftaran lewat aplikasi Mobile JKN BPJS Kesehatan.")}
               </p>
               <Link
                 href="/daftar-online"

@@ -85,11 +85,11 @@ export default async function LayananPage() {
           </div>
           <div>
             <p className="text-2xl font-bold text-brand-900">{fasilitas.length}</p>
-            <p className="text-xs uppercase tracking-wide text-muted">Fasilitas & unit</p>
+            <p className="text-xs uppercase tracking-wide text-muted">{tx(lang, "Fasilitas & unit")}</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-brand-900">24 jam</p>
-            <p className="text-xs uppercase tracking-wide text-muted">IGD setiap hari</p>
+            <p className="text-2xl font-bold text-brand-900">{tx(lang, "24 jam")}</p>
+            <p className="text-xs uppercase tracking-wide text-muted">{tx(lang, "IGD setiap hari")}</p>
           </div>
         </div>
       </section>

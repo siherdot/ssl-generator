@@ -11,14 +11,19 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await bacaBahasa();
+  const kota = "Kabupaten Langkat";
+  return {
   metadataBase: new URL("https://rsumb.rsumb.site"),
   title: {
-    default: `${site.name} — Rumah Sakit Umum di Kabupaten Langkat`,
+    default: lang === "en" ? `${site.name} — General Hospital in ${kota}` : `${site.name} — Rumah Sakit Umum di ${kota}`,
     template: `%s | ${site.name}`,
   },
   description:
-    "RSU Mahkota Bidadari melayani UGD 24 jam, rawat jalan, rawat inap, dan penunjang medis di Kabupaten Langkat, Sumatera Utara.",
+    lang === "en"
+      ? `${site.name} provides 24-hour emergency care, outpatient and inpatient services, and medical support in Langkat Regency, North Sumatra.`
+      : `${site.name} melayani UGD 24 jam, rawat jalan, rawat inap, dan penunjang medis di Kabupaten Langkat, Sumatera Utara.`,
   keywords: [
     "rumah sakit langkat",
     "RSU Mahkota Bidadari",
@@ -28,9 +33,9 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    locale: "id_ID",
+    locale: lang === "en" ? "en_US" : "id_ID",
     siteName: site.name,
-    title: `${site.name} — Rumah Sakit Umum di Kabupaten Langkat`,
+    title: lang === "en" ? `${site.name} — General Hospital in ${kota}` : `${site.name} — Rumah Sakit Umum di ${kota}`,
     description: site.slogan,
     images: [
       { url: "/images/og-rsumb.jpg", width: 1200, height: 630, alt: `${site.name} — rumah sakit di Kabupaten Langkat` },
@@ -44,7 +49,8 @@ export const metadata: Metadata = {
     apple: "/api/identitas/ikon",
   },
   robots: { index: true, follow: true },
-};
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#0b8f1b",

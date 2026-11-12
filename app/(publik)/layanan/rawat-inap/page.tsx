@@ -63,13 +63,13 @@ export default async function RawatInapPage() {
                 href={`tel:${telepon}`}
                 className="rounded-lg bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
               >
-                Hubungi pendaftaran
+                {tx(lang, "Hubungi pendaftaran")}
               </a>
               <Link
                 href="/informasi/ketersediaan-kamar"
                 className="rounded-lg border border-brand-900/20 px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-mist"
               >
-                Cek ketersediaan kamar
+                {tx(lang, "Cek ketersediaan kamar")}
               </Link>
               <Link
                 href="/daftar-online"
@@ -91,7 +91,7 @@ export default async function RawatInapPage() {
                   <tr>
                     <th className="px-5 py-3 font-semibold">Unit</th>
                     <th className="px-5 py-3 font-semibold">{tx(lang, "Kelas")}</th>
-                    <th className="px-5 py-3 font-semibold">Tempat tidur</th>
+                    <th className="px-5 py-3 font-semibold">{tx(lang, "Tempat tidur")}</th>
                     <th className="px-5 py-3 font-semibold">{tx(lang, "Terisi")}</th>
                     <th className="px-5 py-3 font-semibold">Keterangan</th>
                   </tr>
@@ -114,13 +114,13 @@ export default async function RawatInapPage() {
                 href={`tel:${telepon}`}
                 className="rounded-lg bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
               >
-                Hubungi pendaftaran
+                {tx(lang, "Hubungi pendaftaran")}
               </a>
               <Link
                 href="/informasi/ketersediaan-kamar"
                 className="rounded-lg border border-brand-900/20 px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-mist"
               >
-                Cek ketersediaan kamar
+                {tx(lang, "Cek ketersediaan kamar")}
               </Link>
             </div>
           </div>
