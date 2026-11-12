@@ -124,18 +124,19 @@ export default async function HomePage() {
           <div className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-brand/40 bg-brand/10 p-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 id="ketersediaan-kamar" className="text-sm font-semibold uppercase tracking-wide text-brand-900">
-                Ketersediaan tempat tidur hari ini
+                {t(lang, "home.kamar.judul")}
               </h2>
               <p className="mt-1 text-sm text-ink">
-                <strong>{kosongKasur}</strong> kosong dari <strong>{totalKasur}</strong> tempat tidur
-                <span className="text-muted"> · {terisiKasur} terisi</span>
+                <strong>{kosongKasur}</strong> {t(lang, "home.kamar.kosong")} {t(lang, "home.kamar.dari")}{" "}
+                <strong>{totalKasur}</strong> {t(lang, "home.kamar.tidur")}
+                <span className="text-muted"> · {terisiKasur} {t(lang, "home.kamar.terisi")}</span>
               </p>
             </div>
             <Link
               href="/informasi/ketersediaan-kamar"
               className="shrink-0 rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
             >
-              Lihat rincian per kelas
+              {t(lang, "home.kamar.lihat")}
             </Link>
           </div>
         </section>
@@ -157,9 +158,9 @@ export default async function HomePage() {
 
       {/* poliklinik unggulan */}
       <section className="container-page pb-12" aria-labelledby="layanan-unggulan">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">Layanan</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{t(lang, "home.sect.layanan")}</p>
         <h2 id="layanan-unggulan" className="section-title mt-2 text-2xl lg:text-3xl">
-          Poliklinik &amp; Spesialisasi
+          {t(lang, "home.sect.layananJudul")}
         </h2>
 
         <div className="mt-6">
@@ -168,12 +169,12 @@ export default async function HomePage() {
               <div key={p.id_poli} className="carousel-item">
                 <InfoCard
                   title={p.nama_poli}
-                  description={`${Number(p.jumlah_dokter ?? 0)} dokter · ${
-                    p.ket ? p.ket.replace(/<[^>]+>/g, "").trim() : "Layanan rawat jalan"
+                  description={`${Number(p.jumlah_dokter ?? 0)} ${t(lang, "home.poli.dokter")} · ${
+                    p.ket ? p.ket.replace(/<[^>]+>/g, "").trim() : t(lang, "home.poli.rawatJalan")
                   }`}
                   image={gambar(p.images)}
                   href={`/dokter?poli=${encodeURIComponent(p.id_poli)}`}
-                  ctaLabel="Lihat dokter"
+                  ctaLabel={t(lang, "home.cta.lihatDokter")}
                   rasio="aspect-[4/3]"
                   latarBlur
                 />
@@ -186,9 +187,9 @@ export default async function HomePage() {
       {/* dokter */}
       <section className="border-y border-line bg-mist py-12" aria-labelledby="dokter-sorot">
         <div className="container-page">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">Tim Medis</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{t(lang, "home.sect.tim")}</p>
           <h2 id="dokter-sorot" className="section-title mt-2 text-2xl lg:text-3xl">
-            Dokter Spesialis
+            {t(lang, "home.sect.timJudul")}
           </h2>
 
           <div className="mt-6">
@@ -205,9 +206,9 @@ export default async function HomePage() {
 
       {/* berita */}
       <section className="container-page py-12" aria-labelledby="berita-terbaru">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">Informasi</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{t(lang, "home.sect.informasi")}</p>
         <h2 id="berita-terbaru" className="section-title mt-2 text-2xl lg:text-3xl">
-          Berita &amp; Kegiatan
+          {t(lang, "home.sect.informasiJudul")}
         </h2>
 
         <div className="mt-6">
@@ -219,7 +220,7 @@ export default async function HomePage() {
                   description={tanggalRapi(n.create_date) ?? undefined}
                   image={gambar(n.news_images)}
                   href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}
-                  ctaLabel="Baca"
+                  ctaLabel={t(lang, "home.cta.baca")}
                   rasio="aspect-[4/5]"
                   latarBlur
                 />
@@ -233,7 +234,7 @@ export default async function HomePage() {
       {promo.length > 0 && (
         <section className="border-y border-line bg-mist py-12" aria-labelledby="promo-aktif">
           <div className="container-page">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">Penawaran</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{t(lang, "home.sect.penawaran")}</p>
             <h2 id="promo-aktif" className="section-title mt-2 text-2xl lg:text-3xl">
               Promo &amp; Paket
             </h2>
@@ -259,7 +260,7 @@ export default async function HomePage() {
       {/* testimoni — hanya tampil bila ada data */}
       {testimoni.length > 0 && (
         <section className="container-page py-12" aria-labelledby="testimoni-pasien">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">Pengalaman Pasien</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{t(lang, "home.sect.pengalaman")}</p>
           <h2 id="testimoni-pasien" className="section-title mt-2 text-2xl lg:text-3xl">
             Kata Pasien Kami
           </h2>
@@ -283,7 +284,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <HubungiKami />
+      <HubungiKami lang={lang} />
     </>
   );
 }

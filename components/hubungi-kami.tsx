@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PetaEmbed from "@/components/peta-embed";
 import { site } from "@/lib/site";
+import { t, type Lang } from "@/lib/i18n";
 
 type IkonNama = "survei" | "pengaduan" | "lapor" | "wbs";
 
@@ -61,20 +62,19 @@ function Ikon({ nama }: { nama: IkonNama }) {
   );
 }
 
-export default function HubungiKami() {
+export default function HubungiKami({ lang = "id" }: { lang?: Lang }) {
 
   return (
     <section className="border-t border-line bg-mint/40 py-12" aria-labelledby="hubungi-kami">
       <div className="container-page">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">
-          Hubungi Kami
+          {t(lang, "hub.label")}
         </p>
         <h2 id="hubungi-kami" className="section-title mt-2 text-2xl lg:text-3xl">
-          Sampaikan kebutuhan dan masukan Anda
+          {t(lang, "hub.judul")}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-          Tim kami siap membantu. Untuk pendaftaran, jadwal dokter, atau informasi layanan,
-          hubungi kanal resmi berikut.
+          {t(lang, "hub.isi")}
         </p>
 
         <div className="mt-7 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:gap-8">
@@ -84,10 +84,10 @@ export default function HubungiKami() {
           {/* kanan: daftar survei & pengaduan */}
           <div className="flex h-full flex-col justify-center rounded-[var(--radius-card)] border border-line bg-white p-6 shadow-[var(--shadow-card)] lg:p-8">
             <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-brand-800">
-              Survei &amp; Pengaduan
+              {t(lang, "hub.surveiJudul")}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-muted">
-              Masukan Anda membantu kami memperbaiki mutu pelayanan rumah sakit.
+              {t(lang, "hub.surveiIsi")}
             </p>
 
           <ul className="mt-4">
@@ -102,9 +102,9 @@ export default function HubungiKami() {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-brand-900 group-hover:text-brand-800">
-                      {m.label}
+                      {m.href === "/kontak" ? t(lang, "hub.surveiNama") : m.label}
                     </span>
-                    <span className="mt-0.5 block text-xs leading-relaxed text-muted">{m.ket}</span>
+                    <span className="mt-0.5 block text-xs leading-relaxed text-muted">{m.href === "/kontak" ? t(lang, "hub.surveiKet") : m.ket}</span>
                   </span>
                   <svg
                     width="18"
