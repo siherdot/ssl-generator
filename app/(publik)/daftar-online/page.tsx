@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 
 export const metadata: Metadata = {
   title: "Pendaftaran via Mobile JKN",
@@ -33,21 +35,22 @@ const langkah = [
   },
 ];
 
-export default function DaftarOnlinePage() {
+export default async function DaftarOnlinePage() {
+  const lang = await bacaBahasa();
   return (
     <>
       <PageHeader
-        eyebrow="Pendaftaran"
-        title="Pendaftaran via Mobile JKN"
-        description="Pendaftaran rawat jalan di RSU Mahkota Bidadari dilakukan melalui aplikasi Mobile JKN milik BPJS Kesehatan. Situs ini tidak lagi menerima formulir pendaftaran sendiri."
-        crumbs={[{ label: "Pendaftaran via Mobile JKN" }]}
+        eyebrow={tx(lang, "Pendaftaran")}
+        title={tx(lang, "Pendaftaran via Mobile JKN")}
+        description={tx(lang, "Pendaftaran rawat jalan di RSU Mahkota Bidadari dilakukan melalui aplikasi Mobile JKN milik BPJS Kesehatan. Situs ini tidak lagi menerima formulir pendaftaran sendiri.")}
+        crumbs={[{ label: tx(lang, "Pendaftaran via Mobile JKN") }]}
       />
 
       <section className="container-page py-8">
         <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
           <div className="space-y-4">
             <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Unduh Mobile JKN</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Unduh Mobile JKN")}</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 Hampir seluruh pasien kami adalah peserta JKN-KIS, sehingga pendaftaran berobat diarahkan ke
                 aplikasi resmi BPJS Kesehatan agar nomor antrean langsung terbit dan tidak perlu mengisi ulang
@@ -74,7 +77,7 @@ export default function DaftarOnlinePage() {
             </div>
 
             <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Langkah pendaftaran</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Langkah pendaftaran")}</h2>
               <ol className="mt-3 space-y-3">
                 {langkah.map((l, i) => (
                   <li key={l.judul} className="flex gap-3">
@@ -91,18 +94,18 @@ export default function DaftarOnlinePage() {
             </div>
 
             <div className="rounded-[var(--radius-card)] border border-amber-200 bg-amber-50 p-5">
-              <h2 className="text-sm font-semibold text-amber-800">Bukan peserta JKN atau butuh bantuan?</h2>
+              <h2 className="text-sm font-semibold text-amber-800">{tx(lang, "Bukan peserta JKN atau butuh bantuan?")}</h2>
               <ul className="mt-2 space-y-1 text-sm leading-relaxed text-amber-900/90">
-                <li>• Pasien umum, asuransi swasta, atau perusahaan: hubungi pendaftaran untuk pendaftaran manual.</li>
-                <li>• Jadwal praktik dokter bisa dicek di halaman Cari Dokter sebelum memilih tanggal di aplikasi.</li>
-                <li>• Pasien JKN tetap membawa KTP dan kartu JKN (KIS) saat datang.</li>
+                <li>{tx(lang, "• Pasien umum, asuransi swasta, atau perusahaan: hubungi pendaftaran untuk pendaftaran manual.")}</li>
+                <li>{tx(lang, "• Jadwal praktik dokter bisa dicek di halaman Cari Dokter sebelum memilih tanggal di aplikasi.")}</li>
+                <li>{tx(lang, "• Pasien JKN tetap membawa KTP dan kartu JKN (KIS) saat datang.")}</li>
               </ul>
             </div>
           </div>
 
           <aside className="space-y-4">
             <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Butuh bantuan?</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{tx(lang, "Butuh bantuan?")}</h2>
               <p className="mt-2 text-xs leading-relaxed text-muted">
                 Petugas pendaftaran membantu pada jam kerja. Untuk kondisi darurat, langsung ke IGD 24 jam.
               </p>
@@ -123,7 +126,7 @@ export default function DaftarOnlinePage() {
             </div>
 
             <div className="rounded-[var(--radius-card)] border border-red-200 bg-red-50 p-5">
-              <h2 className="text-sm font-semibold text-red-700">IGD 24 jam</h2>
+              <h2 className="text-sm font-semibold text-red-700">{tx(lang, "IGD 24 jam")}</h2>
               <p className="mt-1 text-xs leading-relaxed text-red-700/80">
                 Kondisi darurat tidak perlu memakai antrean online — datang langsung atau telepon.
               </p>

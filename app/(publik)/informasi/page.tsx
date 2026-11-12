@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getNewsList, getPenjamin, tanggalRapi } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function InformasiPage() {
+  const lang = await bacaBahasa();
   const [berita, penjamin] = await Promise.all([getNewsList(3), getPenjamin()]);
 
   const kelompok = [
@@ -76,10 +79,10 @@ export default async function InformasiPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Pusat Informasi"
-        description="Informasi dikelompokkan sesuai kebutuhan Anda — pasien, tenaga profesional, dan masyarakat umum."
-        crumbs={[{ label: "Pusat Informasi" }]}
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Pusat Informasi")}
+        description={tx(lang, "Informasi dikelompokkan sesuai kebutuhan Anda — pasien, tenaga profesional, dan masyarakat umum.")}
+        crumbs={[{ label: tx(lang, "Pusat Informasi") }]}
       />
 
       <section className="container-page py-8">

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getPoliList, gambar } from "@/lib/data";
 import Image from "next/image";
 
@@ -15,17 +17,18 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function PoliklinikPage() {
+  const lang = await bacaBahasa();
   const poliList = await getPoliList();
   const totalDokter = poliList.reduce((n, p) => n + Number(p.jumlah_dokter ?? 0), 0);
 
   return (
     <>
       <PageHeader
-        eyebrow="Fasilitas & Layanan"
-        title="Poliklinik & Spesialisasi"
-        description={`${poliList.length} poliklinik dengan ${totalDokter} jadwal dokter spesialis. Pilih poliklinik untuk melihat dokter yang praktik.`}
+        eyebrow={tx(lang, "Fasilitas & Layanan")}
+        title={tx(lang, "Poliklinik & Spesialisasi")}
+        description={lang === "en" ? `${poliList.length} clinics with ${totalDokter} specialist schedules. Choose a clinic to see the doctors on duty.` : `${poliList.length} poliklinik dengan ${totalDokter} jadwal dokter spesialis. Pilih poliklinik untuk melihat dokter yang praktik.`}
         crumbs={[
-          { label: "Fasilitas & Layanan", href: "/layanan" },
+          { label: tx(lang, "Fasilitas & Layanan"), href: "/layanan" },
           { label: "Poliklinik" },
         ]}
       />

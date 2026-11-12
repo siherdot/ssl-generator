@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getKasur, getKasurDiperbarui } from "@/lib/data";
 import { site } from "@/lib/site";
 
@@ -22,6 +24,7 @@ function tanggal(iso: string | null | undefined) {
 }
 
 export default async function RawatInapPage() {
+  const lang = await bacaBahasa();
   const [unit, terakhir] = await Promise.all([getKasur(), getKasurDiperbarui()]);
   const diperbarui = tanggal(terakhir?.diperbarui ?? null);
   const telepon = site.phone.replace(/[^0-9+]/g, "");
@@ -29,12 +32,12 @@ export default async function RawatInapPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Fasilitas & Layanan"
-        title="Rawat Inap"
-        description="Pelayanan rawat inap RSU Mahkota Bidadari dengan pilihan kelas perawatan, didampingi dokter dan perawat selama menjalani perawatan."
+        eyebrow={tx(lang, "Fasilitas & Layanan")}
+        title={tx(lang, "Rawat Inap")}
+        description={tx(lang, "Pelayanan rawat inap RSU Mahkota Bidadari dengan pilihan kelas perawatan, didampingi dokter dan perawat selama menjalani perawatan.")}
         crumbs={[
-          { label: "Fasilitas & Layanan", href: "/layanan" },
-          { label: "Rawat Inap" },
+          { label: tx(lang, "Fasilitas & Layanan"), href: "/layanan" },
+          { label: tx(lang, "Rawat Inap") },
         ]}
       />
 

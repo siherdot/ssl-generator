@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getPoliList, getFacilityList } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -40,15 +42,16 @@ const layanan = [
 ];
 
 export default async function LayananPage() {
+  const lang = await bacaBahasa();
   const [poli, fasilitas] = await Promise.all([getPoliList(), getFacilityList()]);
 
   return (
     <>
       <PageHeader
-        eyebrow="Fasilitas & Layanan"
-        title="Layanan Rumah Sakit"
-        description="Layanan darurat, rawat jalan, rawat inap, dan penunjang medis dalam satu rumah sakit."
-        crumbs={[{ label: "Fasilitas & Layanan" }]}
+        eyebrow={tx(lang, "Fasilitas & Layanan")}
+        title={tx(lang, "Layanan Rumah Sakit")}
+        description={tx(lang, "Layanan darurat, rawat jalan, rawat inap, dan penunjang medis dalam satu rumah sakit.")}
+        crumbs={[{ label: tx(lang, "Fasilitas & Layanan") }]}
       />
 
       <section className="container-page py-8">
@@ -60,10 +63,10 @@ export default async function LayananPage() {
                 className="card-hover flex h-full flex-col justify-between rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]"
               >
                 <span>
-                  <span className="block text-base font-semibold text-brand-900">{l.title}</span>
-                  <span className="mt-1 block text-sm leading-relaxed text-muted">{l.desc}</span>
+                  <span className="block text-base font-semibold text-brand-900">{tx(lang, l.title)}</span>
+                  <span className="mt-1 block text-sm leading-relaxed text-muted">{tx(lang, l.desc)}</span>
                 </span>
-                <span className="mt-4 text-xs font-semibold text-brand-800">Selengkapnya →</span>
+                <span className="mt-4 text-xs font-semibold text-brand-800">{tx(lang, "Selengkapnya →")}</span>
               </Link>
             </li>
           ))}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getCompany, getPenjamin } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function FaqPage() {
+  const lang = await bacaBahasa();
   const [company, penjamin] = await Promise.all([getCompany(), getPenjamin()]);
 
   const faq = [
@@ -52,11 +55,11 @@ export default async function FaqPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Pertanyaan Umum"
-        description="Jawaban singkat untuk pertanyaan yang paling sering ditanyakan pasien dan keluarga."
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Pertanyaan Umum")}
+        description={tx(lang, "Jawaban singkat untuk pertanyaan yang paling sering ditanyakan pasien dan keluarga.")}
         crumbs={[
-          { label: "Pusat Informasi", href: "/informasi" },
+          { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
           { label: "FAQ" },
         ]}
       />
@@ -90,7 +93,7 @@ export default async function FaqPage() {
 
         <div className="mx-auto mt-8 max-w-3xl rounded-[var(--radius-card)] border border-dashed border-brand/50 bg-brand/10 p-5 text-sm">
           <p className="font-semibold text-brand-900">Pertanyaan belum terjawab?</p>
-          <p className="mt-1 text-muted">Kirim lewat formulir kontak atau hubungi kami langsung.</p>
+          <p className="mt-1 text-muted">{tx(lang, "Kirim lewat formulir kontak atau hubungi kami langsung.")}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Link href="/kontak" className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800">
               Formulir kontak

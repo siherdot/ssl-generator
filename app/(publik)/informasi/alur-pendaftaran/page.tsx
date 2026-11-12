@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 
 export const metadata: Metadata = {
   title: "Alur Pendaftaran Pasien",
@@ -35,15 +37,16 @@ const langkah = [
   },
 ];
 
-export default function AlurPage() {
+export default async function AlurPage() {
+  const lang = await bacaBahasa();
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Alur Pendaftaran Pasien"
-        description="Gambaran umum langkah berobat di RSU Mahkota Bidadari. Petugas di loket akan membantu bila ada perbedaan prosedur."
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Alur Pendaftaran Pasien")}
+        description={tx(lang, "Gambaran umum langkah berobat di RSU Mahkota Bidadari. Petugas di loket akan membantu bila ada perbedaan prosedur.")}
         crumbs={[
-          { label: "Pusat Informasi", href: "/informasi" },
+          { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
           { label: "Alur Pendaftaran" },
         ]}
       />
@@ -67,7 +70,7 @@ export default function AlurPage() {
 
         <aside className="space-y-4">
           <div className="rounded-[var(--radius-card)] border border-red-200 bg-red-50 p-5">
-            <h2 className="text-sm font-semibold text-red-700">Kondisi darurat</h2>
+            <h2 className="text-sm font-semibold text-red-700">{tx(lang, "Kondisi darurat")}</h2>
             <p className="mt-1 text-xs leading-relaxed text-red-700/80">
               Jangan menunggu jadwal. Datang langsung ke IGD atau hubungi nomor IGD.
             </p>
@@ -80,7 +83,7 @@ export default function AlurPage() {
           </div>
 
           <div className="rounded-[var(--radius-card)] border border-line bg-mist p-5">
-            <h2 className="text-sm font-semibold text-brand-900">Daftar dari rumah</h2>
+            <h2 className="text-sm font-semibold text-brand-900">{tx(lang, "Daftar dari rumah")}</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted">
               Daftar lewat aplikasi Mobile JKN agar nomor antrean langsung terbit.
             </p>
@@ -93,12 +96,12 @@ export default function AlurPage() {
           </div>
 
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-5 shadow-[var(--shadow-card)]">
-            <h2 className="text-sm font-semibold text-brand-900">Yang perlu dibawa</h2>
+            <h2 className="text-sm font-semibold text-brand-900">{tx(lang, "Yang perlu dibawa")}</h2>
             <ul className="mt-2 space-y-1 text-xs text-muted">
-              <li>• Identitas (KTP / kartu keluarga)</li>
-              <li>• Kartu berobat (bila sudah punya)</li>
-              <li>• Kartu asuransi / surat jaminan</li>
-              <li>• Hasil pemeriksaan sebelumnya (bila ada)</li>
+              <li>{tx(lang, "• Identitas (KTP / kartu keluarga)")}</li>
+              <li>{tx(lang, "• Kartu berobat (bila sudah punya)")}</li>
+              <li>{tx(lang, "• Kartu asuransi / surat jaminan")}</li>
+              <li>{tx(lang, "• Hasil pemeriksaan sebelumnya (bila ada)")}</li>
             </ul>
           </div>
         </aside>

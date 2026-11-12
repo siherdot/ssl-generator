@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getNewsList, gambar, tanggalRapi } from "@/lib/data";
 
@@ -21,6 +23,7 @@ export default async function BeritaPage({
 }: {
   searchParams: Promise<{ tampil?: string }>;
 }) {
+  const lang = await bacaBahasa();
   const { tampil } = await searchParams;
   const berita = await getNewsList();
   const [utama, ...sisa] = berita;
@@ -37,11 +40,11 @@ export default async function BeritaPage({
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Berita & Kegiatan"
-        description={`${berita.length} berita dan kegiatan dari RSU Mahkota Bidadari.`}
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Berita & Kegiatan")}
+        description={lang === "en" ? `${berita.length} news items and events from RSU Mahkota Bidadari.` : `${berita.length} berita dan kegiatan dari RSU Mahkota Bidadari.`}
         crumbs={[
-          { label: "Pusat Informasi", href: "/informasi" },
+          { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
           { label: "Berita" },
         ]}
       />

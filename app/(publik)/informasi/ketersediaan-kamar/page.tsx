@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getKasur, waktuDb } from "@/lib/data";
 import { site } from "@/lib/site";
 
@@ -28,6 +30,7 @@ function waktuRelatif(iso: string): { teks: string; basi: boolean } {
 }
 
 export default async function KetersediaanPage() {
+  const lang = await bacaBahasa();
   const kasur = await getKasur();
 
   const total = kasur.reduce((n, k) => n + Number(k.total || 0), 0);
@@ -69,12 +72,12 @@ export default async function KetersediaanPage() {
       {/* halaman papan informasi: muat ulang tiap 5 menit, seperti display SIMRS */}
       <meta httpEquiv="refresh" content="300" />
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Ketersediaan Tempat Tidur"
-        description="Ringkasan tempat tidur rawat inap per kelas. Angka diperbarui berkala dari sistem rumah sakit."
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Ketersediaan Tempat Tidur")}
+        description={tx(lang, "Ringkasan tempat tidur rawat inap per kelas. Angka diperbarui berkala dari sistem rumah sakit.")}
         crumbs={[
-          { label: "Pusat Informasi", href: "/informasi" },
-          { label: "Ketersediaan Tempat Tidur" },
+          { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
+          { label: tx(lang, "Ketersediaan Tempat Tidur") },
         ]}
       />
 

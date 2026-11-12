@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getGrupRs, gambar } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -25,15 +27,16 @@ function inisial(nama: string) {
 }
 
 export default async function RumahSakitKamiPage() {
+  const lang = await bacaBahasa();
   const daftar = await getGrupRs();
 
   return (
     <>
       <PageHeader
-        eyebrow="Jaringan"
-        title="Rumah Sakit Kami"
-        description="Bidadari Group mengelola beberapa rumah sakit di Sumatera Utara dan Aceh. Pilih rumah sakit untuk melihat situs resminya."
-        crumbs={[{ label: "Rumah Sakit Kami" }]}
+        eyebrow={tx(lang, "Jaringan")}
+        title={tx(lang, "Rumah Sakit Kami")}
+        description={tx(lang, "Bidadari Group mengelola beberapa rumah sakit di Sumatera Utara dan Aceh. Pilih rumah sakit untuk melihat situs resminya.")}
+        crumbs={[{ label: tx(lang, "Rumah Sakit Kami") }]}
       />
 
       <section className="container-page py-8">

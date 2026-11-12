@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getFacilityList, gambar } from "@/lib/data";
 
@@ -18,6 +20,7 @@ const intensif = ["ICU", "NICU", "INSTALASI GAWAT DARURAT (IGD)", "KAMAR BERSALI
 const umum = ["AREA PARKIR", "ATM CENTRE", "MUSHOLLA", "UNIT LAUNDRY"];
 
 export default async function PenunjangPage() {
+  const lang = await bacaBahasa();
   const semua = await getFacilityList();
   const cari = (nama: string) => semua.find((f) => f.facility_name.toUpperCase() === nama);
 
@@ -30,12 +33,12 @@ export default async function PenunjangPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Fasilitas & Layanan"
-        title="Penunjang Medis"
-        description="Pemeriksaan dan tindakan penunjang yang mendukung penegakan diagnosis serta perawatan pasien."
+        eyebrow={tx(lang, "Fasilitas & Layanan")}
+        title={tx(lang, "Penunjang Medis")}
+        description={tx(lang, "Pemeriksaan dan tindakan penunjang yang mendukung penegakan diagnosis serta perawatan pasien.")}
         crumbs={[
-          { label: "Fasilitas & Layanan", href: "/layanan" },
-          { label: "Penunjang Medis" },
+          { label: tx(lang, "Fasilitas & Layanan"), href: "/layanan" },
+          { label: tx(lang, "Penunjang Medis") },
         ]}
       />
 

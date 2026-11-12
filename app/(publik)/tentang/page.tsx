@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getCompany, bersihkanHtml } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -14,15 +16,16 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function TentangPage() {
+  const lang = await bacaBahasa();
   const company = await getCompany();
 
   return (
     <>
       <PageHeader
-        eyebrow="Tentang Kami"
-        title="Profil RSU Mahkota Bidadari"
+        eyebrow={tx(lang, "Tentang Kami")}
+        title={tx(lang, "Profil RSU Mahkota Bidadari")}
         description={company?.slogan ?? undefined}
-        crumbs={[{ label: "Tentang Kami" }]}
+        crumbs={[{ label: tx(lang, "Tentang Kami") }]}
       />
 
       <section className="container-page py-8">

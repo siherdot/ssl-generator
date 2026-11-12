@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import { getPenjamin, gambar } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -44,18 +46,19 @@ function warna(nama: string) {
 }
 
 export default async function AsuransiPage() {
+  const lang = await bacaBahasa();
   const daftar = await getPenjamin();
   const kategori = [...new Set(daftar.map((d) => d.kategori))];
 
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Asuransi & Penjamin"
-        description={`${daftar.length} rekanan asuransi, TPA, dan korporat yang bekerja sama dengan RSU Mahkota Bidadari.`}
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Asuransi & Penjamin")}
+        description={lang === "en" ? `${daftar.length} insurance partners, TPAs, and corporate clients working with RSU Mahkota Bidadari.` : `${daftar.length} rekanan asuransi, TPA, dan korporat yang bekerja sama dengan RSU Mahkota Bidadari.`}
         crumbs={[
-          { label: "Pusat Informasi", href: "/informasi" },
-          { label: "Asuransi & Penjamin" },
+          { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
+          { label: tx(lang, "Asuransi & Penjamin") },
         ]}
       />
 

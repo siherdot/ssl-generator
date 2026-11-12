@@ -2,7 +2,7 @@ import { getDokterList, getNewsList } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
-const BASE = "https://rsub.rsumb.site";
+const BASE = "https://rsumb.rsumb.site";
 
 /**
  * Sitemap dibuat saat request (bukan saat build) karena build Docker

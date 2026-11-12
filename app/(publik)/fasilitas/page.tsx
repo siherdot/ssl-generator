@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getFacilityList, gambar } from "@/lib/data";
 
@@ -14,15 +16,16 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function FasilitasPage() {
+  const lang = await bacaBahasa();
   const fasilitas = await getFacilityList();
 
   return (
     <>
       <PageHeader
-        eyebrow="Fasilitas"
-        title="Fasilitas Rumah Sakit"
-        description={`${fasilitas.length} fasilitas dan unit layanan yang menunjang perawatan pasien di RSU Mahkota Bidadari.`}
-        crumbs={[{ label: "Fasilitas" }]}
+        eyebrow={tx(lang, "Fasilitas")}
+        title={tx(lang, "Fasilitas Rumah Sakit")}
+        description={lang === "en" ? `${fasilitas.length} facilities and service units supporting patient care at RSU Mahkota Bidadari.` : `${fasilitas.length} fasilitas dan unit layanan yang menunjang perawatan pasien di RSU Mahkota Bidadari.`}
+        crumbs={[{ label: tx(lang, "Fasilitas") }]}
       />
 
       <section className="container-page py-8">

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 
 export const metadata: Metadata = {
   title: "Medical Check Up",
@@ -16,16 +18,17 @@ const alur = [
   "Hasil pemeriksaan diserahkan sesuai jadwal yang diinformasikan.",
 ];
 
-export default function McuPage() {
+export default async function McuPage() {
+  const lang = await bacaBahasa();
   return (
     <>
       <PageHeader
-        eyebrow="Fasilitas & Layanan"
-        title="Medical Check Up"
-        description="Pemeriksaan kesehatan berkala untuk deteksi dini, kebutuhan kerja, dan perusahaan."
+        eyebrow={tx(lang, "Fasilitas & Layanan")}
+        title={tx(lang, "Medical Check Up")}
+        description={tx(lang, "Pemeriksaan kesehatan berkala untuk deteksi dini, kebutuhan kerja, dan perusahaan.")}
         crumbs={[
-          { label: "Fasilitas & Layanan", href: "/layanan" },
-          { label: "Medical Check Up" },
+          { label: tx(lang, "Fasilitas & Layanan"), href: "/layanan" },
+          { label: tx(lang, "Medical Check Up") },
         ]}
       />
 

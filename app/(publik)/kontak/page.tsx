@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import SurveiForm from "@/components/survei-form";
 import PetaEmbed from "@/components/peta-embed";
 import { getCompany, getPoliRingkas } from "@/lib/data";
@@ -15,6 +17,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function KontakPage() {
+  const lang = await bacaBahasa();
   const [company, poli] = await Promise.all([getCompany(), getPoliRingkas()]);
   const alamat = company?.alamat ?? site.address;
   const telepon = company?.phone ?? site.phone;
@@ -33,10 +36,10 @@ export default async function KontakPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Survei Kepuasan"
-        description="Beri penilaian pelayanan yang Anda terima. Untuk kondisi darurat, langsung hubungi IGD."
-        crumbs={[{ label: "Pusat Informasi", href: "/informasi" }, { label: "Survei Kepuasan" }]}
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Survei Kepuasan")}
+        description={tx(lang, "Beri penilaian pelayanan yang Anda terima. Untuk kondisi darurat, langsung hubungi IGD.")}
+        crumbs={[{ label: tx(lang, "Pusat Informasi"), href: "/informasi" }, { label: tx(lang, "Survei Kepuasan") }]}
       />
 
       <section className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_360px]">
@@ -70,7 +73,7 @@ export default async function KontakPage() {
                 </a>
               </li>
               <li className="flex items-center justify-between gap-2">
-                <span className="text-muted">IGD 24 jam</span>
+                <span className="text-muted">{tx(lang, "IGD 24 jam")}</span>
                 <a href={`tel:${igd.replace(/[^0-9+]/g, "")}`} className="font-semibold text-red-600">
                   {igd}
                 </a>

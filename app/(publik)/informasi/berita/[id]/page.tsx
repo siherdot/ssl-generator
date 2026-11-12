@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
 import { bersihkanHtml, gambar, getNews, tanggalRapi } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function DetailBerita({ params }: { params: Params }) {
+  const lang = await bacaBahasa();
   const { id } = await params;
   const berita = await getNews(decodeURIComponent(id));
   if (!berita) notFound();
@@ -33,7 +35,7 @@ export default async function DetailBerita({ params }: { params: Params }) {
       <PageHeader
         eyebrow="Pusat Informasi"
         title={berita.title}
-        description={tanggal ? `Dipublikasikan ${tanggal}` : undefined}
+        description={tanggal ? (lang === "en" ? `Published ${tanggal}` : `Dipublikasikan ${tanggal}`) : undefined}
         crumbs={[
           { label: "Pusat Informasi", href: "/informasi" },
           { label: "Berita & Kegiatan", href: "/informasi/berita" },

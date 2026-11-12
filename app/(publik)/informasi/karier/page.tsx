@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/page-header";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { tx } from "@/lib/teks-en";
 import LamaranForm from "@/components/lamaran-form";
 import { getKarierAktif, getCompany, tanggalRapi, bersihkanHtml } from "@/lib/data";
 
@@ -12,18 +14,19 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function KarierPage() {
+  const lang = await bacaBahasa();
   const [lowongan, company] = await Promise.all([getKarierAktif(), getCompany()]);
   const email = company?.email ?? "bidadaribinjai@gmail.com";
 
   return (
     <>
       <PageHeader
-        eyebrow="Pusat Informasi"
-        title="Karier"
-        description="RSU Mahkota Bidadari membuka kesempatan bagi tenaga medis, keperawatan, penunjang medis, dan non-medis yang ingin berkembang bersama."
+        eyebrow={tx(lang, "Pusat Informasi")}
+        title={tx(lang, "Karier")}
+        description={tx(lang, "RSU Mahkota Bidadari membuka kesempatan bagi tenaga medis, keperawatan, penunjang medis, dan non-medis yang ingin berkembang bersama.")}
         crumbs={[
-          { label: "Pusat Informasi", href: "/informasi" },
-          { label: "Karier" },
+          { label: tx(lang, "Pusat Informasi"), href: "/informasi" },
+          { label: tx(lang, "Karier") },
         ]}
       />
 
@@ -92,7 +95,7 @@ export default async function KarierPage() {
                 </a>{" "}
                 dengan subjek nomor lamaran.
               </li>
-              <li>Kandidat yang sesuai akan dihubungi untuk tahap berikutnya.</li>
+              <li>{tx(lang, "Kandidat yang sesuai akan dihubungi untuk tahap berikutnya.")}</li>
             </ol>
           </div>
         </div>
