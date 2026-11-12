@@ -22,7 +22,7 @@ export default async function PublikLayout({ children }: { children: React.React
       {/* pola identitas RS: di belakang seluruh konten, jadi foto/kartu menutupinya */}
       <div aria-hidden="true" className="pola-latar pointer-events-none fixed inset-0 -z-10" />
       <div aria-hidden="true" className="pola-pojok pointer-events-none fixed inset-0 -z-10" />
-      <ChatAi />
+      <ChatAi lang={lang} />
     </>
   );
 }

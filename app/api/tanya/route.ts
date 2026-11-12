@@ -30,11 +30,13 @@ function cekJatah(kunci: string): { boleh: boolean; sisa: number } {
 }
 
 export async function POST(req: Request) {
+  const isi = (await req.json().catch(() => null)) as { pesan?: unknown; sesi?: unknown; bahasa?: unknown } | null;
+  const en = isi?.bahasa === "en";
   const ip = (req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "lokal";
   const ipJatah = cekJatah("ip:" + ip);
   if (!ipJatah.boleh) {
     return NextResponse.json(
-      { jawaban: `Batas ${BATAS_PERTANYAAN} pertanyaan tercapai. Silakan jeda ${Math.ceil(ipJatah.sisa / 60)} menit lagi, atau hubungi 0812 6937 8222.` },
+      { jawaban: en ? `Question limit reached (${BATAS_PERTANYAAN} per 5 minutes). Please wait ${Math.ceil(ipJatah.sisa / 60)} minute(s), or call us.` : `Batas ${BATAS_PERTANYAAN} pertanyaan tercapai. Silakan jeda ${Math.ceil(ipJatah.sisa / 60)} menit lagi, atau hubungi 0812 6937 8222.` },
       { status: 429 }
     );
   }
@@ -42,22 +44,21 @@ export async function POST(req: Request) {
   const alamat = process.env.N8N_CHAT_WEBHOOK;
   if (!alamat) {
     return NextResponse.json(
-      { jawaban: "Layanan tanya jawab belum tersambung. Silakan hubungi kami lewat telepon atau WhatsApp." },
+      { jawaban: en ? "The Q&A service is not connected yet. Please contact us by phone or WhatsApp." : "Layanan tanya jawab belum tersambung. Silakan hubungi kami lewat telepon atau WhatsApp." },
       { status: 503 }
     );
   }
 
-  const isi = (await req.json().catch(() => null)) as { pesan?: unknown; sesi?: unknown } | null;
   const pesan = typeof isi?.pesan === "string" ? isi.pesan.trim() : "";
   const sesi = typeof isi?.sesi === "string" && isi.sesi.length <= 64 ? isi.sesi : "tamu";
   if (!pesan || pesan.length > 1000) {
-    return NextResponse.json({ jawaban: "Pertanyaan kosong atau terlalu panjang (maksimal 1000 huruf)." }, { status: 400 });
+    return NextResponse.json({ jawaban: en ? "Question is empty or too long (maximum 1000 characters)." : "Pertanyaan kosong atau terlalu panjang (maksimal 1000 huruf)." }, { status: 400 });
   }
 
   const sesiJatah = cekJatah("sesi:" + sesi);
   if (!sesiJatah.boleh) {
     return NextResponse.json(
-      { jawaban: `Sesi ini sudah mencapai ${BATAS_PERTANYAAN} pertanyaan. Silakan jeda ${Math.ceil(sesiJatah.sisa / 60)} menit, atau mulai obrolan baru.` },
+      { jawaban: en ? `This session reached ${BATAS_PERTANYAAN} questions. Please wait ${Math.ceil(sesiJatah.sisa / 60)} minute(s) or start a new chat.` : `Sesi ini sudah mencapai ${BATAS_PERTANYAAN} pertanyaan. Silakan jeda ${Math.ceil(sesiJatah.sisa / 60)} menit, atau mulai obrolan baru.` },
       { status: 429 }
     );
   }
@@ -70,14 +71,18 @@ export async function POST(req: Request) {
         // Kunci rahasia: webhook n8n menolak permintaan tanpa header ini.
         ...(process.env.N8N_CHAT_KEY ? { "x-rsumb-key": process.env.N8N_CHAT_KEY } : {}),
       },
-      body: JSON.stringify({ action: "sendMessage", sessionId: sesi, chatInput: pesan }),
+      body: JSON.stringify({
+        action: "sendMessage",
+        sessionId: sesi,
+        chatInput: en ? `Jawab dalam bahasa Inggris. ${pesan}` : pesan,
+      }),
       signal: AbortSignal.timeout(45_000),
     });
 
     const teks = await r.text();
     if (!r.ok) {
       console.error("[tanya] n8n membalas", r.status, teks.slice(0, 300));
-      return NextResponse.json({ jawaban: "Asisten sedang sibuk. Coba lagi beberapa saat." }, { status: 502 });
+      return NextResponse.json({ jawaban: en ? "The assistant is busy. Please try again shortly." : "Asisten sedang sibuk. Coba lagi beberapa saat." }, { status: 502 });
     }
 
     let jawaban = "";

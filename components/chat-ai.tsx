@@ -1,15 +1,12 @@
 "use client";
 
-import { KUKI_BAHASA } from "@/lib/i18n";
+import { t, type Lang } from "@/lib/i18n";
 
 import { useEffect, useRef, useState } from "react";
 
 type Pesan = { dari: "tamu" | "ai"; teks: string };
 
-const SAPAAN: Pesan = {
-  dari: "ai",
-  teks: "Halo! Saya asisten RSU Mahkota Bidadari. Silakan tanya jadwal dokter, poliklinik, layanan, atau cara mendaftar.",
-};
+
 
 function idSesi() {
   const kunci = "chat_ai_sesi";
@@ -22,17 +19,17 @@ function idSesi() {
 }
 
 /** Tombol mengambang kanan bawah + panel tanya jawab ke n8n. */
-export default function ChatAi() {
-  const [inggris, setInggris] = useState(false);
-
-  useEffect(() => {
-    setInggris(document.cookie.includes(`${KUKI_BAHASA}=en`));
-  }, []);
+export default function ChatAi({ lang = "id" }: { lang?: Lang }) {
+  const inggris = lang === "en";
   const [buka, setBuka] = useState(false);
-  const [isi, setIsi] = useState<Pesan[]>([SAPAAN]);
+  const [isi, setIsi] = useState<Pesan[]>([{ dari: "ai", teks: t(lang, "chat.sapa") }]);
   const [tanya, setTanya] = useState("");
   const [sibuk, setSibuk] = useState(false);
   const ujung = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsi((k) => (k.length === 1 && k[0].dari === "ai" ? [{ dari: "ai", teks: t(lang, "chat.sapa") }] : k));
+  }, [lang]);
 
   useEffect(() => {
     ujung.current?.scrollIntoView({ behavior: "smooth" });
@@ -51,15 +48,15 @@ export default function ChatAi() {
       const r = await fetch("/api/tanya", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pesan: teks, sesi: idSesi() }),
+        body: JSON.stringify({ pesan: teks, sesi: idSesi(), bahasa: lang }),
       });
       const j = await r.json().catch(() => ({}));
       setIsi((k) => [
         ...k,
-        { dari: "ai", teks: j.jawaban || "Maaf, asisten sedang tidak bisa menjawab. Coba lagi sebentar." },
+        { dari: "ai", teks: j.jawaban || t(lang, "chat.gagal") },
       ]);
     } catch {
-      setIsi((k) => [...k, { dari: "ai", teks: "Koneksi terputus. Periksa jaringan lalu coba lagi." }]);
+      setIsi((k) => [...k, { dari: "ai", teks: t(lang, "chat.putus") }]);
     } finally {
       setSibuk(false);
     }
@@ -71,13 +68,13 @@ export default function ChatAi() {
         <div className="fixed inset-x-3 bottom-24 z-50 flex max-h-[70vh] flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:w-[380px]">
           <div className="flex items-center justify-between gap-2 bg-brand-800 px-4 py-3 text-white">
             <div>
-              <p className="text-sm font-semibold">Tanya Asisten RS</p>
-              <p className="text-[11px] text-white/70">Dijawab otomatis · 24 jam</p>
+              <p className="text-sm font-semibold">{t(lang, "chat.judul")}</p>
+              <p className="text-[11px] text-white/70">{t(lang, "chat.sub")}</p>
             </div>
             <button
               type="button"
               onClick={() => setBuka(false)}
-              aria-label="Tutup obrolan"
+              aria-label={t(lang, "chat.tutup")}
               className="rounded-lg p-1.5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -100,13 +97,13 @@ export default function ChatAi() {
                 </p>
               </div>
             ))}
-            {sibuk && <p className="text-[12px] italic text-muted">Asisten sedang mengetik…</p>}
+            {sibuk && <p className="text-[12px] italic text-muted">{t(lang, "chat.ketik")}</p>}
             <div ref={ujung} />
           </div>
 
           <form onSubmit={kirim} className="flex items-end gap-2 border-t border-black/10 bg-white px-3 py-2.5">
             <label htmlFor="chat-ai-isi" className="sr-only">
-              Tulis pertanyaan
+              {t(lang, "chat.placeholder")}
             </label>
             <textarea
               id="chat-ai-isi"
@@ -119,7 +116,7 @@ export default function ChatAi() {
                   kirim(e as unknown as React.FormEvent);
                 }
               }}
-              placeholder="Tulis pertanyaan…"
+              placeholder={t(lang, "chat.placeholder")}
               maxLength={1000}
               className="max-h-24 flex-1 resize-none rounded-xl border border-black/10 px-3 py-2 text-[13px] text-ink outline-none focus:border-brand-600"
             />
@@ -128,7 +125,7 @@ export default function ChatAi() {
               disabled={sibuk || !tanya.trim()}
               className="rounded-xl bg-brand-700 px-3.5 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-brand-800 disabled:opacity-50"
             >
-              Kirim
+              {t(lang, "chat.kirim")}
             </button>
           </form>
         </div>
@@ -138,7 +135,7 @@ export default function ChatAi() {
         type="button"
         onClick={() => setBuka((b) => !b)}
         aria-expanded={buka}
-        aria-label={buka ? "Tutup obrolan asisten" : "Buka obrolan asisten"}
+        aria-label={buka ? t(lang, "chat.tutupPanel") : t(lang, "chat.buka")}
         className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-brand-700 px-4 py-3 text-sm font-semibold text-white shadow-xl transition-colors hover:bg-brand-800"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
