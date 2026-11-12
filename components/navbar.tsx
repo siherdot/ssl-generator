@@ -5,8 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navigation, site } from "@/lib/site";
+import { navLabel, t, type Lang } from "@/lib/i18n";
+import PemilihBahasa from "@/components/pemilih-bahasa";
 
-export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: string }) {
+export default function Navbar({
+  logo = "/images/logo-rsub.png",
+  lang = "id",
+}: {
+  logo?: string;
+  lang?: Lang;
+}) {
   const [open, setOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
   const pathname = usePathname();
@@ -50,7 +58,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
         </Link>
 
         {/* menu: menempel ke kanan, tidak melebar penuh */}
-        <nav className="ml-auto hidden items-center gap-0 lg:flex" aria-label="Navigasi utama">
+        <nav className="ml-auto hidden items-center gap-0 lg:flex" aria-label={t(lang, "umum.navigasiUtama")}>
           {navigation.map((item) => (
             <div key={item.href} className="group relative">
               <Link
@@ -59,7 +67,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                   isActive(item.href) ? "text-brand-800" : "text-ink hover:text-brand-800"
                 }`}
               >
-                {item.label}
+                {navLabel(lang, item.href, item.label)}
                 {item.children && (
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                     <path d="m6 9 6 6 6-6" />
@@ -79,7 +87,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                     <div key={g.nama ?? "lain"} className="min-w-0">
                       {g.nama && (
                         <p className="px-3 pb-1 pt-1 text-[11px] font-bold uppercase tracking-[0.12em] text-brand-800">
-                          {g.nama}
+                          {t(lang, `nav.grup.${g.nama}`)}
                         </p>
                       )}
                       {g.isi.map((child) => {
@@ -89,7 +97,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                         const isi = (
                           <>
                             <span className="block font-medium">
-                              {child.label}
+                              {navLabel(lang, child.href, child.label)}
                               {luar && <span className="ml-1 text-[10px] text-muted">↗</span>}
                             </span>
                             {child.description && (
@@ -124,7 +132,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
         {/* pencarian seperti acuan: kecil di ujung kanan */}
         <form action="/dokter" className="hidden shrink-0 items-center lg:flex">
           <label htmlFor="cari-navbar" className="sr-only">
-            Cari dokter
+            {t(lang, "umum.cariDokter")}
           </label>
           <div className="flex items-center gap-1.5 rounded-md border border-line bg-white px-2.5 py-1.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted" aria-hidden="true">
@@ -135,17 +143,19 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
               id="cari-navbar"
               name="q"
               type="search"
-              placeholder="Cari…"
+              placeholder={t(lang, "umum.cariSingkat")}
               className="w-24 bg-transparent text-xs outline-none placeholder:text-muted"
             />
           </div>
         </form>
 
+        <PemilihBahasa lang={lang} />
+
         <Link
           href="/daftar-online"
           className="hidden shrink-0 whitespace-nowrap rounded-md bg-brand-700 px-3.5 py-2.5 text-[12.5px] font-semibold text-white transition-colors hover:bg-brand-800 lg:inline-flex"
         >
-          Daftar via JKN
+          {t(lang, "umum.daftarJkn")}
         </Link>
 
         {/* tombol menu mobile */}
@@ -154,7 +164,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="menu-mobile"
-          aria-label={open ? "Tutup menu" : "Buka menu"}
+          aria-label={open ? t(lang, "umum.tutupMenu") : t(lang, "umum.bukaMenu")}
           className="ml-auto rounded-lg border border-line p-2 text-brand-900 lg:hidden"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -165,7 +175,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
 
       {/* menu mobile */}
       {open && (
-        <nav id="menu-mobile" className="border-t border-line bg-white lg:hidden" aria-label="Navigasi seluler">
+        <nav id="menu-mobile" className="border-t border-line bg-white lg:hidden" aria-label={t(lang, "umum.navigasiSeluler")}>
           <div className="w-full px-4 py-3 lg:px-8">
             <form action="/dokter" className="mb-2 flex items-center gap-2 rounded-lg border border-line px-3 py-2">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted" aria-hidden="true">
@@ -175,11 +185,17 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
               <input
                 name="q"
                 type="search"
-                placeholder="Cari dokter…"
+                placeholder={t(lang, "umum.cariDokterAtauLayanan")}
                 className="w-full bg-transparent text-sm outline-none placeholder:text-muted"
-                aria-label="Cari dokter"
+                aria-label={t(lang, "umum.cariDokter")}
               />
             </form>
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                {t(lang, "umum.bahasa")}
+              </span>
+              <PemilihBahasa lang={lang} />
+            </div>
           </div>
 
           <ul className="w-full px-4 pb-2 lg:px-8">
@@ -191,13 +207,13 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                     onClick={() => setOpen(false)}
                     className="flex-1 py-3 text-sm font-medium text-ink"
                   >
-                    {item.label}
+                    {navLabel(lang, item.href, item.label)}
                   </Link>
                   {item.children && (
                     <button
                       type="button"
                       onClick={() => setOpenSub(openSub === item.href ? null : item.href)}
-                      aria-label={`Buka submenu ${item.label}`}
+                      aria-label={`${item.label} — submenu`}
                       aria-expanded={openSub === item.href}
                       className="p-2 text-muted"
                     >
@@ -213,7 +229,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                       <div key={g.nama ?? "lain"} className="mt-1">
                         {g.nama && (
                           <p className="pt-2 text-[11px] font-bold uppercase tracking-[0.12em] text-brand-800">
-                            {g.nama}
+                            {t(lang, `nav.grup.${g.nama}`)}
                           </p>
                         )}
                         <ul>
@@ -236,7 +252,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                                   onClick={() => setOpen(false)}
                                   className="block py-1.5 text-sm text-muted"
                                 >
-                                  {child.label}
+                                  {navLabel(lang, child.href, child.label)}
                                 </Link>
                               </li>
                             )
@@ -254,7 +270,7 @@ export default function Navbar({ logo = "/images/logo-rsub.png" }: { logo?: stri
                 onClick={() => setOpen(false)}
                 className="block rounded-lg bg-brand-700 px-4 py-3 text-center text-sm font-semibold text-white"
               >
-                Daftar via JKN
+                {t(lang, "umum.daftarJkn")}
               </Link>
             </li>
           </ul>

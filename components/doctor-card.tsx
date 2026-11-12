@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { namaHari, t } from "@/lib/i18n";
 import { gambar, jamRapi, pecahHari, type Dokter } from "@/lib/data";
 
-export default function DoctorCard({ dokter }: { dokter: Dokter }) {
+export default async function DoctorCard({ dokter }: { dokter: Dokter }) {
+  const lang = await bacaBahasa();
   // gabungkan semua hari praktik, urutkan sesuai urutan hari (bukan alfabetis)
   const URUT = ["Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"];
   const hariUnik = [
@@ -56,7 +59,7 @@ export default function DoctorCard({ dokter }: { dokter: Dokter }) {
           <p className="mt-2 text-[11px] font-semibold text-brand-800">
             {jamList.join(" · ")}
             {(dokter.jadwal?.length ?? 0) > 2 && (
-              <span className="font-normal text-muted"> · +{(dokter.jadwal!.length - 2)} jadwal lain</span>
+              <span className="font-normal text-muted"> · +{(dokter.jadwal!.length - 2)} {lang === "en" ? "more schedules" : "jadwal lain"}</span>
             )}
           </p>
         )}
@@ -66,13 +69,13 @@ export default function DoctorCard({ dokter }: { dokter: Dokter }) {
             href={`/dokter/${encodeURIComponent(dokter.id_dokter)}`}
             className="text-sm font-semibold text-brand-800 hover:underline"
           >
-            Lihat Profil
+            {t(lang, "umum.lihatProfil")}
           </Link>
           <Link
             href="/daftar-online"
             className="rounded-lg bg-brand-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-800"
           >
-            Daftar
+            {lang === "en" ? "Register" : "Daftar"}
           </Link>
         </div>
       </div>

@@ -3,6 +3,8 @@ import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import DoctorCard from "@/components/doctor-card";
 import { getDokterList, getPoliList, HARI_OPTIONS } from "@/lib/data";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { namaHari, t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Cari Dokter & Jadwal Praktik",
@@ -40,6 +42,7 @@ function hariIniJakarta() {
 }
 
 export default async function DokterPage({ searchParams }: { searchParams: SearchParams }) {
+  const lang = await bacaBahasa();
   const sp = await searchParams;
   const q = (sp.q ?? "").trim();
   const poli = sp.poli ?? "";
@@ -70,31 +73,31 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
   return (
     <>
       <PageHeader
-        eyebrow="Cari Dokter"
-        title="Cari Dokter & Jadwal Praktik"
-        description={`Jadwal praktik hari ini (${hariIni}) tampil otomatis. Pilih hari lain bila ingin melihat jadwal hari berbeda.`}
-        crumbs={[{ label: "Cari Dokter" }]}
+        eyebrow={t(lang, "nav./dokter")}
+        title={t(lang, "hal.dokter.judul")}
+        description={`${t(lang, "hal.dokter.isi")} (${namaHari(lang, hariIni)})`}
+        crumbs={[{ label: t(lang, "nav./dokter") }]}
       />
 
       <section className="container-page py-8">
         <form className="grid gap-3 rounded-[var(--radius-card)] border border-line bg-white p-4 shadow-[var(--shadow-card)] md:grid-cols-[1fr_auto_auto_auto]">
           <div>
             <label htmlFor="q" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">
-              Nama dokter atau layanan
+              {t(lang, "hal.dokter.nama")}
             </label>
             <input
               id="q"
               name="q"
               type="search"
               defaultValue={q}
-              placeholder="contoh: anak, bedah, saraf"
+              placeholder={t(lang, "hal.dokter.namaPlaceholder")}
               className="w-full rounded-lg border border-line px-3 py-2.5 text-sm outline-none focus:border-brand-700"
             />
           </div>
 
           <div>
             <label htmlFor="poli" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">
-              Poliklinik
+              {t(lang, "hal.dokter.poli")}
             </label>
             <select
               id="poli"
@@ -102,7 +105,7 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
               defaultValue={poli}
               className="w-full rounded-lg border border-line px-3 py-2.5 text-sm outline-none focus:border-brand-700 md:w-56"
             >
-              <option value="">Semua poliklinik</option>
+              <option value="">{t(lang, "hal.dokter.semuaPoli")}</option>
               {poliList.map((p) => (
                 <option key={p.id_poli} value={p.id_poli}>
                   {p.nama_poli}
@@ -113,7 +116,7 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
 
           <div>
             <label htmlFor="hari" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">
-              Hari
+              {t(lang, "hal.dokter.hari")}
             </label>
             <select
               id="hari"
@@ -121,10 +124,10 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
               defaultValue={tanpaHari ? "semua" : hari}
               className="w-full rounded-lg border border-line px-3 py-2.5 text-sm outline-none focus:border-brand-700 md:w-40"
             >
-              <option value="semua">Semua hari</option>
+              <option value="semua">{t(lang, "hal.dokter.semuaHari")}</option>
               {HARI_OPTIONS.map((h) => (
                 <option key={h} value={h}>
-                  {h === hariIni ? `${h} (hari ini)` : h}
+                  {h === hariIni ? `${namaHari(lang, h)} (${lang === "en" ? "today" : "hari ini"})` : namaHari(lang, h)}
                 </option>
               ))}
             </select>
@@ -135,13 +138,13 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
               type="submit"
               className="h-[42px] rounded-lg bg-brand-700 px-5 text-sm font-semibold text-white hover:bg-brand-800"
             >
-              Cari
+              {t(lang, "umum.cari")}
             </button>
             <Link
               href="/dokter?hari=semua"
               className="h-[42px] rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-muted hover:bg-mist"
             >
-              Semua
+              {t(lang, "hal.dokter.semua")}
             </Link>
           </div>
         </form>
@@ -162,7 +165,7 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
                     : "border-line bg-white text-ink hover:border-brand/60 hover:text-brand-800"
                 }`}
               >
-                {h}
+                {namaHari(lang, h)}
                 {h === hariIni && (
                   <span className={aktif ? "ml-1 text-white/70" : "ml-1 text-brand-700"}>•</span>
                 )}
@@ -179,12 +182,12 @@ export default async function DokterPage({ searchParams }: { searchParams: Searc
                 : "border-line bg-white text-ink hover:border-brand/60 hover:text-brand-800"
             }`}
           >
-            Semua hari
+            {t(lang, "hal.dokter.semuaHari")}
           </Link>
         </div>
 
         <p className="mt-5 text-sm text-muted">
-          Menampilkan <strong className="text-ink">{dokterList.length}</strong> dokter
+          {t(lang, "hal.dokter.hasil")} <strong className="text-ink">{dokterList.length}</strong> {t(lang, "hal.dokter.dokter")}
           {poliNama && (
             <>
               {" "}di <strong className="text-ink">{poliNama}</strong>

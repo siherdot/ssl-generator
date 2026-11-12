@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { quickActions } from "@/lib/site";
+import { quickLabel, t, type Lang } from "@/lib/i18n";
 
 const icons: Record<string, React.ReactNode> = {
   calendar: (
@@ -36,13 +37,13 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
-export default function QuickActions() {
+export default function QuickActions({ lang = "id" }: { lang?: Lang }) {
   return (
-    <section className="relative z-10 -mt-8 pb-4" aria-label="Aksi cepat">
+    <section className="relative z-10 -mt-8 pb-4" aria-label={t(lang, "umum.aksiCepat")}>
       <div className="container-page">
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {quickActions.map((action) => (
-            <li key={action.title}>
+            <li key={quickLabel(lang, action.href, "judul", action.title)}>
               <Link
                 href={action.href}
                 className="card-hover flex h-full items-start gap-3 rounded-[var(--radius-card)] border border-line bg-white p-4 shadow-[var(--shadow-card)]"
@@ -53,9 +54,9 @@ export default function QuickActions() {
                   </svg>
                 </span>
                 <span>
-                  <span className="block text-sm font-semibold text-brand-900">{action.title}</span>
+                  <span className="block text-sm font-semibold text-brand-900">{quickLabel(lang, action.href, "judul", action.title)}</span>
                   <span className="mt-0.5 block text-xs leading-snug text-muted">
-                    {action.description}
+                    {quickLabel(lang, action.href, "isi", action.description)}
                   </span>
                 </span>
               </Link>

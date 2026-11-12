@@ -20,12 +20,15 @@ import {
   tanggalRapi,
 } from "@/lib/data";
 import { urlGambar } from "@/lib/gambar";
+import { bacaBahasa } from "@/lib/i18n-server";
+import { t } from "@/lib/i18n";
 
 // force-dynamic: halaman butuh koneksi database, dan image Docker tidak
 // punya akses DB saat `next build`. Cache/ISR dirapikan di Fase E.
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const lang = await bacaBahasa();
   const [ringkas, poliList, dokterList, berita] = await Promise.all([
     hitungRingkas(),
     getPoliList(),
@@ -44,10 +47,10 @@ export default async function HomePage() {
   const kosongKasur = Math.max(0, totalKasur - terisiKasur);
 
   const stats = [
-    { value: String(ringkas?.dokter ?? 0), label: "Dokter & Spesialis" },
-    { value: String(ringkas?.poli ?? 0), label: "Poliklinik" },
-    { value: String(totalKasur), label: "Tempat Tidur" },
-    { value: `${new Date().getFullYear() - site.founded}`, label: "Tahun Melayani" },
+    { value: String(ringkas?.dokter ?? 0), label: t(lang, "home.statistik.dokter") },
+    { value: String(ringkas?.poli ?? 0), label: t(lang, "home.statistik.poli") },
+    { value: String(totalKasur), label: t(lang, "home.statistik.tidur") },
+    { value: `${new Date().getFullYear() - site.founded}`, label: t(lang, "home.statistik.tahun") },
   ];
 
   // poli dengan dokter terbanyak tampil lebih dulu
@@ -66,34 +69,32 @@ export default async function HomePage() {
   return (
     <>
       <JsonLdHospital />
-      <Hero fotoLatar={slide.map((s) => urlGambar(s.images))} />
-      <QuickActions />
+      <Hero fotoLatar={slide.map((s) => urlGambar(s.images))} lang={lang} />
+      <QuickActions lang={lang} />
 
       {/* tentang singkat */}
       <section className="border-b border-line bg-mint/40 py-10 lg:py-12" aria-labelledby="tentang-singkat">
         <div className="container-page grid items-center gap-8 lg:grid-cols-2">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">Tentang Kami</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{t(lang, "home.tentang.label")}</p>
             <h2 id="tentang-singkat" className="section-title mt-2 text-2xl lg:text-3xl">
-              Rumah sakit keluarga di jantung Kabupaten Langkat
+              {t(lang, "home.tentang.judul")}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted lg:text-base">
-              RSU Mahkota Bidadari berdiri sejak 16 November {site.founded}. Dari 40 tempat tidur
-              dan 4 pelayanan spesialis dasar, kini melayani lebih dari 200 tempat tidur dengan
-              dokter umum, dokter spesialis, serta tenaga medis dan non-medis yang terus bertambah.
+              {t(lang, "home.tentang.isi")}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/tentang" className="rounded-lg bg-brand-800 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-800">
-                Profil Rumah Sakit
+                {t(lang, "home.tentang.profil")}
               </Link>
               <Link href="/tentang#visi-misi" className="rounded-lg border border-brand-900/20 px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-white">
-                Visi &amp; Misi
+                {t(lang, "home.tentang.visi")}
               </Link>
             </div>
           </div>
 
           <div className="rounded-[var(--radius-card)] border border-line bg-white p-6 shadow-[var(--shadow-card)]">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-900">Layanan utama</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-900">{t(lang, "home.layanan.judul")}</h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {[
                 "UGD 24 Jam",

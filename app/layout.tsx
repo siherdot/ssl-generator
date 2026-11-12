@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { bacaBahasa } from "@/lib/i18n-server";
 import { site } from "@/lib/site";
 
 const poppins = Poppins({
@@ -56,9 +57,10 @@ export const viewport: Viewport = {
  * Kerangka situs publik (topbar, navbar, footer) ada di app/(publik)/layout.tsx,
  * sedangkan dashboard admin punya kerangka sendiri di app/admin.
  */
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const lang = await bacaBahasa();
   return (
-    <html lang="id" className={poppins.variable}>
+    <html lang={lang} className={poppins.variable}>
       <body className="font-[family-name:var(--font-poppins)] antialiased">{children}</body>
     </html>
   );

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import SlideLatar from "@/components/slide-latar";
 import { site } from "@/lib/site";
+import { t, type Lang } from "@/lib/i18n";
 
-export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
+export default function Hero({ fotoLatar = [], lang = "id" }: { fotoLatar?: string[]; lang?: Lang }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
       {fotoLatar.length > 0 && <SlideLatar foto={fotoLatar} />}
@@ -35,14 +36,14 @@ export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
       >
         <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-white/85">
           <span className="h-1.5 w-1.5 rounded-full bg-brand-700" />
-          Sejak {site.founded} · Langkat
+          {t(lang, "hero.sejak")} {site.founded} · Langkat
         </p>
 
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-          {site.slogan}
+          {t(lang, "hero.judul")}
         </h1>
         <p className="mt-4 max-w-4xl text-[15px] leading-relaxed text-white/95 lg:text-[17px]">
-          Layanan UGD 24 jam, rawat jalan, rawat inap, dan penunjang medis dengan tenaga kesehatan profesional di Kabupaten Langkat, Sumatera Utara.
+          {t(lang, "hero.isi")}
         </p>
 
         {/* pencarian — Fase B disambungkan ke data dokter */}
@@ -60,7 +61,7 @@ export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
                 id="q"
                 name="q"
                 type="search"
-                placeholder="Cari dokter atau layanan…"
+                placeholder={t(lang, "umum.cariDokterAtauLayanan")}
                 className="w-full bg-transparent py-3 text-sm text-ink outline-none placeholder:text-muted"
               />
             </div>
@@ -68,7 +69,7 @@ export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
               type="submit"
               className="rounded-xl bg-brand-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
             >
-              Cari
+              {t(lang, "umum.cari")}
             </button>
           </div>
         </form>
@@ -78,13 +79,13 @@ export default function Hero({ fotoLatar = [] }: { fotoLatar?: string[] }) {
             href="/daftar-online"
             className="rounded-lg bg-sun px-5 py-2.5 font-semibold text-brand-900 transition-opacity hover:opacity-90"
           >
-            Daftar via JKN
+            {t(lang, "umum.daftarJkn")}
           </Link>
           <a
             href={`tel:${site.igd.replace(/[^0-9+]/g, "")}`}
             className="rounded-lg border border-white/30 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white/10"
           >
-            IGD {site.igd}
+            {t(lang, "umum.igdSingkat")} {site.igd}
           </a>
         </div>
       </div>
