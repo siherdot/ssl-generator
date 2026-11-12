@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
-import { tx } from "@/lib/teks-en";
+import { dua, tx } from "@/lib/teks-en";
 import { getNewsList, getPenjamin, tanggalRapi } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -124,7 +124,7 @@ export default async function InformasiPage() {
                 href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}
                 className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-mist"
               >
-                <span className="text-sm font-medium text-ink">{tx(lang, n.title)}</span>
+                <span className="text-sm font-medium text-ink">{dua(lang, n.title, n.title_en)}</span>
                 <span className="shrink-0 text-xs text-muted">{tanggalRapi(n.create_date) ?? ""}</span>
               </Link>
             </li>
