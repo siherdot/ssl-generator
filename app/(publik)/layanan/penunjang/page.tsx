@@ -64,9 +64,9 @@ export default async function PenunjangPage() {
         })}
 
         <p className="text-xs text-muted">
-          Daftar fasilitas lengkap ada di{" "}
+          {lang === "en" ? "The full facility list is on " : "Daftar fasilitas lengkap ada di "}{" "}
           <Link href="/fasilitas" className="font-semibold text-brand-800 underline">
-            halaman fasilitas
+            {lang === "en" ? "the facilities page" : "halaman fasilitas"}
           </Link>
           . Ketersediaan alat dan jam operasional unit dapat berubah — konfirmasi ke (061) 8830003.
         </p>

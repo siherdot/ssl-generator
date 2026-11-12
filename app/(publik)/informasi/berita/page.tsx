@@ -71,7 +71,7 @@ export default async function BeritaPage({
                 <div className="absolute inset-0 bg-brand-900/10" aria-hidden />
                 <Image
                   src={gambar(utama.news_images)}
-                  alt={utama.title}
+                  alt={dua(lang, utama.title, utama.title_en)}
                   fill
                   sizes="(max-width: 640px) 100vw, 340px"
                   className="z-10 object-contain"
@@ -79,13 +79,13 @@ export default async function BeritaPage({
               </div>
               <div className="flex flex-col justify-center p-6">
                 <span className="w-fit rounded bg-brand-800 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
-                  Terbaru
+                  {tx(lang, "Terbaru")}
                 </span>
                 <h2 className="mt-3 text-xl font-bold leading-snug text-brand-900 group-hover:text-brand-800 lg:text-2xl">
-                  {utama.title}
+                  {dua(lang, utama.title, utama.title_en)}
                 </h2>
                 <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted">
-                  {utama.content?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()}
+                  {dua(lang, utama.content?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(), utama.content_en?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim())}
                 </p>
                 <p className="mt-4 text-xs text-muted">
                   {tanggalRapi(utama.create_date) ?? "—"}
@@ -104,7 +104,7 @@ export default async function BeritaPage({
                     }`.trim()}
                     image={gambar(n.news_images)}
                     href={`/informasi/berita/${encodeURIComponent(n.news_id)}`}
-                    ctaLabel="Baca"
+                    ctaLabel={tx(lang, "Baca")}
                     rasio="aspect-[4/5]"
                     latarBlur
                   />

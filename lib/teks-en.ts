@@ -31,6 +31,21 @@ export const EN: Record<string, string> = {
   "Identitas, visi, misi, dan fasilitas": "Identity, vision, mission, and facilities",
   "Layanan Penunjang": "Supporting Services",
 
+  "Lamaran terkirim": "Application received",
+  "Kirim lamaran": "Send application",
+  "Kirim lamaran lain": "Send another application",
+  "Nama lengkap *": "Full name *",
+  "Telepon / WhatsApp *": "Phone / WhatsApp *",
+  "Posisi yang dilamar *": "Position applied for *",
+  "Ringkasan pengalaman": "Experience summary",
+  "Pilih atau tulis posisi": "Choose or type a position",
+  "Tulis posisi": "Type a position",
+  "Mengirim…": "Sending…",
+  "Nomor lamaran Anda": "Your application number",
+  "Kirimkan CV ke": "Send your CV to",
+  "dengan subjek": "with the subject",
+  "Terbaru": "Latest",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",

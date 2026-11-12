@@ -76,10 +76,9 @@ export default async function PoliklinikPage() {
         </ul>
 
         <p className="mt-8 text-xs text-muted">
-          Poliklinik lain seperti Patologi Klinik, Radiologi, dan Unit Dialisis tersedia sebagai
-          layanan penunjang. Lihat{" "}
+          {lang === "en" ? "Other clinics such as Clinical Pathology, Radiology, and the Dialysis Unit are available as supporting services. See " : "Poliklinik lain seperti Patologi Klinik, Radiologi, dan Unit Dialisis tersedia sebagai layanan penunjang. Lihat "}{" "}
           <Link href="/fasilitas" className="font-semibold text-brand-800 hover:underline">
-            fasilitas rumah sakit
+            {lang === "en" ? "hospital facilities" : "fasilitas rumah sakit"}
           </Link>
           .
         </p>

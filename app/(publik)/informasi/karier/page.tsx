@@ -95,7 +95,7 @@ export default async function KarierPage() {
         </div>
 
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <LamaranForm posisiList={lowongan.map((l) => l.posisi)} />
+          <LamaranForm lang={lang} posisiList={lowongan.map((l) => l.posisi)} />
         </div>
       </section>
     </>
