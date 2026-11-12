@@ -66,7 +66,7 @@ export default async function PoliklinikPage() {
                   </span>
                   {p.ket && (
                     <span className="mt-2 line-clamp-2 block text-xs leading-relaxed text-muted">
-                      {p.ket.replace(/<[^>]+>/g, "").trim()}
+                      {dua(lang, p.ket.replace(/<[^>]+>/g, "").trim(), p.ket_en?.replace(/<[^>]+>/g, "").trim())}
                     </span>
                   )}
                 </div>

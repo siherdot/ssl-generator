@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/page-header";
 import { bacaBahasa } from "@/lib/i18n-server";
-import { tx } from "@/lib/teks-en";
+import { dua, tx } from "@/lib/teks-en";
 import InfoCard from "@/components/info-card";
 import { getFacilityList, gambar } from "@/lib/data";
 
@@ -54,7 +54,7 @@ export default async function PenunjangPage() {
                   <InfoCard
                     key={f.id_facility + f.facility_name}
                     title={f.facility_name}
-                    description={f.facility_description?.replace(/<[^>]+>/g, "").trim()}
+                    description={dua(lang, f.facility_description?.replace(/<[^>]+>/g, "").trim(), f.facility_description_en?.replace(/<[^>]+>/g, "").trim())}
                     image={gambar(f.facility_image)}
                   />
                 ))}

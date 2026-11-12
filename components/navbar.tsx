@@ -101,7 +101,7 @@ export default function Navbar({
                               {luar && <span className="ml-1 text-[10px] text-muted">↗</span>}
                             </span>
                             {child.description && (
-                              <span className="block text-[11px] text-muted">{child.description}</span>
+                              <span className="block text-[11px] text-muted">{t(lang, child.description)}</span>
                             )}
                           </>
                         );

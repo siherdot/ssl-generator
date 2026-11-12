@@ -17,6 +17,20 @@ export const EN: Record<string, string> = {
   "Di beranda aplikasi pilih Pendaftaran Pelayanan (Antrean Online), lalu cari RSU Putri Bidadari — Kabupaten Langkat.": "On the app home screen choose Pendaftaran Pelayanan (online queue), then search for RSU Putri Bidadari — Langkat Regency.",
   "Profil RSU Putri Bidadari": "RSU Putri Bidadari Profile",
 
+  "Layanan rawat jalan per spesialisasi": "Outpatient care by specialty",
+  "Kelas dan fasilitas kamar": "Room classes and facilities",
+  "Laboratorium, radiologi, farmasi": "Laboratory, radiology, pharmacy",
+  "Paket pemeriksaan berkala": "Periodic health screening packages",
+  "Parkir, musala, ambulans": "Parking, prayer room, ambulance",
+  "Cek kamar rawat inap yang kosong": "Check available inpatient rooms",
+  "Alur berobat dengan JKN": "Treatment flow with JKN",
+  "Daftar penjamin yang bekerja sama": "List of accepted insurers",
+  "Berita dan kegiatan rumah sakit": "Hospital news and events",
+  "Pertanyaan yang sering diajukan": "Frequently asked questions",
+  "Peluang karier di rumah sakit": "Career opportunities at the hospital",
+  "Identitas, visi, misi, dan fasilitas": "Identity, vision, mission, and facilities",
+  "Layanan Penunjang": "Supporting Services",
+
   /* tambahan: kartu & daftar */
   "Kelas perawatan III, II, I, VIP, serta ICU, NICU & Baby.":
     "Room classes III, II, I, VIP, plus ICU, NICU & Baby.",
