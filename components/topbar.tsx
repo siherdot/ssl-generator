@@ -35,7 +35,7 @@ export default async function Topbar() {
             <span className="rounded bg-white/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide">WA</span>
           </a>
           <span className="hidden items-center gap-1.5 rounded-full bg-red-600/90 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide sm:flex">
-            IGD 24 Jam
+            {t(lang, "umum.igd")}
           </span>
         </div>
       </div>
