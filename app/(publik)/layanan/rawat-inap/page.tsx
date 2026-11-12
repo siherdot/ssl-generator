@@ -100,7 +100,7 @@ export default async function RawatInapPage() {
                   {unit.map((u) => (
                     <tr key={u.id} className="border-t border-line">
                       <td className="px-5 py-3 font-medium text-brand-900">{lang === "en" && u.nama_unit.toLowerCase().startsWith("ruang ") ? "Room " + u.nama_unit.slice(6) : u.nama_unit}</td>
-                      <td className="px-5 py-3 text-muted">{u.kelas ?? "—"}</td>
+                      <td className="px-5 py-3 text-muted">{u.kelas ? (lang === "en" && u.kelas.toLowerCase().startsWith("ruang ") ? "Room " + u.kelas.slice(6) : u.kelas) : "—"}</td>
                       <td className="px-5 py-3 text-muted">{u.total}</td>
                       <td className="px-5 py-3 text-muted">{u.terisi}</td>
                       <td className="px-5 py-3 text-muted">{u.keterangan ?? "—"}</td>

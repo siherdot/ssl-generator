@@ -49,7 +49,11 @@ export default async function KetersediaanPage() {
     t === "baru saja" ? "just now" : t.replace(/^([0-9]+) jam lalu$/, "$1 hours ago").replace(/^([0-9]+) menit lalu$/, "$1 minutes ago").replace(/^([0-9]+) hari lalu$/, "$1 days ago");
 
   const labelKelas = (kelas: string) =>
-    /^[IVX]+$/i.test(kelas) ? `${lang === "en" ? "Class" : "Kelas"} ${kelas.toUpperCase()}` : kelas;
+    /^[IVX]+$/i.test(kelas)
+      ? `${lang === "en" ? "Class" : "Kelas"} ${kelas.toUpperCase()}`
+      : lang === "en" && kelas.toLowerCase().startsWith("ruang ")
+        ? `Room ${kelas.slice(6)}`
+        : kelas;
 
   const rekap = new Map<string, { kapasitas: number; terisi: number }>();
   for (const k of kasur) {
