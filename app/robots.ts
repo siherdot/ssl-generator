@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/admin/", "/admin", "/_next/"],
       },
     ],
-    sitemap: "https://rsumb.rsumb.site/sitemap.xml",
-    host: "https://rsumb.rsumb.site",
+    sitemap: "https://rsu.mahkotabidadari.com/sitemap.xml",
+    host: "https://rsu.mahkotabidadari.com",
   };
 }

@@ -37,8 +37,8 @@ export default async function DokterDetail({ params }: { params: Params }) {
       <JsonLdDokter
         nama={dokter.nama_dokter}
         poli={dokter.nama_poli}
-        gambar={`https://rsub.rsumb.site${gambar(dokter.images)}`}
-        url={`https://rsub.rsumb.site/dokter/${encodeURIComponent(dokter.id_dokter)}`}
+        gambar={`https://rsu.mahkotabidadari.com${gambar(dokter.images)}`}
+        url={`https://rsu.mahkotabidadari.com/dokter/${encodeURIComponent(dokter.id_dokter)}`}
       />
       <PageHeader
         eyebrow={dokter.nama_poli ?? "Dokter"}

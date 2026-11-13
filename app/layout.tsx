@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const lang = await bacaBahasa();
   const kota = "Kabupaten Langkat";
   return {
-  metadataBase: new URL("https://rsumb.rsumb.site"),
+  metadataBase: new URL("https://rsu.mahkotabidadari.com"),
   title: {
     default: lang === "en" ? `${site.name} — General Hospital in ${kota}` : `${site.name} — Rumah Sakit Umum di ${kota}`,
     template: `%s | ${site.name}`,

@@ -12,7 +12,7 @@ GitHub webhook  ──►  Coolify (POST /webhooks/source/github/events/manual)
 Coolify build image dari Dockerfile, lalu jalankan container
         │
         ▼
-Traefik (port 80 di server)  ──►  https://rsumb.rsumb.site
+Traefik (port 80 di server)  ──►  https://rsu.mahkotabidadari.com
 ```
 
 ## Komponen

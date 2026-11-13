@@ -6,10 +6,10 @@ export function JsonLdHospital() {
     "@context": "https://schema.org",
     "@type": "Hospital",
     name: site.name,
-    url: "https://rsumb.rsumb.site",
-    "@id": "https://rsumb.rsumb.site/#rumahsakit",
-    logo: "https://rsumb.rsumb.site/images/logo-rsub.png",
-    image: "https://rsumb.rsumb.site/images/og-rsumb.jpg",
+    url: "https://rsu.mahkotabidadari.com",
+    "@id": "https://rsu.mahkotabidadari.com/#rumahsakit",
+    logo: "https://rsu.mahkotabidadari.com/images/logo-rsub.png",
+    image: "https://rsu.mahkotabidadari.com/images/og-rsumb.jpg",
     hasMap: "https://www.google.com/maps/search/?api=1&query=RSU+Mahkota+Bidadari+Langkat",
     geo: {
       "@type": "GeoCoordinates",
@@ -98,7 +98,7 @@ export function JsonLdDokter({
     worksFor: {
       "@type": "Hospital",
       name: "RSU Mahkota Bidadari",
-      url: "https://rsumb.rsumb.site",
+      url: "https://rsu.mahkotabidadari.com",
     },
   };
 
