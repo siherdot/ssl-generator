@@ -9,6 +9,11 @@ import { navLabel, t, type Lang } from "@/lib/i18n";
 import { tx } from "@/lib/teks-en";
 import PemilihBahasa from "@/components/pemilih-bahasa";
 
+const labelAnak = (lang: Lang, href: string, label: string) =>
+  href.startsWith("http") || href === "/" || href === "/rumah-sakit-kami"
+    ? label
+    : navLabel(lang, href, label);
+
 export default function Navbar({
   logo = "/images/logo-rsub.png",
   lang = "id",
@@ -98,7 +103,7 @@ export default function Navbar({
                         const isi = (
                           <>
                             <span className="block font-medium">
-                              {navLabel(lang, child.href, child.label)}
+                              {labelAnak(lang, child.href, child.label)}
                               {luar && <span className="ml-1 text-[10px] text-muted">↗</span>}
                             </span>
                             {child.description && (
@@ -253,7 +258,7 @@ export default function Navbar({
                                   onClick={() => setOpen(false)}
                                   className="block py-1.5 text-sm text-muted"
                                 >
-                                  {navLabel(lang, child.href, child.label)}
+                                  {labelAnak(lang, child.href, child.label)}
                                 </Link>
                               </li>
                             )
