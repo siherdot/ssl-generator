@@ -15,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const lang = await bacaBahasa();
   const kota = "Kabupaten Langkat";
   return {
+  alternates: { canonical: "./" },
   metadataBase: new URL("https://rsu.mahkotabidadari.com"),
   title: {
     default: lang === "en" ? `${site.name} — General Hospital in ${kota}` : `${site.name} — Rumah Sakit Umum di ${kota}`,
@@ -33,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
   ],
   openGraph: {
     type: "website",
+    url: "./",
     locale: lang === "en" ? "en_US" : "id_ID",
     siteName: site.name,
     title: lang === "en" ? `${site.name} — General Hospital in ${kota}` : `${site.name} — Rumah Sakit Umum di ${kota}`,
