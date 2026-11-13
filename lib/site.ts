@@ -48,7 +48,7 @@ export const rumahSakitGrup: RumahSakitGrup[] = [
   {
     nama: "RSU Putri Bidadari",
     kota: "Kabupaten Langkat, Sumatera Utara",
-    url: "https://rsu.putribidadari.com",
+    url: "https://rsu.putribidadari.co.id",
   },
   {
     nama: "RSU Putri Bidadari Aceh",
