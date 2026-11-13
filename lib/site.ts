@@ -27,6 +27,36 @@ export type NavItem = {
   }[];
 };
 
+/** Daftar rumah sakit grup Bidadari (dipakai halaman & menu navigasi). */
+export const rumahSakitGrup: RumahSakitGrup[] = [
+  {
+    nama: "RSU Bidadari Binjai",
+    kota: "Binjai, Sumatera Utara",
+    url: "https://rsu.bidadari.co.id",
+  },
+  {
+    nama: "RSU Bidadari Batubara",
+    kota: "Batubara, Sumatera Utara",
+    url: "https://rsubatubara.bidadari.co.id",
+  },
+  {
+    nama: "RSU Mahkota Bidadari",
+    kota: "Kabupaten Langkat, Sumatera Utara",
+    url: "/",
+    internal: true,
+  },
+  {
+    nama: "RSU Putri Bidadari",
+    kota: "Kabupaten Langkat, Sumatera Utara",
+    url: "https://rsu.putribidadari.com",
+  },
+  {
+    nama: "RSU Putri Bidadari Aceh",
+    kota: "Aceh Besar, Aceh",
+    url: "",
+  },
+];
+
 export const navigation: NavItem[] = [
   { label: "Beranda", href: "/" },
   { label: "Cari Dokter", href: "/dokter" },
@@ -54,28 +84,22 @@ export const navigation: NavItem[] = [
       },
       { label: "Alur Pendaftaran", href: "/informasi/alur-pendaftaran", grup: "Untuk Pasien" },
       { label: "Asuransi & Penjamin", href: "/informasi/asuransi", grup: "Untuk Pasien" },
-      { label: "Survei Kepuasan", href: "/kontak", grup: "Untuk Pasien" },
-      { label: "Jadwal Dokter", href: "/dokter", grup: "Untuk Pasien" },
       { label: "Pertanyaan Umum (FAQ)", href: "/informasi/faq", grup: "Untuk Pasien" },
       // Untuk Profesional
       { label: "Karier", href: "/informasi/karier", grup: "Untuk Profesional" },
       // Untuk Umum
       { label: "Berita & Kegiatan", href: "/informasi/berita", grup: "Untuk Umum" },
       { label: "Tentang Kami", href: "/tentang", grup: "Untuk Umum" },
-      { label: "Rumah Sakit Kami", href: "/rumah-sakit-kami", grup: "Untuk Umum" },
-      { label: "Kontak", href: "/kontak", grup: "Untuk Umum" },
+      { label: "Kontak & Survei Kepuasan", href: "/kontak", grup: "Untuk Umum" },
     ],
   },
   {
     label: "Rumah Sakit Kami",
     href: "/rumah-sakit-kami",
-    children: [
-      { label: "RSU Bidadari Batubara", href: "https://rsubatubara.bidadari.co.id" },
-      { label: "RSU Mahkota Bidadari", href: "https://rsu.bidadari.co.id" },
-      { label: "RSU Mahkota Bidadari", href: "https://rsumahkota.bidadari.co.id" },
-      { label: "RSU Putri Bidadari", href: "/rumah-sakit-kami" },
-      { label: "RSU Putri Bidadari Aceh", href: "/rumah-sakit-kami" },
-    ],
+    children: rumahSakitGrup.map((rs) => ({
+      label: rs.nama,
+      href: rs.url || "/rumah-sakit-kami",
+    })),
   },
 ];
 
@@ -116,31 +140,3 @@ export type RumahSakitGrup = {
 };
 
 /** Grup rumah sakit Bidadari. `url` kosong = alamat belum tersedia. */
-export const rumahSakitGrup: RumahSakitGrup[] = [
-  {
-    nama: "RSU Bidadari Batubara",
-    kota: "Batubara, Sumatera Utara",
-    url: "https://rsubatubara.bidadari.co.id",
-  },
-  {
-    nama: "RSU Mahkota Bidadari",
-    kota: "Kabupaten Langkat, Sumatera Utara",
-    url: "/",
-    internal: true,
-  },
-  {
-    nama: "RSU Mahkota Bidadari",
-    kota: "Sumatera Utara",
-    url: "https://rsumahkota.bidadari.co.id",
-  },
-  {
-    nama: "RSU Putri Bidadari",
-    kota: "Sumatera Utara",
-    url: "",
-  },
-  {
-    nama: "RSU Putri Bidadari Aceh",
-    kota: "Aceh",
-    url: "",
-  },
-];
