@@ -182,6 +182,7 @@ export const resources: Resource[] = [
       { nama: "judul", label: "Judul" },
       { nama: "selesai", label: "Berakhir", tipe: "tanggal" },
       { nama: "aktif", label: "Aktif", tipe: "aktif" },
+      { nama: "popup", label: "Popup", tipe: "aktif" },
     ],
     cari: ["judul", "deskripsi"],
     fields: [
@@ -191,6 +192,15 @@ export const resources: Resource[] = [
       { nama: "mulai", label: "Mulai", tipe: "date" },
       { nama: "selesai", label: "Berakhir", tipe: "date", bantuan: "Kosongkan bila tanpa batas waktu." },
       { nama: "aktif", label: "Tampilkan di situs", tipe: "checkbox", bawaan: 1, lebar: "penuh" },
+      {
+        nama: "popup",
+        label: "Munculkan sebagai popup di beranda",
+        tipe: "checkbox",
+        bawaan: 0,
+        lebar: "penuh",
+        bantuan:
+          "Pop-up tampil sekali per sesi pengunjung, hanya di beranda, dan hanya selama promo aktif serta dalam rentang tanggal. Bila beberapa promo ditandai, yang terbaru dipakai.",
+      },
       { nama: "deskripsi", label: "Deskripsi", tipe: "textarea", lebar: "penuh" },
     ],
   },

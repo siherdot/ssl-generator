@@ -5,6 +5,7 @@ import HubungiKami from "@/components/hubungi-kami";
 import DoctorCard from "@/components/doctor-card";
 import InfoCard from "@/components/info-card";
 import Carousel from "@/components/carousel";
+import PromoPopup from "@/components/promo-popup";
 import { JsonLdHospital } from "@/components/json-ld";
 import { site } from "@/lib/site";
 import {
@@ -12,6 +13,7 @@ import {
   getNewsList,
   getPoliList,
   getPromoAktif,
+  getPromoPopup,
   getTestimoni,
   getKasur,
   getSlideLatar,
@@ -42,6 +44,7 @@ export default async function HomePage() {
     getKasur(),
     getSlideLatar(),
   ]);
+  const promoPopup = await getPromoPopup().catch(() => null);
 
   const totalKasur = kasur.reduce((n, k) => n + Number(k.total || 0), 0);
   const terisiKasur = kasur.reduce((n, k) => n + Number(k.terisi || 0), 0);
@@ -286,6 +289,19 @@ export default async function HomePage() {
       )}
 
       <HubungiKami lang={lang} />
+
+      {/* promo popup — sekali per sesi, hanya bila admin menandainya */}
+      {promoPopup ? (
+        <PromoPopup
+          id={promoPopup.id}
+          judul={tx(lang, promoPopup.judul)}
+          deskripsi={promoPopup.deskripsi?.replace(/<[^>]+>/g, "") ?? ""}
+          gambar={promoPopup.gambar ? gambar(promoPopup.gambar) : undefined}
+          link={promoPopup.link || undefined}
+          labelTutup={lang === "en" ? "Close" : "Tutup"}
+          labelCta={lang === "en" ? "See details" : "Lihat detail"}
+        />
+      ) : null}
     </>
   );
 }

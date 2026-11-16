@@ -318,6 +318,7 @@ export type Promo = {
   link: string;
   mulai: string | null;
   selesai: string | null;
+  popup?: number;
 };
 export type Testimoni = {
   id: number;
@@ -361,6 +362,20 @@ export function getPromoAktif(limit = 3) {
       ORDER BY (mulai IS NULL), mulai DESC
       LIMIT ?`,
     [limit]
+  );
+}
+
+/** Promo yang ditandai tampil sebagai popup (maksimal satu, yang terbaru). */
+export function getPromoPopup() {
+  return one<Promo>(
+    `SELECT id, judul, deskripsi, gambar, link, mulai, selesai, popup
+       FROM promo
+      WHERE aktif = 1
+        AND COALESCE(popup, 0) = 1
+        AND (mulai IS NULL OR mulai <= CURDATE())
+        AND (selesai IS NULL OR selesai >= CURDATE())
+      ORDER BY id DESC
+      LIMIT 1`
   );
 }
 
