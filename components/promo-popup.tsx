@@ -97,23 +97,23 @@ export default function PromoPopup({
           type="button"
           onClick={tutup}
           aria-label={labelTutup}
-          className="promo-tutup absolute right-4 top-4 z-20 grid h-10 w-10 place-items-center rounded-full bg-white/95 ring-1 ring-black/10 backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+          className="promo-tutup absolute right-3 top-3 z-20 grid h-11 w-11 place-items-center rounded-full bg-white ring-1 ring-black/15 shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
         >
           <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2.4"
+            strokeWidth="2.8"
             strokeLinecap="round"
             aria-hidden="true"
-            className="promo-x h-[18px] w-[18px] text-ink"
+            className="promo-x h-[20px] w-[20px] text-ink"
           >
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
 
         <div className="flex items-center gap-2 px-5 pb-1 pt-5">
-          <span className="inline-flex items-center rounded-full bg-brand px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
+          <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-brand px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
             Promo
           </span>
           <span className="text-[11px] font-medium text-muted">{namaSitus}</span>
@@ -125,7 +125,7 @@ export default function PromoPopup({
             <img
               src={gambar}
               alt=""
-              className="mx-auto block h-56 w-full rounded-xl bg-mist object-contain"
+              className="mx-auto block h-56 w-full rounded-xl bg-white object-contain ring-1 ring-black/5"
               loading="eager"
             />
           </div>
@@ -152,7 +152,7 @@ export default function PromoPopup({
             <button
               type="button"
               onClick={tutup}
-              className="promo-batal rounded-xl px-4 py-2.5 text-sm font-semibold text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="promo-batal rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
               {labelTutup}
             </button>
