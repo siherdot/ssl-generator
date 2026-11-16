@@ -298,6 +298,7 @@ export default async function HomePage() {
           deskripsi={promoPopup.deskripsi?.replace(/<[^>]+>/g, "") ?? ""}
           gambar={promoPopup.gambar ? gambar(promoPopup.gambar) : undefined}
           link={promoPopup.link || undefined}
+          namaSitus={site.name}
           labelTutup={lang === "en" ? "Close" : "Tutup"}
           labelCta={lang === "en" ? "See details" : "Lihat detail"}
         />
