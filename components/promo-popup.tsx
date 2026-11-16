@@ -5,12 +5,14 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Popup promo di beranda.
  *
- * Aturan tampil:
  * - hanya dirender server bila ada promo aktif bertanda `popup` (lihat getPromoPopup)
- * - muncul sekali per sesi: kunci disimpan di sessionStorage berisi id promo,
- *   jadi menutup popup tidak mengganggu navigasi berikutnya, tetapi promo BARU
- *   (id berbeda) tetap muncul pada kunjungan berikutnya.
- * - bisa ditutup dengan tombol, klik latar, atau tombol Esc.
+ * - sekali per sesi: kunci di sessionStorage berisi id promo, jadi promo baru
+ *   (id berbeda) tetap muncul pada kunjungan berikutnya
+ * - bisa ditutup lewat tombol, klik latar, atau Esc
+ *
+ * Animasi ditulis sebagai CSS biasa di dalam komponen: utilitas `transition-*`
+ * Tailwind tidak ikut ter-build di proyek ini, sehingga efek hover akan
+ * melompat tanpa transisi bila hanya memakai kelas.
  */
 export default function PromoPopup({
   id,
@@ -35,7 +37,6 @@ export default function PromoPopup({
 }) {
   const kunci = `promo-popup:v1:${id}`;
   const [buka, setBuka] = useState(false);
-  const [hoverTutup, setHoverTutup] = useState(false);
   const tombolRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -85,19 +86,36 @@ export default function PromoPopup({
       onClick={tutup}
     >
       <style>{`
+        @keyframes promoRedup { from { opacity: 0 } to { opacity: 1 } }
         @keyframes promoNaik {
-          from { opacity: 0; transform: translateY(20px) scale(.97); }
+          from { opacity: 0; transform: translateY(22px) scale(.96); }
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes promoRedup {
-          from { opacity: 0; }
-          to   { opacity: 1; }
-        }
         .promo-latar { animation: promoRedup .22s ease-out both; }
-        .promo-kartu { animation: promoNaik .34s cubic-bezier(.22,1,.36,1) both; }
+        .promo-kartu { animation: promoNaik .36s cubic-bezier(.22,1,.36,1) both; }
+
+        .promo-tutup {
+          transition: background-color .25s ease, box-shadow .25s ease, transform .25s ease;
+        }
+        .promo-tutup .promo-x {
+          transition: rotate .3s cubic-bezier(.34,1.56,.64,1), scale .3s cubic-bezier(.34,1.56,.64,1);
+        }
+        .promo-tutup:hover { background-color: #fff; box-shadow: 0 10px 22px -8px rgba(0,0,0,.45); }
+        .promo-tutup:hover .promo-x,
+        .promo-tutup:focus-visible .promo-x { rotate: 90deg; scale: 1.12; }
+        .promo-tutup:active { transform: scale(.9); }
+        .promo-tutup:active .promo-x { rotate: 90deg; scale: .95; }
+
+        .promo-cta { transition: background-color .25s ease, transform .2s ease; }
+        .promo-cta:hover { background-color: var(--color-brand-700); }
+        .promo-cta:active { transform: translateY(1px); }
+
+        .promo-batal { transition: background-color .2s ease, color .2s ease; }
+        .promo-batal:hover { background-color: var(--color-mist); color: var(--color-ink); }
+
         @media (prefers-reduced-motion: reduce) {
           .promo-latar, .promo-kartu { animation: none; }
-          .promo-tutup svg { transition: none !important; }
+          .promo-tutup, .promo-tutup .promo-x, .promo-cta, .promo-batal { transition: none; }
         }
       `}</style>
 
@@ -107,15 +125,12 @@ export default function PromoPopup({
       >
         <div className="h-1 w-full bg-brand" aria-hidden="true" />
 
-        {/* tombol tutup: berputar 90 derajat saat disentuh kursor */}
         <button
           ref={tombolRef}
           type="button"
           onClick={tutup}
-          onMouseEnter={() => setHoverTutup(true)}
-          onMouseLeave={() => setHoverTutup(false)}
           aria-label={labelTutup}
-          className="promo-tutup absolute right-4 top-4 z-20 grid h-10 w-10 place-items-center rounded-full bg-white/95 ring-1 ring-black/10 backdrop-blur transition-[box-shadow,transform,background-color] duration-300 ease-out hover:bg-white hover:shadow-[0_10px_24px_-8px_rgba(0,0,0,.5)] active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+          className="promo-tutup absolute right-4 top-4 z-20 grid h-10 w-10 place-items-center rounded-full bg-white/95 ring-1 ring-black/10 backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
         >
           <svg
             viewBox="0 0 24 24"
@@ -124,9 +139,7 @@ export default function PromoPopup({
             strokeWidth="2.4"
             strokeLinecap="round"
             aria-hidden="true"
-            className={`h-[18px] w-[18px] text-ink transition-transform duration-300 ease-out ${
-              hoverTutup ? "rotate-90 scale-110" : "rotate-0 scale-100"
-            }`}
+            className="promo-x h-[18px] w-[18px] text-ink"
           >
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
@@ -163,7 +176,7 @@ export default function PromoPopup({
             {link ? (
               <a
                 href={link}
-                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                className="promo-cta inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               >
                 {labelCta}
                 <span aria-hidden="true">›</span>
@@ -172,7 +185,7 @@ export default function PromoPopup({
             <button
               type="button"
               onClick={tutup}
-              className="rounded-xl px-4 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-mist hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="promo-batal rounded-xl px-4 py-2.5 text-sm font-semibold text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
               {labelTutup}
             </button>
