@@ -115,7 +115,7 @@ export default function PromoPopup({
           onMouseEnter={() => setHoverTutup(true)}
           onMouseLeave={() => setHoverTutup(false)}
           aria-label={labelTutup}
-          className="promo-tutup absolute right-3 top-5 z-20 grid h-10 w-10 place-items-center rounded-full bg-white/95 ring-1 ring-black/10 backdrop-blur transition-[box-shadow,transform,background-color] duration-300 ease-out hover:bg-white hover:shadow-[0_10px_24px_-8px_rgba(0,0,0,.5)] active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+          className="promo-tutup absolute right-4 top-4 z-20 grid h-10 w-10 place-items-center rounded-full bg-white/95 ring-1 ring-black/10 backdrop-blur transition-[box-shadow,transform,background-color] duration-300 ease-out hover:bg-white hover:shadow-[0_10px_24px_-8px_rgba(0,0,0,.5)] active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
         >
           <svg
             viewBox="0 0 24 24"
@@ -145,7 +145,7 @@ export default function PromoPopup({
             <img
               src={gambar}
               alt=""
-              className="mx-auto max-h-56 w-full rounded-xl bg-mist object-contain"
+              className="mx-auto block h-56 w-full rounded-xl bg-mist object-contain"
               loading="eager"
             />
           </div>
