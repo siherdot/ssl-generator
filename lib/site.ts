@@ -12,7 +12,7 @@ export const site = {
   founded: 2021,
   mapsQuery: "RSU Mahkota Bidadari Langkat",
   /** Koordinat dari embed Google Maps situs lama (titik RS, bukan perkiraan). */
-  koordinat: { lat: 3.9740311486, lon: 98.34574671426275 },
+  koordinat: { lat: 3.9740316, lon: 98.3454313 },
 } as const;
 
 export type NavItem = {
