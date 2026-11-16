@@ -85,39 +85,6 @@ export default function PromoPopup({
       aria-labelledby={`promo-judul-${id}`}
       onClick={tutup}
     >
-      <style>{`
-        @keyframes promoRedup { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes promoNaik {
-          from { opacity: 0; transform: translateY(22px) scale(.96); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .promo-latar { animation: promoRedup .22s ease-out both; }
-        .promo-kartu { animation: promoNaik .36s cubic-bezier(.22,1,.36,1) both; }
-
-        .promo-tutup {
-          transition: background-color .25s ease, box-shadow .25s ease, transform .25s ease;
-        }
-        .promo-tutup .promo-x {
-          transition: rotate .3s cubic-bezier(.34,1.56,.64,1), scale .3s cubic-bezier(.34,1.56,.64,1);
-        }
-        .promo-tutup:hover { background-color: #fff; box-shadow: 0 10px 22px -8px rgba(0,0,0,.45); }
-        .promo-tutup:hover .promo-x,
-        .promo-tutup:focus-visible .promo-x { rotate: 90deg; scale: 1.12; }
-        .promo-tutup:active { transform: scale(.9); }
-        .promo-tutup:active .promo-x { rotate: 90deg; scale: .95; }
-
-        .promo-cta { transition: background-color .25s ease, transform .2s ease; }
-        .promo-cta:hover { background-color: var(--color-brand-700); }
-        .promo-cta:active { transform: translateY(1px); }
-
-        .promo-batal { transition: background-color .2s ease, color .2s ease; }
-        .promo-batal:hover { background-color: var(--color-mist); color: var(--color-ink); }
-
-        @media (prefers-reduced-motion: reduce) {
-          .promo-latar, .promo-kartu { animation: none; }
-          .promo-tutup, .promo-tutup .promo-x, .promo-cta, .promo-batal { transition: none; }
-        }
-      `}</style>
 
       <div
         className="promo-kartu relative w-full max-w-[26rem] overflow-hidden rounded-[1.35rem] bg-white shadow-[0_28px_70px_-18px_rgba(0,0,0,.55)] ring-1 ring-black/10"

@@ -148,3 +148,48 @@ body {
     background-size: 170px auto, 150px auto;
   }
 }
+
+/* ── Popup promo beranda ─────────────────────────────────────────────
+   Animasi ditaruh di sini, bukan sebagai <style> di dalam komponen,
+   supaya pasti ikut ter-build dan tidak bergantung pada style runtime. */
+@keyframes promoRedup {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes promoNaik {
+  from { opacity: 0; transform: translateY(22px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.promo-latar { animation: promoRedup 0.22s ease-out both; }
+.promo-kartu { animation: promoNaik 0.36s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+.promo-tutup {
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.promo-tutup .promo-x {
+  transition: rotate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.promo-tutup:hover {
+  background-color: #fff;
+  box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.45);
+}
+.promo-tutup:hover .promo-x,
+.promo-tutup:focus-visible .promo-x {
+  rotate: 90deg;
+  scale: 1.12;
+}
+.promo-tutup:active { transform: scale(0.9); }
+.promo-tutup:active .promo-x { scale: 0.95; }
+
+.promo-cta { transition: background-color 0.25s ease, transform 0.2s ease; }
+.promo-cta:hover { background-color: var(--color-brand-700); }
+.promo-cta:active { transform: translateY(1px); }
+
+.promo-batal { transition: background-color 0.2s ease, color 0.2s ease; }
+.promo-batal:hover { background-color: var(--color-mist); color: var(--color-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-latar, .promo-kartu { animation: none; }
+  .promo-tutup, .promo-tutup .promo-x, .promo-cta, .promo-batal { transition: none; }
+}
