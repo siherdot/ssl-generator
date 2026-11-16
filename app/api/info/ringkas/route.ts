@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDokterList, getKasur, getPoliRingkas, getKasurDiperbarui } from "@/lib/data";
+import { cacheAmbil, cacheSimpan, statusCache } from "@/lib/redis";
 
 /**
  * Ringkasan data situs untuk asisten AI (n8n).
@@ -8,10 +9,24 @@ import { getDokterList, getKasur, getPoliRingkas, getKasurDiperbarui } from "@/l
  * Hanya data publik: dokter + jadwal praktik, daftar poliklinik, dan angka
  * agregat tempat tidur. Tidak ada identitas pasien. Tanpa token karena isinya
  * sama dengan yang sudah tampil di halaman publik.
+ *
+ * Hasil disimpan di Redis 60 detik: data sumbernya berubah paling cepat sekali
+ * sejam (sinkronisasi SIMRS), jadi request beruntun dari asisten AI tidak perlu
+ * menembak database berulang kali. Redis mati = tetap jalan tanpa cache.
  */
 export const dynamic = "force-dynamic";
 
+const KUNCI = "rsumb:info:ringkas:v1";
+const TTL = 60;
+
 export async function GET() {
+  const tersimpan = await cacheAmbil(KUNCI);
+  if (tersimpan) {
+    return NextResponse.json(JSON.parse(tersimpan), {
+      headers: { "x-cache": "hit", "x-cache-store": statusCache() },
+    });
+  }
+
   const [dokter, poli, kasur, terakhir] = await Promise.all([
     getDokterList(),
     getPoliRingkas(),
@@ -31,7 +46,7 @@ export async function GET() {
     perKelas.set(kelas, isi);
   }
 
-  return NextResponse.json({
+  const isi = {
     poli: poli.map((p) => p.nama_poli),
     dokter: dokter.map((d) => ({
       nama: d.nama_dokter,
@@ -46,6 +61,15 @@ export async function GET() {
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([kelas, v]) => ({ kelas, ...v, kosong: Math.max(0, v.kapasitas - v.terisi) })),
       diperbarui: terakhir?.diperbarui ?? null,
+    },
+  };
+
+  const tersimpanBaru = await cacheSimpan(KUNCI, JSON.stringify(isi), TTL);
+
+  return NextResponse.json(isi, {
+    headers: {
+      "x-cache": "miss",
+      "x-cache-store": tersimpanBaru ? "redis" : statusCache(),
     },
   });
 }
