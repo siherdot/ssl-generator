@@ -80,7 +80,7 @@ export default function PromoPopup({
         <img
           src={gambar}
           alt=""
-          className="h-40 w-full object-cover sm:h-48"
+          className="h-44 w-full bg-mist object-contain sm:h-52"
           loading="eager"
         />
       ) : null}
