@@ -9,6 +9,7 @@
   --merah: #c43d4b;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--tinta); background: var(--latar); line-height: 1.5; }
 .latar { position: fixed; inset: 0; z-index: -1; background: radial-gradient(1000px 500px at 80% -10%, #145b50 0%, transparent 60%), radial-gradient(700px 400px at 0% 100%, #123b63 0%, transparent 60%), var(--latar); }
