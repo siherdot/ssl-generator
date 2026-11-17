@@ -4,7 +4,7 @@ Generator sertifikat SSL gratis (Let's Encrypt / ACME v2) untuk domain `*.rsumb.
 
 Dua cara CSR:
 - **Form isi**: isi domain, negara, organisasi; aplikasi membuat private key + CSR. `privkey.pem` ikut dikirim.
-- **CSR jadi**: tempel CSR yang sudah dibuat. Private key tidak ada di server, jadi `privkey.pem` tidak disediakan.
+- **CSR jadi**: tempel CSR yang sudah dibuat. CN harus sama dengan SAN pertama. Private key tidak ada di server, jadi `privkey.pem` tidak disediakan.
 
 Validasi:
 - **DNS-01** via token Cloudflare (server yang simpan token; token tidak pernah dikirim ke browser).

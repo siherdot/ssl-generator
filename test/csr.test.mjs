@@ -30,6 +30,28 @@ test('ACME finalize: CSR harus trimEnd agar DER tidak trailing data', () => {
   assert.equal(ACME._csrToUrlBase64(csr.trimEnd()), diharapkan);
 });
 
+test('bacaCSR: CN harus sama dengan SAN pertama', () => {
+  const k = forge.pki.rsa.generateKeyPair(2048);
+  const c = forge.pki.createCertificationRequest();
+  c.publicKey = k.publicKey;
+  c.setSubject([{ name: 'commonName', value: 'kedua.rsumb.site' }]);
+  c.addAttribute({
+    name: 'extensionRequest',
+    extensions: [{
+      name: 'subjectAltName',
+      altNames: [
+        { type: 2, value: 'pertama.rsumb.site' },
+        { type: 2, value: 'kedua.rsumb.site' }
+      ]
+    }]
+  });
+  c.sign(k.privateKey, forge.md.sha256.create());
+  assert.throws(
+    () => bacaCSR(forge.pki.certificationRequestToPem(c)),
+    /SAN pertama/
+  );
+});
+
 test('bacaCSR: tolak CSR tanpa SAN', () => {
   const forgeLib = forge;
   const k = forgeLib.pki.rsa.generateKeyPair(2048);

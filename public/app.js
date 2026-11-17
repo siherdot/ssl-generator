@@ -110,13 +110,26 @@ async function pantau(id) {
   timer = setInterval(cek, 2500);
 }
 
+function tampilApp() {
+  $('login').hidden = true;
+  $('login').style.display = 'none';
+  $('app').hidden = false;
+  $('app').style.display = '';
+}
+
+function tampilLogin() {
+  $('app').hidden = true;
+  $('app').style.display = 'none';
+  $('login').hidden = false;
+  $('login').style.display = '';
+}
+
 $('form-login').addEventListener('submit', async (e) => {
   e.preventDefault();
   $('login-error').textContent = '';
   try {
     await api('/api/login', { method: 'POST', body: JSON.stringify({ password: $('sandi').value }) });
-    $('login').hidden = true;
-    $('app').hidden = false;
+    tampilApp();
     $('sandi').value = '';
   } catch (err) {
     $('login-error').textContent = err.message;
@@ -172,10 +185,8 @@ $('kirim').addEventListener('click', async () => {
 (async () => {
   try {
     await api('/api/sesi');
-    $('login').hidden = true;
-    $('app').hidden = false;
+    tampilApp();
   } catch {
-    $('app').hidden = true;
-    $('login').hidden = false;
+    tampilLogin();
   }
 })();
