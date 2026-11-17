@@ -222,7 +222,10 @@ app.post('/api/order', (req, res) => {
   const alamat = ip(req);
   const sekarang = Date.now();
   const riwayat = (pesanOrder.get(alamat) || []).filter((w) => w > sekarang - 3600_000);
-  if (riwayat.length >= 5) return res.status(429).json({ error: 'Batas 5 permintaan per jam tercapai.' });
+  const batas = Number(process.env.BATAS_ORDER_PER_JAM ?? 50);
+  if (batas > 0 && riwayat.length >= batas) {
+    return res.status(429).json({ error: `Batas ${batas} permintaan per jam tercapai.` });
+  }
   riwayat.push(sekarang);
   pesanOrder.set(alamat, riwayat);
 

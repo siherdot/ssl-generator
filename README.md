@@ -30,6 +30,7 @@ Variabel:
 - `CF_API_TOKEN` atau `CF_TOKEN_FILE` — token Cloudflare dengan izin `Zone:DNS:Edit` untuk zone yang bersangkutan. `CF_TOKEN_FILE` lebih aman.
 - `DATA_DIR` — berisi akun ACME + status order. Harus persisten.
 - `COOKIE_SECURE=0` hanya untuk uji HTTP lokal.
+- `BATAS_ORDER_PER_JAM` default `50`; set `0` untuk tanpa batas. Semua user di balik tunnel terlihat dari satu IP, jadi batas per-IP tidak bisa dipakai sebagai pembatas per orang.
 - `PORT` default `3000`.
 
 ## Deploy Coolify
