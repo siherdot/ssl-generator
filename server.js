@@ -90,6 +90,29 @@ async function akunACME(acme, staging, accountKey) {
   }
 }
 
+async function simpanOrder(o) {
+  await fs.mkdir(DATA, { recursive: true, mode: 0o700 });
+  const isi = {
+    id: o.id, status: o.status, domains: o.domains, challenge: o.challenge,
+    staging: o.staging, validasi: o.validasi, log: o.log, dibuat: o.dibuat,
+    selesai: o.selesai, error: o.error, pem: o.pem, privateKey: o.privateKey,
+    zip: o.zip ? o.zip.toString('base64') : null
+  };
+  await fs.writeFile(path.join(DATA, `order-${o.id}.json`), JSON.stringify(isi), { mode: 0o600 });
+}
+
+async function muatOrder() {
+  await fs.mkdir(DATA, { recursive: true, mode: 0o700 });
+  for (const nama of await fs.readdir(DATA)) {
+    if (!/^order-[a-f0-9-]+\.json$/.test(nama)) continue;
+    try {
+      const d = JSON.parse(await fs.readFile(path.join(DATA, nama), 'utf8'));
+      d.zip = d.zip ? Buffer.from(d.zip, 'base64') : null;
+      order.set(d.id, d);
+    } catch {}
+  }
+}
+
 async function terbitkan(o) {
   try {
     o.status = 'memproses';
@@ -165,6 +188,7 @@ async function terbitkan(o) {
   } finally {
     o.selesai = Date.now();
     for (const v of o.validasi) for (const [token, isi] of challengesHTTP) if (isi === v.isi) challengesHTTP.delete(token);
+    await simpanOrder(o).catch((e) => catat(o, `Gagal menyimpan status: ${e.message}`));
   }
 }
 
@@ -399,7 +423,12 @@ app.use(express.static(path.join(ROOT, 'public'), { index: 'index.html' }));
 
 setInterval(() => {
   const batas = Date.now() - 2 * 3600_000;
-  for (const [id, o] of order) if (o.selesai && o.selesai < batas) order.delete(id);
+  for (const [id, o] of order) {
+    if (o.selesai && o.selesai < batas) {
+      order.delete(id);
+      fs.unlink(path.join(DATA, `order-${id}.json`)).catch(() => {});
+    }
+  }
   for (const [id, rec] of pesanOrder) {
     const sisa = rec.filter((w) => w > Date.now() - 3600_000);
     if (sisa.length) pesanOrder.set(id, sisa);
@@ -407,4 +436,5 @@ setInterval(() => {
   }
 }, 10 * 60_000).unref();
 
+await muatOrder();
 app.listen(PORT, '0.0.0.0', () => console.log(`ssl-rsumb siap di :${PORT}`));

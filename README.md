@@ -56,5 +56,6 @@ Endpoint terkait (semuanya butuh sesi login): `POST /api/order/:id/verify`, `GET
 ## Catatan
 
 - Maksimal 10 domain per sertifikat. Wildcard tidak boleh dicampur dengan domain biasa.
-- Setiap order disimpan di `DATA_DIR`; ZIP sertifikat bisa diunduh ulang lewat halaman order selama file masih ada.
+- Setiap order disimpan di `DATA_DIR` (`order-<id>.json`, izin `0600`); ZIP dan turunannya bisa diunduh ulang setelah server restart selama belum lewat 2 jam.
+- Setiap order juga dipakai untuk verifikasi, PFX, dan bundle; mode CSR tidak punya private key sehingga tidak bisa PFX.
 - Tidak ada record TXT yang dibuat aplikasi; validasi memakai file HTTP-01 di webserver domain.
