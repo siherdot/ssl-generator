@@ -1,18 +1,4 @@
 node_modules/
-.next/
-out/
-build/
-
-# kredensial — jangan pernah masuk repo
+data/
 .env
-.env.*
-!.env.example
-
-# lain-lain
 *.log
-npm-debug.log*
-.DS_Store
-coverage/
-
-# berkas kredensial lokal
-.admin-password

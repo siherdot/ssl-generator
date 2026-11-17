@@ -1,11 +1,5 @@
 node_modules
-.next
-.git
-npm-debug.log
-Dockerfile
-.dockerignore
-README.md
-# kredensial tidak boleh ikut ke dalam image; diisi lewat env Coolify
+data
 .env
-.env.*
-!.env.example
+*.log
+.DS_Store

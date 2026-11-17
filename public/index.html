@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>SSL Generator — rsumb.site</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="latar"></div>
+
+  <section id="login" class="gerbang">
+    <form class="kartu login-kartu" id="form-login">
+      <div class="tanda">🔒</div>
+      <h1>SSL Generator</h1>
+      <p class="muted">Area terbatas. Masukkan sandi yang diberikan operator.</p>
+      <label for="sandi">Sandi akses</label>
+      <input id="sandi" name="sandi" type="password" autocomplete="current-password" required placeholder="••••••••" />
+      <button type="submit" class="utama">Masuk</button>
+      <p id="login-error" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <main id="app" class="bungkus" hidden>
+    <header class="kepala">
+      <div>
+        <div class="logo"><span class="titik"></span> SSL Generator <small>rsumb.site</small></div>
+        <h1>Sertifikat SSL gratis untuk domain Anda</h1>
+        <p class="muted">Terbit lewat ACME Let’s Encrypt. Berlaku 90 hari. Private key dibuat di server dan langsung dihapus dari memori setelah proses selesai.</p>
+      </div>
+      <button id="keluar" class="sekunder">Keluar</button>
+    </header>
+
+    <div class="langkah">
+      <section class="kartu">
+        <div class="judul"><span class="nomer">1</span><div><h2>CSR & domain</h2><p class="muted">Buat CSR lewat form, atau tempel CSR yang sudah ada.</p></div></div>
+
+        <div class="tab" role="tablist">
+          <button type="button" class="tab-aktif" data-mode="form">Isi form</button>
+          <button type="button" data-mode="csr">Pakai CSR existing</button>
+        </div>
+
+        <div id="panel-form">
+          <div class="grid">
+            <label class="lebar">Domain utama (CN)
+              <input id="cn" placeholder="contoh: example.com atau *.example.com" />
+              <small>Boleh wildcard. Diisi otomatis dari SAN bila kosong.</small>
+            </label>
+            <label class="lebar">Semua domain / SAN
+              <textarea id="domains" rows="3" placeholder="example.com&#10;www.example.com"></textarea>
+              <small>Satu per baris atau dipisah koma. Maksimal 10 domain.</small>
+            </label>
+            <label>Country (C)<input id="country" value="ID" maxlength="2" /></label>
+            <label>Provinsi (ST)<input id="state" placeholder="Sumatera Utara" /></label>
+            <label>Kota (L)<input id="city" placeholder="Medan" /></label>
+            <label>Organisasi (O)<input id="org" placeholder="Nama perusahaan" /></label>
+            <label>Unit (OU)<input id="unit" placeholder="IT" /></label>
+            <label>Email<input id="email" type="email" placeholder="admin@example.com" /></label>
+            <label>Ukuran kunci<select id="keySize"><option>2048</option><option>3072</option><option>4096</option></select></label>
+          </div>
+        </div>
+
+        <div id="panel-csr" hidden>
+          <label>CSR PEM
+            <textarea id="csr" rows="9" spellcheck="false" placeholder="-----BEGIN CERTIFICATE REQUEST-----&#10;...&#10;-----END CERTIFICATE REQUEST-----"></textarea>
+          </label>
+          <p class="muted">Domain dibaca otomatis dari SAN di CSR. Private key tetap di Anda — server hanya mengembalikan sertifikat.</p>
+        </div>
+      </section>
+
+      <section class="kartu">
+        <div class="judul"><span class="nomer">2</span><div><h2>Validasi domain</h2><p class="muted">Pilih cara pembuktian kepemilikan domain.</p></div></div>
+        <div class="pilihan">
+          <label class="opsi"><input type="radio" name="challenge" value="dns" checked />
+            <span><strong>DNS-01 — otomatis</strong><small>Server membuat TXT <code>_acme-challenge</code> lewat Cloudflare. Domain harus berada di akun Cloudflare yang terhubung.</small></span>
+          </label>
+          <label class="opsi"><input type="radio" name="challenge" value="http" />
+            <span><strong>HTTP-01 — file</strong><small>Anda memasang satu file di webserver domain. Token ditampilkan setelah permintaan dibuat.</small></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="kartu">
+        <div class="judul"><span class="nomer">3</span><div><h2>Terbitkan</h2><p class="muted">Proses memakan waktu ±30–120 detik.</p></div></div>
+        <label class="centang"><input type="checkbox" id="staging" /> <span>Gunakan server uji coba (staging). Sertifikat tidak dipercaya browser, cocok untuk mencoba alur.</span></label>
+        <button id="kirim" class="utama lebar">Buat sertifikat</button>
+        <p id="form-error" class="error" role="alert"></p>
+      </section>
+    </div>
+
+    <section id="hasil" class="kartu hasil" hidden>
+      <div class="hasil-kepala">
+        <h2>Hasil</h2>
+        <span id="status" class="badge">menunggu</span>
+      </div>
+      <p id="ringkasan" class="muted"></p>
+      <div id="validasi"></div>
+      <div id="unduh" class="unduh" hidden>
+        <a id="zip" class="utama" download>⬇ Unduh semua (.zip)</a>
+        <div id="berkas" class="berkas"></div>
+      </div>
+      <details open><summary>Log proses</summary><ol id="log" class="log"></ol></details>
+      <p id="hasil-error" class="error"></p>
+    </section>
+
+    <footer>Let’s Encrypt · ACME v2 · Akses terbatas · <span id="ip-info"></span></footer>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>
