@@ -252,6 +252,7 @@ app.post('/api/order', (req, res) => {
       });
       csr = hasil.csr;
       privateKey = hasil.privateKey;
+      domains = hasil.domains;
     }
   } catch (err) {
     return res.status(400).json({ error: String(err.message || err) });
