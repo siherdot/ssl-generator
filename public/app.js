@@ -38,7 +38,7 @@ function tampilHasil(h) {
   $('hasil').hidden = false;
   $('status').textContent = h.status;
   $('status').className = 'badge ' + (h.status === 'selesai' || h.status === 'gagal' ? h.status : '');
-  $('ringkasan').textContent = `${h.domains.join(' · ')} — ${h.challenge === 'dns' ? 'DNS-01' : 'HTTP-01'}${h.staging ? ' — STAGING' : ''}`;
+  $('ringkasan').textContent = `${h.domains.join(' · ')} — HTTP-01${h.staging ? ' — STAGING' : ''}`;
   $('hasil-error').textContent = h.error || '';
 
   const v = $('validasi');
@@ -157,7 +157,7 @@ $('kirim').addEventListener('click', async () => {
   $('unduh').hidden = true;
   const body = {
     mode,
-    challenge: document.querySelector('input[name=challenge]:checked').value,
+    challenge: 'http',
     staging: $('staging').checked
   };
   if (mode === 'csr') {

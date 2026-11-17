@@ -6,9 +6,8 @@ Dua cara CSR:
 - **Form isi**: isi domain, negara, organisasi; aplikasi membuat private key + CSR. `privkey.pem` ikut dikirim.
 - **CSR jadi**: tempel CSR yang sudah dibuat. CN boleh di SAN mana pun (urutan tidak penting). Private key tidak ada di server, jadi `privkey.pem` tidak disediakan.
 
-Validasi:
-- **DNS-01** via token Cloudflare (server yang simpan token; token tidak pernah dikirim ke browser).
-- **HTTP-01**: aplikasi menampilkan token + isi file yang harus diletakkan di `http://<domain>/.well-known/acme-challenge/<token>`. Token juga disajikan aplikasi di path tersebut; pakai ini hanya bila domain yang diverifikasi diarahkan ke aplikasi ini.
+Validasi (satu-satunya):
+- **HTTP-01 — file**: aplikasi menampilkan token + isi file yang harus diletakkan di `http://<domain>/.well-known/acme-challenge/<token>`. Token juga disajikan aplikasi di path tersebut; pakai ini hanya bila domain yang diverifikasi diarahkan ke aplikasi ini. Tidak ada DNS-01, tidak butuh token Cloudflare.
 
 Output ZIP: `cert.pem`, `chain.pem`, `fullchain.pem`, `request.csr`, `PETUNJUK.txt` (+ `privkey.pem` untuk mode form).
 
@@ -17,7 +16,6 @@ Output ZIP: `cert.pem`, `chain.pem`, `fullchain.pem`, `request.csr`, `PETUNJUK.t
 ```bash
 npm ci
 APP_PASSWORD='sandi-kuat' SESSION_SECRET='acak-panjang' \
-  CF_TOKEN_FILE=/path/ke/token-cloudflare \
   DATA_DIR=./data PORT=3000 NODE_ENV=development \
   node server.js
 ```
@@ -27,7 +25,6 @@ Buka `http://localhost:3000`. Untuk uji lokal lewat HTTP, tambahkan `COOKIE_SECU
 Variabel:
 - `APP_PASSWORD` wajib. Server berhenti bila kosong.
 - `SESSION_SECRET` disarankan; bila kosong dibuat acak saat start (session semua users hilang saat restart).
-- `CF_API_TOKEN` atau `CF_TOKEN_FILE` — token Cloudflare dengan izin `Zone:DNS:Edit` untuk zone yang bersangkutan. `CF_TOKEN_FILE` lebih aman.
 - `DATA_DIR` — berisi akun ACME + status order. Harus persisten.
 - `COOKIE_SECURE=0` hanya untuk uji HTTP lokal.
 - `BATAS_ORDER_PER_JAM` default `50`; set `0` untuk tanpa batas. Semua user di balik tunnel terlihat dari satu IP, jadi batas per-IP tidak bisa dipakai sebagai pembatas per orang.
@@ -38,7 +35,7 @@ Variabel:
 - Build pack: **Dockerfile**, port `3000`.
 - Domain: `https://ssl.rsumb.site` (CNAME sudah mengarah ke tunnel Cloudflare).
 - Volume persisten: `/app/data` → `DATA_DIR=/app/data`.
-- Env: `APP_PASSWORD`, `SESSION_SECRET`, `CF_TOKEN_FILE` (mount file token sebagai secret) atau `CF_API_TOKEN`.
+- Env: `APP_PASSWORD`, `SESSION_SECRET`. Tidak ada variabel Cloudflare.
 - Jangan set `COOKIE_SECURE=0` di produksi.
 
 ## Uji staging
@@ -49,4 +46,4 @@ Centang "Staging" di form untuk memakai ACME staging Let's Encrypt. Sertifikat s
 
 - Maksimal 10 domain per sertifikat. Wildcard tidak boleh dicampur dengan domain biasa.
 - Setiap order disimpan di `DATA_DIR`; ZIP sertifikat bisa diunduh ulang lewat halaman order selama file masih ada.
-- Bersihkan record TXT `_acme-challenge` otomatis oleh plugin Cloudflare setelah validasi.
+- Tidak ada record TXT yang dibuat aplikasi; validasi memakai file HTTP-01 di webserver domain.

@@ -6,9 +6,7 @@ import { fileURLToPath } from 'node:url';
 import JSZip from 'jszip';
 import ACME from 'acme';
 import Keypairs from '@root/keypairs';
-import CloudflareDNS from 'acme-dns-01-cloudflare';
 import { buatCSR, bacaCSR, bersihkanDomain } from './lib/csr.js';
-import { bacaTokenCF } from './lib/cf.js';
 import { bacaSesi, cookieSesi, cookieKosong, buatRahasia, cocokKata } from './lib/auth.js';
 import { pasangTambalACME } from './lib/acme-tambal.js';
 
@@ -116,23 +114,15 @@ async function terbitkan(o) {
     const accountKey = await kunciAkun(staging);
     const akun = await akunACME(acme, staging, accountKey);
 
-    let plugin;
-    if (o.challenge === 'dns') {
-      const token = await bacaTokenCF();
-      if (!token) throw new Error('Token Cloudflare tidak tersedia.');
-      plugin = new CloudflareDNS({ token, propagationDelay: 6000 });
-      catat(o, 'DNS-01: menambah record TXT _acme-challenge via Cloudflare…');
-    } else {
-      plugin = pluginHTTP(o);
-      catat(o, 'HTTP-01: token siap. Letakkan file di webserver domain bila domain tidak mengarah ke server ini.');
-    }
+    const plugin = pluginHTTP(o);
+    catat(o, 'HTTP-01: token siap. Letakkan file di webserver domain bila domain tidak mengarah ke server ini.');
 
     const sert = await acme.certificates.create({
       account: akun,
       accountKey,
       csr: o.csr.trimEnd(),
       domains: o.domains,
-      challenges: { [o.challenge === 'dns' ? 'dns-01' : 'http-01']: plugin },
+      challenges: { 'http-01': plugin },
       customerEmail: EMAIL,
       skipDryRun: true,
       skipChallengeTests: true
@@ -257,7 +247,7 @@ app.post('/api/order', (req, res) => {
   } catch (err) {
     return res.status(400).json({ error: String(err.message || err) });
   }
-  const challenge = b.challenge === 'http' ? 'http' : 'dns';
+  const challenge = 'http';
   const id = crypto.randomUUID();
   const o = {
     id,
