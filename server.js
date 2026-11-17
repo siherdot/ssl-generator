@@ -327,7 +327,7 @@ async function verifikasiOrder(o) {
         disarankan
       });
     } catch (e) {
-      domains.push({ domain, https: false, error: e.message });
+      domains.push({ domain, https: false, error: e.message || e.code || 'gagal menghubungi HTTPS' });
     }
   }
   return { domains };
