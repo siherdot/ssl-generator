@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <title>SSL Generator — rsumb.site</title>
-  <link rel="stylesheet" href="/style.css?v=4" />
+  <link rel="stylesheet" href="/style.css?v=5" />
 </head>
 <body>
   <div class="latar"></div>
@@ -45,7 +45,7 @@
           <div class="grid">
             <label class="lebar">Domain utama (CN)
               <input id="cn" placeholder="contoh: example.com atau *.example.com" />
-              <small>Boleh wildcard. Diisi otomatis dari SAN bila kosong.</small>
+              <small>Kosongkan untuk otomatis. Bila diisi, harus sama persis dengan domain pertama di SAN.</small>
             </label>
             <label class="lebar">Semua domain / SAN
               <textarea id="domains" rows="3" placeholder="example.com&#10;www.example.com"></textarea>
@@ -108,6 +108,6 @@
   </main>
 
   <div id="toast" class="toast" hidden></div>
-  <script src="/app.js?v=4"></script>
+  <script src="/app.js?v=5"></script>
 </body>
 </html>

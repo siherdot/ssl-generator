@@ -30,6 +30,13 @@ test('ACME finalize: CSR harus trimEnd agar DER tidak trailing data', () => {
   assert.equal(ACME._csrToUrlBase64(csr.trimEnd()), diharapkan);
 });
 
+test('buatCSR: CN beda dengan domain pertama ditolak', () => {
+  assert.throws(
+    () => buatCSR({ domains: ['*.contoh.com'], cn: 'contoh.com' }),
+    /domain pertama di SAN/
+  );
+});
+
 test('bacaCSR: CN harus sama dengan SAN pertama', () => {
   const k = forge.pki.rsa.generateKeyPair(2048);
   const c = forge.pki.createCertificationRequest();
