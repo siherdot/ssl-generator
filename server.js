@@ -363,6 +363,40 @@ app.get('/api/order/:id', (req, res) => {
   res.json(ringkas(o));
 });
 
+app.post('/api/alat/pfx', (req, res) => {
+  const b = req.body || {};
+  try {
+    if (!b.cert || !b.key) throw new Error('Sertifikat dan private key wajib diisi.');
+    const pfx = buatPFX({ pem: { 'cert.pem': b.cert, 'chain.pem': b.chain || '' }, privateKey: b.key }, b.kataSandi || '');
+    res.setHeader('Content-Disposition', 'attachment; filename="konversi.pfx"');
+    res.type('application/x-pkcs12').send(pfx);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/alat/verify', async (req, res) => {
+  const b = req.body || {};
+  let domain;
+  try {
+    domain = bersihkanDomain(b.domain)[0];
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+  const target = b.cert ? sidikJari(b.cert) : null;
+  try {
+    const { cert, server } = await ambilTLS(domain);
+    const sidik = crypto.createHash('sha256').update(cert.raw).digest('hex');
+    res.json({
+      domain, https: true, cocok: target ? sidik === target : null,
+      sidik: sidik.slice(0, 16), penerbit: cert.issuer && cert.issuer.CN,
+      berlakuSampai: cert.valid_to, server
+    });
+  } catch (e) {
+    res.json({ domain, https: false, error: e.message || e.code || 'gagal menghubungi HTTPS' });
+  }
+});
+
 app.post('/api/order/:id/verify', async (req, res) => {
   const o = order.get(req.params.id);
   if (!o || !o.selesai || !o.pem) return res.status(400).json({ error: 'Sertifikat belum siap.' });

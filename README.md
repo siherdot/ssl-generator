@@ -53,6 +53,8 @@ Setelah order `selesai`, panel **Hasil** menyediakan:
 
 Endpoint terkait (semuanya butuh sesi login): `POST /api/order/:id/verify`, `GET /api/order/:id/bundle?format=nginx`, `POST /api/order/:id/pfx` dengan body `{"kataSandi":"..."}`.
 
+Panel **Alat mandiri** selalu tersedia tanpa membuat order: tempel `cert.pem`/`chain.pem`/`privkey.pem` lalu unduh `.pfx`, atau isi domain plus sertifikat pembanding opsional untuk verifikasi. Endpoint-nya `POST /api/alat/pfx` dan `POST /api/alat/verify`. Kata sandi PFX tidak disimpan.
+
 ## Catatan
 
 - Maksimal 10 domain per sertifikat. Wildcard tidak boleh dicampur dengan domain biasa.

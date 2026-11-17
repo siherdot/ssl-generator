@@ -250,6 +250,48 @@ $('pfx').addEventListener('click', async () => {
   }
 });
 
+$('conv-pfx').addEventListener('click', async () => {
+  const tombol = $('conv-pfx');
+  tombol.disabled = true;
+  try {
+    await unduhBlob('/api/alat/pfx', {
+      method: 'POST',
+      body: JSON.stringify({
+        cert: $('conv-cert').value,
+        chain: $('conv-chain').value,
+        key: $('conv-key').value,
+        kataSandi: $('conv-sandi').value
+      })
+    }, 'konversi.pfx');
+    pesan('PFX berhasil dibuat');
+  } catch (err) {
+    pesan(err.message);
+  } finally {
+    tombol.disabled = false;
+  }
+});
+
+$('cek-domain-btn').addEventListener('click', async () => {
+  const tombol = $('cek-domain-btn');
+  tombol.disabled = true;
+  try {
+    const r = await api('/api/alat/verify', {
+      method: 'POST',
+      body: JSON.stringify({ domain: $('cek-domain').value, cert: $('cek-cert').value })
+    });
+    const teks = r.https
+      ? `${r.domain}\n${r.cocok === null ? '—' : r.cocok ? '✓' : '✗'} sertifikat${r.cocok === null ? ' tidak dibandingkan' : r.cocok ? ' cocok' : ' berbeda'}\nPenerbit: ${r.penerbit || '-'}\nBerlaku: ${r.berlakuSampai}\nSidik: ${r.sidik}\nServer: ${r.server || '-'}`
+      : `${r.domain}\n✗ HTTPS tidak dapat dihubungi: ${r.error}`;
+    $('alat-laporan').textContent = teks;
+    $('alat-laporan').hidden = false;
+  } catch (err) {
+    $('alat-laporan').textContent = err.message;
+    $('alat-laporan').hidden = false;
+  } finally {
+    tombol.disabled = false;
+  }
+});
+
 (async () => {
   try {
     await api('/api/sesi');

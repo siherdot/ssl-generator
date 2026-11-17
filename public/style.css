@@ -72,6 +72,9 @@ button:disabled { opacity: .6; cursor: wait; }
 .berkas { display: flex; flex-wrap: wrap; gap: 7px; }
 .berkas a { font-size: .82rem; padding: 8px 11px; border: 1px solid var(--garis); border-radius: 8px; color: var(--tinta); text-decoration: none; }
 .alat { margin: 18px 0; border-top: 1px solid var(--garis); padding-top: 14px; }
+.alat-mandiri { margin-top: 18px; }
+.alat-mandiri details { margin-top: 12px; }
+.alat-mandiri textarea { font-size: .8rem; }
 .baris { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; }
 .aksi { display: flex; flex-wrap: wrap; gap: 9px; }
 .aksi button:not(.utama) { background: #eef3f8; color: var(--tinta); }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <title>SSL Generator — rsumb.site</title>
-  <link rel="stylesheet" href="/style.css?v=8" />
+  <link rel="stylesheet" href="/style.css?v=9" />
 </head>
 <body>
   <div class="latar"></div>
@@ -84,6 +84,29 @@
       </section>
     </div>
 
+    <section class="kartu alat-mandiri">
+      <div class="judul"><span class="nomer">4</span><div><h2>Alat mandiri</h2><p class="muted">Konversi sertifikat yang sudah ada dan cek pemasangan tanpa membuat order baru.</p></div></div>
+      <details open>
+        <summary>Konversi ke PFX</summary>
+        <div class="grid">
+          <label class="lebar">cert.pem / fullchain.pem<textarea id="conv-cert" rows="4" spellcheck="false" placeholder="-----BEGIN CERTIFICATE-----"></textarea></label>
+          <label class="lebar">chain.pem <span class="muted">(opsional)</span><textarea id="conv-chain" rows="3" spellcheck="false"></textarea></label>
+          <label class="lebar">privkey.pem<textarea id="conv-key" rows="4" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----"></textarea></label>
+          <label>Kata sandi PFX <span class="muted">(boleh kosong)</span><input id="conv-sandi" type="password" autocomplete="new-password" /></label>
+        </div>
+        <button id="conv-pfx" type="button">Unduh hasil konversi (.pfx)</button>
+      </details>
+      <details>
+        <summary>Verifikasi domain</summary>
+        <div class="grid">
+          <label>Domain<input id="cek-domain" placeholder="contoh.com" /></label>
+          <label>Sertifikat pembanding <span class="muted">(opsional)</span><textarea id="cek-cert" rows="3" spellcheck="false"></textarea></label>
+        </div>
+        <button id="cek-domain-btn" type="button">Cek sekarang</button>
+      </details>
+      <pre id="alat-laporan" class="laporan" hidden></pre>
+    </section>
+
     <section id="hasil" class="kartu hasil" hidden>
       <div class="hasil-kepala">
         <h2>Hasil</h2>
@@ -120,10 +143,10 @@
       <p id="hasil-error" class="error"></p>
     </section>
 
-    <footer>Let’s Encrypt · ACME v2 · Akses terbatas · <span id="ip-info"></span></footer>
+    <footer>Let’s Encrypt · ACME v2 · Akses terbatas · UI v9 · <span id="ip-info"></span></footer>
   </main>
 
   <div id="toast" class="toast" hidden></div>
-  <script src="/app.js?v=8"></script>
+  <script src="/app.js?v=9"></script>
 </body>
 </html>
