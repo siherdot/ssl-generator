@@ -42,6 +42,17 @@ Variabel:
 
 Centang "Staging" di form untuk memakai ACME staging Let's Encrypt. Sertifikat staging tidak dipercaya browser, tapi alur penerbitan diuji tanpa kena rate limit produksi.
 
+## Verifikasi, download, PFX, bundle server
+
+Setelah order `selesai`, panel **Hasil** menyediakan:
+
+- **Verifikasi pemasangan** — menghubungi `https://<domain>:443`, membandingkan sidik jari SHA-256 sertifikat yang terpasang dengan yang diterbitkan, lalu menampilkan penerbit, masa berlaku, dan header `Server`. Format server disarankan otomatis dari header tersebut.
+- **Unduh bundle terurut** — ZIP sesuai format pilihan: `nginx/` (`fullchain.pem` + `privkey.pem` + konfigurasi), `apache/` (`cert.pem` + `chain.pem` + `privkey.pem`), `iis/` (`certifikat.pfx` + petunjuk impor), atau `umum/` (semua PEM + `PETUNJUK.txt`).
+- **Unduh .pfx** — PKCS#12 berisi private key + leaf + intermediate, kata sandi bebas diisi di form. Mode CSR tidak punya private key, jadi tombol ini dinonaktifkan.
+- Download per berkas dan ZIP mentah tetap tersedia seperti sebelumnya.
+
+Endpoint terkait (semuanya butuh sesi login): `POST /api/order/:id/verify`, `GET /api/order/:id/bundle?format=nginx`, `POST /api/order/:id/pfx` dengan body `{"kataSandi":"..."}`.
+
 ## Catatan
 
 - Maksimal 10 domain per sertifikat. Wildcard tidak boleh dicampur dengan domain biasa.

@@ -15,6 +15,21 @@ async function api(url, options = {}) {
   return data;
 }
 
+async function unduhBlob(url, options, nama) {
+  const r = await fetch(url, { credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...options });
+  if (!r.ok) {
+    let d = {};
+    try { d = await r.json(); } catch {}
+    throw new Error(d.error || `HTTP ${r.status}`);
+  }
+  const u = URL.createObjectURL(await r.blob());
+  const a = document.createElement('a');
+  a.href = u;
+  a.download = nama;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
+
 function pesan(teks) {
   const t = $('toast');
   t.textContent = teks;
@@ -74,6 +89,10 @@ function tampilHasil(h) {
   if (h.punyaZip) {
     $('unduh').hidden = false;
     $('zip').href = `/api/order/${h.id}/zip`;
+    $('alat').hidden = false;
+    $('pfx').disabled = !h.punyaKunci;
+    $('pfx').title = h.punyaKunci ? '' : 'Mode CSR tidak menyimpan private key';
+    $('laporan').hidden = true;
     const daftar = $('berkas');
     daftar.replaceChildren();
     for (const nama of ['fullchain.pem', 'cert.pem', 'chain.pem', ...(h.punyaKunci ? ['privkey.pem'] : [])]) {
@@ -155,6 +174,7 @@ $('kirim').addEventListener('click', async () => {
   $('form-error').textContent = '';
   $('hasil-error').textContent = '';
   $('unduh').hidden = true;
+  $('alat').hidden = true;
   const body = {
     mode,
     challenge: 'http',
@@ -179,6 +199,54 @@ $('kirim').addEventListener('click', async () => {
     $('form-error').textContent = err.message;
     $('kirim').disabled = false;
     $('kirim').textContent = 'Buat sertifikat';
+  }
+});
+
+$('verifikasi').addEventListener('click', async () => {
+  if (!orderId) return;
+  const tombol = $('verifikasi');
+  tombol.disabled = true;
+  tombol.textContent = 'Mengecek…';
+  try {
+    const r = await api(`/api/order/${orderId}/verify`, { method: 'POST', body: '{}' });
+    const baris = r.domains.map((d) => {
+      if (!d.https) return `✗ ${d.domain} — ${d.error}`;
+      return `${d.cocok ? '✓' : '✗'} ${d.domain} — ${d.cocok ? 'sertifikat cocok' : 'sertifikat lain'}\n  penerbit: ${d.penerbit || '-'}\n  berlaku: ${d.berlakuSampai}\n  sidik: ${d.sidik}\n  server: ${d.server || '-'}`;
+    });
+    const saran = r.domains.find((d) => d.disarankan && d.disarankan !== 'umum');
+    if (saran) $('format').value = saran.disarankan;
+    $('laporan').textContent = baris.join('\n\n') + (saran ? `\n\nFormat disarankan: ${saran.disarankan}` : '');
+    $('laporan').hidden = false;
+  } catch (err) {
+    $('laporan').textContent = err.message;
+    $('laporan').hidden = false;
+  } finally {
+    tombol.disabled = false;
+    tombol.textContent = 'Verifikasi pemasangan';
+  }
+});
+
+$('bundle').addEventListener('click', async () => {
+  if (!orderId) return;
+  const f = $('format').value;
+  try {
+    await unduhBlob(`/api/order/${orderId}/bundle?format=${encodeURIComponent(f)}`, {}, `ssl-${f}.zip`);
+    pesan(`Bundle ${f} diunduh`);
+  } catch (err) {
+    pesan(err.message);
+  }
+});
+
+$('pfx').addEventListener('click', async () => {
+  if (!orderId) return;
+  try {
+    await unduhBlob(`/api/order/${orderId}/pfx`, {
+      method: 'POST',
+      body: JSON.stringify({ kataSandi: $('pfx-sandi').value })
+    }, 'sertifikat.pfx');
+    pesan('PFX diunduh');
+  } catch (err) {
+    pesan(err.message);
   }
 });
 

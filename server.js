@@ -1,5 +1,6 @@
 import express from 'express';
 import crypto from 'node:crypto';
+import https from 'node:https';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -9,6 +10,7 @@ import Keypairs from '@root/keypairs';
 import { buatCSR, bacaCSR, bersihkanDomain } from './lib/csr.js';
 import { bacaSesi, cookieSesi, cookieKosong, buatRahasia, cocokKata } from './lib/auth.js';
 import { pasangTambalACME } from './lib/acme-tambal.js';
+import { slugOrder, buatPFX, buatBundle } from './lib/keluaran.js';
 
 pasangTambalACME(ACME);
 
@@ -286,10 +288,92 @@ function ringkas(o) {
   };
 }
 
+function sidikJari(pem) {
+  return crypto.createHash('sha256').update(new crypto.X509Certificate(pem).raw).digest('hex');
+}
+
+function ambilTLS(domain) {
+  return new Promise((resolve, reject) => {
+    const req = https.get(
+      { host: domain, port: 443, path: '/', servername: domain, rejectUnauthorized: false, timeout: 8000 },
+      (res) => {
+        res.resume();
+        const c = res.socket.getPeerCertificate();
+        if (!c || !c.raw) return reject(new Error('server tidak mengirim sertifikat TLS'));
+        resolve({ cert: c, server: String(res.headers.server || '') });
+      }
+    );
+    req.on('timeout', () => req.destroy(new Error('timeout saat menghubungi HTTPS')));
+    req.on('error', reject);
+  });
+}
+
+async function verifikasiOrder(o) {
+  const target = sidikJari(o.pem['cert.pem']);
+  const domains = [];
+  for (const domain of o.domains.filter((d) => !d.startsWith('*.'))) {
+    try {
+      const { cert, server } = await ambilTLS(domain);
+      const sidik = crypto.createHash('sha256').update(cert.raw).digest('hex');
+      const disarankan = /nginx/i.test(server) ? 'nginx' : /apache/i.test(server) ? 'apache' : /iis|microsoft/i.test(server) ? 'iis' : 'umum';
+      domains.push({
+        domain,
+        https: true,
+        cocok: sidik === target,
+        sidik: sidik.slice(0, 16),
+        berlakuSampai: cert.valid_to,
+        penerbit: cert.issuer && cert.issuer.CN,
+        server,
+        disarankan
+      });
+    } catch (e) {
+      domains.push({ domain, https: false, error: e.message });
+    }
+  }
+  return { domains };
+}
+
 app.get('/api/order/:id', (req, res) => {
   const o = order.get(req.params.id);
   if (!o) return res.status(404).json({ error: 'Permintaan tidak ditemukan.' });
   res.json(ringkas(o));
+});
+
+app.post('/api/order/:id/verify', async (req, res) => {
+  const o = order.get(req.params.id);
+  if (!o || !o.selesai || !o.pem) return res.status(400).json({ error: 'Sertifikat belum siap.' });
+  try {
+    res.json(await verifikasiOrder(o));
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/order/:id/pfx', (req, res) => {
+  const o = order.get(req.params.id);
+  if (!o || !o.selesai || !o.pem) return res.status(400).json({ error: 'Sertifikat belum siap.' });
+  if (!o.privateKey) return res.status(400).json({ error: 'Mode CSR tidak punya private key. PFX dibuat di tempat key disimpan.' });
+  const sandi = String(req.body?.kataSandi ?? req.body?.password ?? '').slice(0, 128);
+  try {
+    const pfx = buatPFX(o, sandi);
+    res.setHeader('Content-Disposition', `attachment; filename="${slugOrder(o)}.pfx"`);
+    res.type('application/x-pkcs12').send(pfx);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/api/order/:id/bundle', async (req, res) => {
+  const o = order.get(req.params.id);
+  if (!o || !o.selesai || !o.pem) return res.status(400).json({ error: 'Sertifikat belum siap.' });
+  const format = String(req.query.format || 'umum');
+  try {
+    const isi = await buatBundle(o, format);
+    res.setHeader('Content-Disposition', `attachment; filename="${slugOrder(o)}-${format}.zip"`);
+    res.type('application/zip').send(isi);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.get('/api/order/:id/file/:nama', (req, res) => {

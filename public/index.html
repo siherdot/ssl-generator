@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <title>SSL Generator — rsumb.site</title>
-  <link rel="stylesheet" href="/style.css?v=7" />
+  <link rel="stylesheet" href="/style.css?v=8" />
 </head>
 <body>
   <div class="latar"></div>
@@ -95,6 +95,27 @@
         <a id="zip" class="utama" download>⬇ Unduh semua (.zip)</a>
         <div id="berkas" class="berkas"></div>
       </div>
+      <div id="alat" class="alat" hidden>
+        <div class="baris">
+          <label>Format server
+            <select id="format">
+              <option value="umum">PEM umum</option>
+              <option value="nginx">nginx</option>
+              <option value="apache">Apache</option>
+              <option value="iis">IIS / Windows</option>
+            </select>
+          </label>
+          <label>Kata sandi PFX <span class="muted">(boleh kosong)</span>
+            <input id="pfx-sandi" type="password" autocomplete="new-password" maxlength="128" />
+          </label>
+        </div>
+        <div class="aksi">
+          <button id="verifikasi" type="button" class="utama">Verifikasi pemasangan</button>
+          <button id="bundle" type="button">Unduh bundle terurut</button>
+          <button id="pfx" type="button">Unduh .pfx</button>
+        </div>
+        <pre id="laporan" class="laporan" hidden></pre>
+      </div>
       <details open><summary>Log proses</summary><ol id="log" class="log"></ol></details>
       <p id="hasil-error" class="error"></p>
     </section>
@@ -103,6 +124,6 @@
   </main>
 
   <div id="toast" class="toast" hidden></div>
-  <script src="/app.js?v=7"></script>
+  <script src="/app.js?v=8"></script>
 </body>
 </html>
